@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案件详情 - 海洋馆溺亡美人鱼案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        body {
+            background-color: #f8f5f2;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 页面头部 */
+        .page-header {
+            border-bottom: 3px solid #3e2723;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .page-title {
+            font-size: 2em;
+            color: #3e2723;
+            margin-bottom: 10px;
+        }
+        .back-btn {
+            display: inline-block;
+            background-color: #3e2723;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        /* 死者信息核心模块 */
+        .victim-info {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .victim-title {
+            font-size: 1.8em;
+            color: #3e2723;
+            margin-bottom: 20px;
+            border-left: 5px solid #3e2723;
+            padding-left: 15px;
+        }
+        .info-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .info-item {
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+        .info-item span {
+            font-weight: bold;
+            color: #5d4037;
+        }
+
+        /* 补充内容（避免页面空旷） */
+        .supplement {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .case-desc, .evidence {
+            flex: 1;
+            min-width: 300px;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .sub-title {
+            font-size: 1.5em;
+            color: #3e2723;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        .desc-text, .evidence-list {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #333;
+        }
+        .evidence-list {
+            padding-left: 20px;
+        }
+        .evidence-list li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <div class="page-header">
+        <h1 class="page-title">海洋馆溺亡美人鱼案 - 死者信息</h1>
+        <!-- 返回首页按钮 -->
+        <a href="index.html" class="back-btn">← 返回搜索页</a>
+    </div>
+
+    <!-- 死者核心信息 -->
+    <div class="victim-info">
+        <h2 class="victim-title">死者：赵1</h2>
+        <ul class="info-list">
+            <li class="info-item"><span>姓名：</span>赵1</li>
+            <li class="info-item"><span>性别：</span>女</li>
+            <li class="info-item"><span>年龄：</span>24岁</li>
+            <li class="info-item"><span>身份：</span>海洋馆美人鱼表演者</li>
+            <li class="info-item"><span>案发时间：</span>2026年3月18日 晚21:00</li>
+            <li class="info-item"><span>案发地点：</span>XX市海洋馆美人鱼表演池</li>
+            <li class="info-item"><span>死亡原因：</span>溺水窒息（初步鉴定）</li>
+            <li class="info-item"><span>家属联系方式：</span>138XXXX1234（暂未核实）</li>
+        </ul>
+    </div>
+
+    <!-- 补充内容（避免页面空旷） -->
+    <div class="supplement">
+        <div class="case-desc">
+            <h3 class="sub-title">案件简述</h3>
+            <p class="desc-text">
+                死者赵1为XX市海洋馆资深美人鱼表演者，从业5年，无不良嗜好，与同事关系和睦。2026年3月18日晚，赵1完成最后一场表演后，独自留在表演池区域整理服装，监控显示21:00左右其坠入表演池，21:30被保洁人员发现，经抢救无效死亡。<br><br>
+                目前警方已介入调查，初步排除他杀可能，但家属对“意外溺水”结论存疑，认为表演池防护措施存在漏洞，海洋馆方面暂未回应。
+            </p>
+        </div>
+        <div class="evidence">
+            <h3 class="sub-title">现场取证（初步）</h3>
+            <ul class="evidence-list">
+                <li>表演池边缘发现死者指纹，无挣扎痕迹</li>
+                <li>死者随身物品（手机、钥匙）完好，无丢失</li>
+                <li>表演池水质检测正常，无有毒有害物质</li>
+                <li>监控显示案发时段无其他人员进入表演池区域</li>
+                <li>死者体内未检测到酒精、药物成分</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

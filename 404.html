@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未查询到相关内容 - XXX基金会</title>
+    <style>
+        /* 全局重置：消除默认边距，统一盒模型 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        /* 页面整体布局：占满屏幕高度 */
+        body {
+            min-height: 100vh;
+            background-color: #f9f7f5; /* 浅米色背景，适配基金会风格 */
+            padding: 20px 40px; /* 页面内边距，避免内容贴边 */
+            position: relative; /* 为左上角Logo区域做定位参考 */
+        }
+
+        /* 左上角Logo+基金会名称区域 */
+        .header-logo {
+            position: absolute; /* 固定在左上角 */
+            top: 20px;
+            left: 40px;
+            display: flex; /* 横向排列Logo和文字 */
+            align-items: center;
+            gap: 15px; /* Logo和文字的间距 */
+        }
+
+        /* 纯CSS绘制的Logo（无需外部图片） */
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #3e2723; /* 深棕色，和之前页面风格统一 */
+            border-radius: 8px; /* 圆角矩形Logo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff; /* 白色文字 */
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 基金会名称文字 */
+        .foundation-name {
+            font-size: 24px;
+            color: #3e2723;
+            font-weight: 600;
+        }
+
+        /* 中间提示文字区域：垂直+水平居中 */
+        .empty-tip {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 精准居中 */
+            text-align: center; /* 文字居中 */
+        }
+
+        /* 提示文字样式 */
+        .tip-text {
+            font-size: 32px;
+            color: #3e2723;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* 辅助小字（可选，提升页面丰富度） */
+        .sub-text {
+            font-size: 16px;
+            color: #795548; /* 浅棕色 */
+        }
+
+        /* 返回按钮（可选，方便用户回到搜索页） */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 24px;
+            background-color: #3e2723;
+            color: #fff;
+            text-decoration: none; /* 去掉下划线 */
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        .back-btn:hover {
+            background-color: #5d4037; /*  hover 变色 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角Logo+基金会名称 -->
+    <div class="header-logo">
+        <div class="logo-icon">XXX</div> <!-- CSS绘制的Logo -->
+        <div class="foundation-name">XXX基金会</div>
+    </div>
+
+    <!-- 中间提示文字区域 -->
+    <div class="empty-tip">
+        <div class="tip-text">抱歉，未查询到相关内容</div>
+        <div class="sub-text">请检查关键词是否正确，或尝试其他搜索词</div>
+        <!-- 可选：返回搜索页按钮（需替换为你的搜索页地址） -->
+        <a href="index.html" class="back-btn">返回搜索页</a>
+    </div>
+</body>
+</html>

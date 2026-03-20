@@ -1,49 +1,232 @@
 <!DOCTYPE html>
-<!-- 声明文档类型为HTML5 -->
 <html lang="zh-CN">
-<!-- html根标签，lang指定语言为中文 -->
 <head>
-    <!-- 头部：网页的元信息（不显示在页面上） -->
     <meta charset="UTF-8">
-    <!-- 字符编码，避免中文乱码 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 适配手机等移动端 -->
-    <title>我的第一个网页</title>
-    <!-- 网页标题（浏览器标签栏显示） -->
-    <!-- 引入CSS文件（后续步骤用） -->
-    <link rel="stylesheet" href="style.css">
+    <title>XX基金会</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #fff;
+        }
+
+        /* 左侧主内容区 */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* 顶部Logo+标题 */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .logo {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #3e2723;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #3e2723;
+        }
+        .title {
+            font-size: 2.5em;
+            color: #3e2723;
+        }
+
+        /* 搜索栏（核心修改：新增确认按钮样式） */
+        .search-bar {
+            width: 80%;
+            max-width: 650px;
+            height: 55px;
+            background-color: #3e2723; /* 深棕色 */
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+        .search-icon {
+            color: #fff;
+            font-size: 1.3em;
+            margin-right: 15px;
+        }
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.1em;
+            outline: none;
+        }
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        /* 新增：确认按钮样式 */
+        .search-confirm {
+            background-color: #fff;
+            color: #3e2723;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: background-color 0.2s;
+        }
+        .search-confirm:hover {
+            background-color: #f5f5f5;
+        }
+        .search-dot {
+            width: 15px;
+            height: 15px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        /* Slogan 文字 */
+        .slogan {
+            font-size: 1.3em;
+            color: #3e2723;
+            font-style: italic;
+        }
+
+        /* 右侧侧边栏 */
+        aside {
+            width: 220px;
+            background-color: #3e2723; /* 深棕色侧边栏 */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            gap: 25px;
+        }
+
+        /* 用户头像 */
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .user-avatar::after {
+            content: "👤";
+            font-size: 2em;
+        }
+
+        /* 侧边栏按钮 */
+        .sidebar-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #5d4037; /* 稍浅棕色按钮 */
+            border: 1px solid #fff;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .sidebar-btn:hover {
+            background-color: #795548; /*  hover 效果 */
+        }
+    </style>
 </head>
 <body>
-    <!-- 主体：网页显示的所有内容 -->
-    <!-- 头部模块 -->
-    <header class="header">
-        <h1>欢迎来到我的网页</h1>
-        <nav>
-            <a href="#about">关于我</a>
-            <a href="#contact">联系我</a>
-        </nav>
-    </header>
+    <!-- 左侧主内容区 -->
+    <main>
+        <div class="header">
+            <div class="logo">logo</div>
+            <div class="title">XX基金会</div>
+        </div>
 
-    <!-- 核心内容模块 -->
-    <main class="main-content">
-        <section id="about">
-            <h2>关于我</h2>
-            <p>大家好，这是我制作的第一个网页！</p>
-            <img src="https://picsum.photos/400/200" alt="示例图片">
-        </section>
+        <!-- 搜索栏（核心修改：新增确认按钮 + 给输入框加id） -->
+        <div class="search-bar">
+            <div class="search-icon">🔍</div>
+            <!-- 新增id="search-input"，用于JS获取输入值 -->
+            <input type="text" id="search-input" placeholder="请输入搜索内容">
+            <!-- 新增确认按钮 -->
+            <button class="search-confirm" id="search-btn">确认</button>
+            <div class="search-dot"></div>
+        </div>
 
-        <section id="contact">
-            <h2>联系我</h2>
-            <button id="btn">点击我</button>
-        </section>
+        <div class="slogan">
+            加入基金会，享上流人生！
+        </div>
     </main>
 
-    <!-- 底部模块 -->
-    <footer class="footer">
-        <p>版权所有 © 2026 我的第一个网页</p>
-    </footer>
+    <!-- 右侧侧边栏 -->
+    <aside>
+        <div class="user-avatar"></div>
+        <button class="sidebar-btn">个人信息</button>
+        <button class="sidebar-btn" id="record-btn">调查记录</button>
+        <button class="sidebar-btn">帮助</button>
+        <button class="sidebar-btn">调查结束</button>
+    </aside>
 
-    <!-- 引入JS文件（后续步骤用） -->
-    <script src="script.js"></script>
+    <!-- 新增：搜索功能的JS代码 -->
+    <script>
+        // 1. 获取DOM元素：输入框、确认按钮
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+
+        // 2. 定义跳转函数（核心逻辑）
+        function jumpToDetail() {
+            // 获取输入框的内容（去除首尾空格）
+            const keyword = searchInput.value.trim();
+            // 判断是否输入指定关键词（可扩展为多关键词匹配）
+            if (keyword === '海洋馆溺亡美人鱼案') {
+                // 跳转到详情页（window.location.href用于页面跳转）
+                window.location.href = 'detail1.html';
+            } else {
+                // 非指定关键词给出提示
+                window.location.href = '404.html';
+            }
+        }
+
+        // 3. 绑定事件：点击确认按钮触发跳转
+        searchBtn.addEventListener('click', jumpToDetail);
+
+        // 4. 绑定事件：按下回车键触发跳转
+        searchInput.addEventListener('keydown', function(e) {
+            // e.keyCode === 13 代表回车键
+            if (e.keyCode === 13) {
+                jumpToDetail();
+            }
+        });
+        // 原有JS代码保持不变，新增以下内容 ↓
+// 1. 获取“调查记录”按钮
+const recordBtn = document.getElementById('record-btn');
+
+// 2. 绑定点击事件，跳转到调查记录页面
+recordBtn.addEventListener('click', function() {
+    window.location.href = 'record.html'; // 跳转到新页面record.html
+});
+        
+    </script>
+        
 </body>
 </html>
