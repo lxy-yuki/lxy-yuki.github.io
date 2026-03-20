@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- 声明文档类型为HTML5 -->
+<html lang="zh-CN">
+<!-- html根标签，lang指定语言为中文 -->
+<head>
+    <!-- 头部：网页的元信息（不显示在页面上） -->
+    <meta charset="UTF-8">
+    <!-- 字符编码，避免中文乱码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 适配手机等移动端 -->
+    <title>我的第一个网页</title>
+    <!-- 网页标题（浏览器标签栏显示） -->
+    <!-- 引入CSS文件（后续步骤用） -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 主体：网页显示的所有内容 -->
+    <!-- 头部模块 -->
+    <header class="header">
+        <h1>欢迎来到我的网页</h1>
+        <nav>
+            <a href="#about">关于我</a>
+            <a href="#contact">联系我</a>
+        </nav>
+    </header>
+
+    <!-- 核心内容模块 -->
+    <main class="main-content">
+        <section id="about">
+            <h2>关于我</h2>
+            <p>大家好，这是我制作的第一个网页！</p>
+            <img src="https://picsum.photos/400/200" alt="示例图片">
+        </section>
+
+        <section id="contact">
+            <h2>联系我</h2>
+            <button id="btn">点击我</button>
+        </section>
+    </main>
+
+    <!-- 底部模块 -->
+    <footer class="footer">
+        <p>版权所有 © 2026 我的第一个网页</p>
+    </footer>
+
+    <!-- 引入JS文件（后续步骤用） -->
+    <script src="script.js"></script>
+</body>
+</html>
