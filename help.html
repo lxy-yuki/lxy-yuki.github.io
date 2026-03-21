@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基金会介绍 - XX基金会</title>
+    <style>
+        /* 全局重置：消除默认边距，统一盒模型 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        /* 页面整体布局：占满屏幕高度，浅米色背景 */
+        body {
+            min-height: 100vh;
+            background-color: #f9f7f5;
+            padding: 20px 40px;
+            position: relative; /* 为左上角Logo定位 */
+        }
+
+        /* 左上角Logo+基金会名称区域（和其他页面完全一致） */
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 10; /* 确保Logo在最上层 */
+        }
+
+        /* 纯CSS绘制基金会Logo（无外部图片） */
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #3e2723; /* 深棕色，和其他页面统一 */
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 基金会名称样式 */
+        .foundation-name {
+            font-size: 24px;
+            color: #3e2723;
+            font-weight: 600;
+        }
+
+        /* 中间文本内容区域：居中+自适应宽度 */
+        .info-content {
+            max-width: 800px; /* 限制宽度，提升阅读体验 */
+            margin: 0 auto;
+            padding-top: 120px; /* 避开左上角Logo，避免重叠 */
+            color: #2d1b16; /* 深棕偏黑，提升文字可读性 */
+            font-size: 18px;
+            line-height: 1.8; /* 行高1.8，阅读更舒适 */
+            letter-spacing: 0.5px;
+        }
+
+        /* 文本段落间距 */
+        .info-content p {
+            margin-bottom: 20px;
+        }
+
+        /* 重点文本高亮（如案件名称、按键名称） */
+        .highlight {
+            color: #3e2723;
+            font-weight: bold;
+        }
+
+        /* 可选：返回主页面按钮（放在文本底部） */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 24px;
+            background-color: #3e2723;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        .back-btn:hover {
+            background-color: #5d4037;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角Logo+基金会名称 -->
+    <div class="header-logo">
+        <div class="logo-icon">XX</div> <!-- 匹配XX基金会的Logo -->
+        <div class="foundation-name">XX基金会</div>
+    </div>
+
+    <!-- 中间基金会基本信息文本 -->
+    <div class="info-content">
+        <p>XX基金会是一家新成立的慈善组织，致力于回收并再投资事故资产，并将其重新投入社会进行资源再利用。XX海洋馆曾负有盛名，我司对募捐项目十分感兴趣，因此特地邀请您作为调查员协助我司彻底评估项目资金与伦理风险。</p>
+        <p>没错，我说的是彻底调查。XX海洋馆有过太多不良记录，这也许是并不算轻松的工作。但考虑到您的调查口碑，似乎也没人比您更适合参与调查。如果您能够帮助我们做出判断，我们会万分感激。</p>
+        <p>我很清楚您对XX市的案件并无太多了解。没关系，我已经为您申请了权限，您可以输入网址【】访问基金会的内网，XX市海洋馆的资料已对您开放。您不妨从……<span class="highlight">【海洋馆溺亡美人鱼案】</span>开始。</p>
+        <p>如果您确认您的调查已经结束，请点击官网下方<span class="highlight">【XX海洋馆调查结束】</span>按键提交您的调查报告。祝您调查愉快。</p>
+        
+        <!-- 可选：返回主页面按钮 -->
+        <a href="index.html" class="back-btn">返回主页面</a>
+    </div>
+</body>
+</html>

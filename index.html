@@ -183,7 +183,7 @@
         <div class="user-avatar"></div>
         <button class="sidebar-btn">个人信息</button>
         <button class="sidebar-btn" id="record-btn">调查记录</button>
-        <button class="sidebar-btn">帮助</button>
+        <button class="sidebar-btn" id="help-btn">帮助</button>
         <button class="sidebar-btn">调查结束</button>
     </aside>
 
@@ -201,6 +201,10 @@
             if (keyword === '海洋馆溺亡美人鱼案') {
                 // 跳转到详情页（window.location.href用于页面跳转）
                 window.location.href = 'detail1.html';
+            } 
+            if (keyword === '海洋馆') {
+                // 跳转到详情页（window.location.href用于页面跳转）
+                window.location.href = 'mainpage.html';
             } else {
                 // 非指定关键词给出提示
                 window.location.href = '404.html';
@@ -225,8 +229,13 @@ const recordBtn = document.getElementById('record-btn');
 recordBtn.addEventListener('click', function() {
     window.location.href = 'record.html'; // 跳转到新页面record.html
 });
-        
-    </script>
-        
+// 1. 获取“帮助”按钮
+const helpBtn = document.getElementById('help-btn');
+
+// 2. 绑定点击事件，跳转到帮助页面
+helpBtn.addEventListener('click', function() {
+    window.location.href = 'help.html'; // 跳转到新页面help.html
+});       
+    </script>       
 </body>
 </html>
