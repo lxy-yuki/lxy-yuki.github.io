@@ -319,7 +319,7 @@
             <div class="menu-item" data-target="news">馆内新闻</div>
             <div class="menu-item" data-target="staff">员工信息</div>
             <div class="menu-item" data-target="guide">参观指南</div>
-            <div class="menu-item">票务信息</div>
+            <div class="menu-item" data-target="comment">顾客评价</div>
             <div class="menu-item">联系我们</div>
         </div>
 
@@ -329,13 +329,166 @@
             <div class="content-section active" id="intro">
                 <div class="section-title">海洋馆介绍</div>
                 <div class="section-text">
-                    XX海洋馆始建于2010年，坐落于XX市滨海新区，总占地面积3.2万平方米，是集海洋生物展示、科普教育、休闲娱乐为一体的大型现代化海洋馆。馆内设有热带雨林区、深海探秘区、极地动物区、美人鱼表演区等12大主题展区，饲养展示各类海洋生物超500种，数量逾万尾。
+                    欢迎您来到XX海洋馆！这里是全国最早，建设最好的一批海洋馆，其中，白鲸，海豚，海狮，海豹等海洋精灵齐聚一堂，我们将为您展示人与自然和谐共处的盛景！
                 </div>
+                <!-- 加了 margin: 0 auto; 实现居中，其余样式完全不变 -->
+                <div style="width: 300px; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff; margin: 20px auto;">
+                    <img src=".\images\nnk1.jpg" alt="海洋馆建筑" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- 描述文字 -->
+                <p style="text-align:center; margin-top:8px; font-size:15px;font-weight: bold;">海洋馆建筑示意图</p>
                 <div class="section-text">
                     我们始终秉持“保护海洋生态，传播海洋文化”的核心使命，每年接待游客超200万人次，开展海洋科普讲座、公益研学活动超百场，是XX市科普教育基地、国家级4A级旅游景区。
                 </div>
                 <div class="section-text">
                     馆内拥有国内领先的海洋生物养护技术团队，致力于濒危海洋生物的救助与繁育，先后成功繁育白鲸、企鹅、水母等多种珍稀海洋生物，为海洋生态保护贡献力量。
+                </div>
+                <!-- 轮播图整体容器：可直接放在网页<body>任意位置 -->
+                <div style="width: 400px; margin: 30px auto; position: relative;">
+                    <!-- 图片展示区域 -->
+                    <div style="width: 100%; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                        <!-- 所有轮播图片（默认只显示第一张） -->
+                        <img src=".\images\fish1.jpg" class="carousel-img1" style="width:100%; display:block;">
+                        <img src=".\images\neko.jpg" class="carousel-img1" style="width:100%; display:none;">
+                        <img src=".\images\hiro.jpg" class="carousel-img1" style="width:100%; display:none;">
+                    </div>
+
+                    <!-- 👈 左箭头 -->
+                    <button onclick="prevSlide1()" style="
+                        position: absolute; top: 45%; left: 10px;
+                        background: rgba(255,255,255,0.7); border: none;
+                        width: 30px; height: 30px; border-radius: 50%;
+                        font-size: 16px; cursor: pointer;
+                    ">←</button>
+
+                    <!-- 👉 右箭头 -->
+                    <button onclick="nextSlide1()" style="
+                        position: absolute; top: 45%; right: 10px;
+                        background: rgba(255,255,255,0.7); border: none;
+                        width: 30px; height: 30px; border-radius: 50%;
+                        font-size: 16px; cursor: pointer;
+                    ">→</button>
+
+                    <!-- 图片描述（加粗居中） -->
+                    <div id="carousel-desc1" style="
+                        margin-top: 10px; text-align: center;
+                        font-size: 15px; font-weight: bold; color: #333;
+                    ">海洋馆蓝吊鱼实景展示</div>
+                </div>
+
+                <!-- 轮播切换逻辑（无需修改，直接用） -->
+                <script>
+                    // 当前图片索引、描述文字数组
+                    let currentIndex1 = 0;
+                    const imgs1 = document.querySelectorAll('.carousel-img1');
+                    const desc1 = [
+                        "海洋馆蓝吊鱼实景展示", // 第1张图描述
+                        "萍萍第一次画的海洋鱼", // 第2张图描述
+                        "萍萍的团圆画"          // 第3张图描述
+                    ];
+                    
+                    // 切换显示图片
+                    function showSlide1(index) {
+                        // 循环轮播（到第一张后往左切到最后一张）
+                        if (index >= imgs1.length) currentIndex1 = 0;
+                        else if (index < 0) currentIndex1 = imgs1.length - 1;
+                        else currentIndex1 = index;
+                        
+                        // 隐藏所有图片
+                        imgs1.forEach(img => img.style.display = "none");
+                        // 显示当前图片
+                        imgs1[currentIndex1].style.display = "block";
+                        // 更新描述文字
+                        document.getElementById("carousel-desc1").innerText = desc1[currentIndex1];
+                    }
+                    
+                    // 上一张
+                    function prevSlide1() {
+                        showSlide1(currentIndex1 - 1);
+                    }
+                    // 下一张
+                    function nextSlide1() {
+                        showSlide1(currentIndex1 + 1);
+                    }
+                </script>
+                
+                <div class="section-text">
+                    馆内地图及营业、演出时间表
+                </div>
+                <!-- 轮播图整体容器：可直接放在网页<body>任意位置 -->
+                <div style="width: 400px; margin: 30px auto; position: relative;">
+                    <!-- 图片展示区域 -->
+                    <div style="width: 100%; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                        <!-- 所有轮播图片（默认只显示第一张） -->
+                        <img src=".\images\miku.jpg" class="carousel-img2" style="width:100%; display:block;">
+                        <img src=".\images\mll.jpg" class="carousel-img2" style="width:100%; display:none;">
+                        <img src=".\images\sherry.jpg" class="carousel-img2" style="width:100%; display:none;">
+                    </div>
+
+                    <!-- 👈 左箭头 -->
+                    <button onclick="prevSlide2()" style="
+                        position: absolute; top: 45%; left: 10px;
+                        background: rgba(255,255,255,0.7); border: none;
+                        width: 30px; height: 30px; border-radius: 50%;
+                        font-size: 16px; cursor: pointer;
+                    ">←</button>
+
+                    <!-- 👉 右箭头 -->
+                    <button onclick="nextSlide2()" style="
+                        position: absolute; top: 45%; right: 10px;
+                        background: rgba(255,255,255,0.7); border: none;
+                        width: 30px; height: 30px; border-radius: 50%;
+                        font-size: 16px; cursor: pointer;
+                    ">→</button>
+
+                    <!-- 图片描述（加粗居中） -->
+                    <div id="carousel-desc2" style="
+                        margin-top: 10px; text-align: center;
+                        font-size: 15px; font-weight: bold; color: #333;
+                    ">海洋馆内部地图</div>
+                </div>
+
+                <!-- 轮播切换逻辑（无需修改，直接用） -->
+                <script>
+                    // 当前图片索引、描述文字数组
+                    let currentIndex2 = 0;
+                    const imgs2 = document.querySelectorAll('.carousel-img2');
+                    const desc2 = [
+                        "海洋馆内部地图", // 第1张图描述
+                        "营业时间表", // 第2张图描述
+                        "演出时间表"          // 第3张图描述
+                    ];
+                    
+                    // 切换显示图片
+                    function showSlide2(index) {
+                        // 循环轮播（到第一张后往左切到最后一张）
+                        if (index >= imgs2.length) currentIndex2 = 0;
+                        else if (index < 0) currentIndex2 = imgs2.length - 1;
+                        else currentIndex2 = index;
+                        
+                        // 隐藏所有图片
+                        imgs2.forEach(img => img.style.display = "none");
+                        // 显示当前图片
+                        imgs2[currentIndex2].style.display = "block";
+                        // 更新描述文字
+                        document.getElementById("carousel-desc2").innerText = desc2[currentIndex2];
+                    }
+                    
+                    // 上一张
+                    function prevSlide2() {
+                        showSlide2(currentIndex2 - 1);
+                    }
+                    // 下一张
+                    function nextSlide2() {
+                        showSlide2(currentIndex2 + 1);
+                    }
+                </script>
+                <div class="section-text">
+                    馆内设施：除展览厅外，海洋馆为参观者设有<a href="restaurant.html" target="_blank" style="color: #02bd37; font-weight: bold;">海葵妈妈家庭餐厅</a>，<a href="park.html" target="_blank" style="color: #bdb702; font-weight: bold;">小珊瑚儿童乐园</a>，<a href="cinema.html" target="_blank" style="color: #bd02a1; font-weight: bold;">海洋知识宣传影院</a>，以及流动贩卖车三辆，休息室两处，母婴室一处，卫生间三处。
+                    我们还为参观者准备了<a href="souvenir.html" target="_blank" style="color: #bd0202; font-weight: bold;">纪念品商店</a>，欢迎大家在游览结束后进行商品选购。
+                </div>
+                <div class="section-text">
+                    联系电话:0333-23332333   紧急电话：19919991999
                 </div>
             </div>
 
@@ -345,19 +498,20 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-year">2010年</div>
-                        <div class="section-text">XX海洋馆正式立项，总投资8亿元，启动场馆规划与建设。</div>
+                        <div class="section-text">XX海洋馆正式创立，由本地著名实业家，慈善家安XX投资建成。</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2012年</div>
-                        <div class="section-text">场馆主体工程竣工，首批海洋生物（热带鱼、海龟等）入驻。</div>
+                    <div style="width: 300px; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff; margin: 20px auto;">
+                    <img src=".\images\nnk1.jpg" alt="海洋馆建筑" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
+                    
                     <div class="timeline-item">
                         <div class="timeline-year">2013年</div>
-                        <div class="section-text">XX海洋馆正式对外开放，首年接待游客突破100万人次。</div>
+                        <div class="section-text">XX海洋馆正式对外开放，一代馆长安XX秉持着ABCD，ABCD的观念，经营着海洋馆，
+                            很快就成为了当地的地标式建筑与活动场所，深受各个年龄段市民的喜爱。首年接待游客突破100万人次。</div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2016年</div>
-                        <div class="section-text">极地动物区建成开放，引入北极熊、北极狼、企鹅等极地生物。</div>
+                        <div class="section-text">二代馆长安XX学习国外先进经验，开创了海洋保护科普讲座。同时极地动物区建成开放，引入北极熊、北极狼、企鹅等极地生物。</div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2020年</div>
@@ -365,7 +519,7 @@
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2023年</div>
-                        <div class="section-text">海洋生物救助中心成立，累计救助搁浅鲸豚、海龟等海洋生物超50只。</div>
+                        <div class="section-text">三代馆长贾X引入资金，扩建了海洋馆，并拓展了许多游玩项目，使海洋馆焕发新生机。海洋生物救助中心成立，累计救助搁浅鲸豚、海龟等海洋生物超50只。</div>
                     </div>
                 </div>
             </div>
@@ -378,20 +532,27 @@
                 </div>
                 <div class="honor-list">
                     <div class="honor-card">
-                        <div class="honor-name">李海洋</div>
-                        <div class="honor-desc">海洋生物养护部主管 · 2022年XX市“五一劳动奖章” · 主导白鲸繁育技术攻关，填补省内技术空白</div>
+                        <div class="honor-name">驯养部——我们是动物伙伴</div>
+                        <div class="honor-desc">海洋馆目前有30名驯养员。为了保证海洋生灵的健康，并让参观者观赏到海洋生物的可爱姿态，驯养员24小时待命，许多员工与海洋生物同吃同住，为大家贡献人与自然和谐相处的美景。</div>
                     </div>
                     <div class="honor-card">
-                        <div class="honor-name">赵如心</div>
-                        <div class="honor-desc">美人鱼表演队队长 · 2023年XX市“文旅行业优秀工作者” · 创编《深海童话》表演剧目，获全国文旅创新奖</div>
+                        <div class="honor-name">演职部——我们是海中精灵</div>
+                        <div class="honor-desc">海洋馆的演艺项目繁多，包括美人鱼表演，科普宣传等。作为海洋馆的宣传主力，16名演职部员工各个秉承信念，为参观者贡献了异彩纷呈的出色表演。
+                            <p>“当我潜入水下，仿佛就变成了真正的美人鱼，自在畅游，这不仅是一份我梦寐以求的表演工作，更能让我于动物们建立奇妙的链接！”-XX年XX月XX日入职的赵1（工号xxxx）这样说。作为一名舞蹈学院的毕业生，她的专业和热忱很快让她成为了演职部的明星员工，每天00:00，观看她美人鱼表演的参观者络绎不绝……”
+                            <p>“将海洋生物的知识传播出去，让更多人喜爱，了解海洋，是我的使命！”-XX年XX月XX日入职的XXX
+                        </div>
                     </div>
                     <div class="honor-card">
-                        <div class="honor-name">王 涛</div>
-                        <div class="honor-desc">科普教育部讲师 · 2021年全国海洋科普“优秀讲师” · 累计开展科普讲座300+场，覆盖青少年10万+人次</div>
+                        <div class="honor-name">管理部——我们来规划指挥</div>
+                        <div class="honor-desc">海洋馆的管理人员分工明确，相处融洽，共同为海洋馆的未来绘制专业蓝图。
+                            <p>人事管理具体情况......
+                        </div>
                     </div>
                     <div class="honor-card">
-                        <div class="honor-name">张 琳</div>
-                        <div class="honor-desc">动物救助专员 · 2024年XX市“环保先锋” · 参与救助搁浅抹香鲸，获央视专题报道</div>
+                        <div class="honor-name">后勤部——我们来维护美丽</div>
+                        <div class="honor-desc">后勤部与本省著名慈善公司多年合作，雇佣残障人士
+                            <p>具体贡献待补充......
+                        </div>
                     </div>
                 </div>
             </div>
@@ -401,24 +562,33 @@
                 <div class="section-title">馆内新闻</div>
                 <div class="news-list">
                     <div class="news-item">
-                        <div class="news-title">XX海洋馆新增“珊瑚繁育展示区”，4月22日世界地球日正式开放</div>
+                        <div class="news-title">无限期停业通知</div>
                         <div class="news-date">发布时间：2026-03-15</div>
                         <div class="section-text">
-                            为迎接世界地球日，XX海洋馆耗时6个月打造的“珊瑚繁育展示区”将于4月22日正式对外开放。该展区将展示近20种珍稀珊瑚，同时开展“珊瑚领养”公益活动，呼吁公众关注珊瑚礁保护。
+                            海洋馆不是解散了，只是没人来了......
                         </div>
                     </div>
                     <div class="news-item">
-                        <div class="news-title">第三届“海洋小卫士”公益研学营招募启动，限额200人</div>
+                        <div class="news-title">纪念品上新，欢迎各位游客前来选购</div>
                         <div class="news-date">发布时间：2026-02-28</div>
                         <div class="section-text">
-                            XX海洋馆联合市教育局推出的“海洋小卫士”公益研学营即日起开始招募，面向全市小学生开放，课程包含海洋生物观察、水质检测实验、环保手工制作等，全程免费，旨在培养青少年海洋保护意识。
+                            XX海洋馆纪念品商店新上架xxx纪念品，满足您的更多需求！
                         </div>
                     </div>
                     <div class="news-item">
-                        <div class="news-title">馆内成功救助一只受伤绿海龟，康复后将放归大海</div>
+                        <div class="news-title">本周海洋知识科普影院科普人员安排</div>
                         <div class="news-date">发布时间：2026-01-10</div>
                         <div class="section-text">
-                            1月5日，我馆救助团队接获渔民求助，成功救助一只右鳍受伤的绿海龟。经检查，海龟为成年雌性，体重约30公斤，目前已完成清创与治疗，预计1月底康复后将在XX湾海域放归。
+                            甲:14:00-15:00
+                            <p>乙:15:00-16:00
+                            <p>丙:16:00-17:00   (反正均没有馆长参与)
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">关于海洋馆演出事故的道歉信</div>
+                        <div class="news-date">发布时间：2026-01-02</div>
+                        <div class="section-text">
+                            深表歉意私密马赛！
                         </div>
                     </div>
                 </div>
@@ -459,7 +629,7 @@
                     <!-- 展示你提供的海洋鱼图片 -->
                     <div style="width: 400px; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
                         <!-- 注意：这里需要把图片替换成你自己的图片链接（本地/在线都可以） -->
-                        <img src="F:\images\fish1.jpg" alt="海洋馆蓝吊鱼展示" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src=".\images\fish1.jpg" alt="海洋馆蓝吊鱼展示" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <!-- 配套文字介绍 -->
                     <div style="flex: 1; min-width: 300px;">
@@ -484,6 +654,109 @@
                     <p><strong>温馨提示：</strong>馆内全程禁止投喂动物，儿童需由成人陪同，展区内禁止使用闪光灯拍照。</p>
                 </div>
             </div>
+
+            <div class="content-section" id="comment">
+                <div class="section-title">顾客评价</div>
+                <!-- 顾客评价区域 - 可直接插入现有网页中间 -->
+                <div style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
+                    <!-- 评价标题 -->
+                    <h3 style="text-align: center; color: #bd8e02; font-size: 22px; margin-bottom: 30px; font-weight: bold;">
+                        🐠 海洋馆游客真实评价
+                    </h3>
+
+                    <!-- 评价列表容器 -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- 评价1：亲子家庭（核心人群，最真实） -->
+                        <div style="background: #f9fcff; border-radius: 12px; padding: 20px; border: 1px solid #e0f7fa; display: flex; gap: 15px; align-items: flex-start;">
+                            <!-- 用户头像 -->
+                            <img src="https://picsum.photos/60/60" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">
+                            <!-- 评价内容 -->
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-weight: bold; color: #333; font-size: 16px;">宝妈小李呀</span>
+                                    <span style="font-size: 12px; color: #999;">2026-02-10</span>
+                                </div>
+                                <!-- 评分（5星制） -->
+                                <div style="color: #ff9800; font-size: 14px; margin-bottom: 8px;">
+                                    ★★★★★ 满分好评
+                                </div>
+                                <!-- 评价文字 -->
+                                <p style="font-size: 15px; color: #555; line-height: 1.6; margin: 0;">
+                                    带4岁女儿来玩，体验超棒！美人鱼表演女儿看了三遍都不腻，演员小姐姐特别温柔，还会和小朋友互动。小珊瑚儿童乐园的泡沫垫特别软，不用担心孩子磕碰，海葵妈妈餐厅的虾仁海带汤女儿超爱喝。纪念品商店的小丑鱼钥匙扣买了两个，质量很好，女儿天天挂在书包上。整体服务很贴心，母婴室也很干净，下次还来！
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 评价2：情侣游玩 -->
+                        <div style="background: #f9fcff; border-radius: 12px; padding: 20px; border: 1px solid #e0f7fa; display: flex; gap: 15px; align-items: flex-start;">
+                            <img src="https://picsum.photos/61/61" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-weight: bold; color: #333; font-size: 16px;">晚风与你</span>
+                                    <span style="font-size: 12px; color: #999;">2026-02-08</span>
+                                </div>
+                                <div style="color: #ff9800; font-size: 14px; margin-bottom: 8px;">
+                                    ★★★★★ 超浪漫的一天
+                                </div>
+                                <p style="font-size: 15px; color: #555; line-height: 1.6; margin: 0;">
+                                    周末和男朋友来打卡，海洋馆氛围真的太浪漫了！蓝色的海底世界拍照超出片，美人鱼表演氛围感拉满，看完还能去纪念品店买情侣款海洋元素手链。海洋知识影院的科普讲解很有趣，不是那种枯燥的宣讲，互动性很强。馆内流动贩卖车的饮料价格也合理，不会溢价，整体体验感满分，已经推荐给身边朋友了！
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 评价3：带老人游玩 -->
+                        <div style="background: #f9fcff; border-radius: 12px; padding: 20px; border: 1px solid #e0f7fa; display: flex; gap: 15px; align-items: flex-start;">
+                            <img src="https://picsum.photos/62/62" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-weight: bold; color: #333; font-size: 16px;">退休教师王阿姨</span>
+                                    <span style="font-size: 12px; color: #999;">2026-02-05</span>
+                                </div>
+                                <div style="color: #ff9800; font-size: 14px; margin-bottom: 8px;">
+                                    ★★★★★ 适合老人逛的海洋馆
+                                </div>
+                                <p style="font-size: 15px; color: #555; line-height: 1.6; margin: 0;">
+                                    带老伴来逛海洋馆，选对地方了！馆内休息区很多，座椅宽敞，不会累。海洋知识宣传影院的海洋保护科普讲得特别好，老伴是退休教师，说内容专业又易懂。演职部的员工都很热情，看到老人会主动搀扶，还会讲解海洋生物的知识。卫生间分布很合理，每个区域都有，很方便。整体很舒适，适合中老年游客来了解海洋知识。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 评价4：朋友结伴游玩 -->
+                        <div style="background: #f9fcff; border-radius: 12px; padding: 20px; border: 1px solid #e0f7fa; display: flex; gap: 15px; align-items: flex-start;">
+                            <img src="https://picsum.photos/63/63" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-weight: bold; color: #333; font-size: 16px">和朋友去看海</span>
+                                    <span style="font-size: 12px; color: #999;">2026-02-03</span>
+                                </div>
+                                <div style="color: #ff9800; font-size: 14px; margin-bottom: 8px;">
+                                    ★★★★☆ 4星推荐（性价比高）
+                                </div>
+                                <p style="font-size: 15px; color: #555; line-height: 1.6; margin: 0;">
+                                    三个好朋友周末约着来玩，人均消费不高，玩的项目却很多。必看的美人鱼表演一定要提前占座，真的太精彩了！海洋知识影院的互动环节很有意思，能学到不少海洋保护的知识。纪念品商店的东西不贵，买了几个海洋摆件当礼物送朋友。唯一小缺点是周末人有点多，建议错峰来，整体还是很推荐的！
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 评价5：独自游玩 -->
+                        <div style="background: #f9fcff; border-radius: 12px; padding: 20px; border: 1px solid #e0f7fa; display: flex; gap: 15px; align-items: flex-start;">
+                            <img src="https://picsum.photos/64/64" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-weight: bold; color: #333; font-size: 16px;">独行的小鱼</span>
+                                    <span style="font-size: 12px; color: #999;">2026-02-01</span>
+                                </div>
+                                <div style="color: #ff9800; font-size: 14px; margin-bottom: 8px;">
+                                    ★★★★★ 治愈系海洋馆
+                                </div>
+                                <p style="font-size: 15px; color: #555; line-height: 1.6; margin: 0;">
+                                    工作压力大，周末来海洋馆独自放松，真的太治愈了！看着各种海洋生物游来游去，心情都变好了。美人鱼表演的演员小姐姐太有感染力了，能感受到她对这份工作的热爱。馆内的科普宣讲也很治愈，让我意识到海洋保护的重要性。纪念品店买了一本海洋馆明信片，盖章后特别有纪念意义。下次想带家人再来一次，感受这份美好。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div>
         </div>
     </div>
            

@@ -202,10 +202,15 @@
                 // 跳转到详情页（window.location.href用于页面跳转）
                 window.location.href = 'detail1.html';
             } 
-            if (keyword === '海洋馆') {
+            else if (keyword === '海洋馆') {
                 // 跳转到详情页（window.location.href用于页面跳转）
-                window.location.href = 'mainpage.html';
-            } else {
+                window.location.href = 'result1.html';
+            } 
+            else if (keyword === '陈树1999') {
+                // 跳转到详情页（window.location.href用于页面跳转）
+                window.location.href = 'shuchen.html';
+            } 
+            else {
                 // 非指定关键词给出提示
                 window.location.href = '404.html';
             }

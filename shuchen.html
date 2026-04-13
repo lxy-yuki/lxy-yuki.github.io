@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈树的个人空间 - 记录萍萍的成长</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", "宋体", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+        }
+
+        /* ========== 顶部导航栏（仿QQ空间顶部） ========== */
+        .top-nav {
+            width: 100%;
+            height: 60px;
+            background-color: #4A90E2;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .space-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        /* ========== 主体容器（左侧栏+中间内容+右侧资料卡） ========== */
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            gap: 20px;
+        }
+
+        /* ========== 左侧功能栏（仿QQ空间左侧导航） ========== */
+        .left-sidebar {
+            width: 200px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        /* 个人头像区域 */
+        .avatar-box {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            background-color: #E0E8F3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #4A90E2;
+        }
+        .nickname {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .signature {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        /* 左侧功能按钮 */
+        .sidebar-menu {
+            list-style: none;
+        }
+        .menu-item {
+            padding: 12px 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-item:hover, .menu-item.active {
+            background-color: #E8F1FC;
+            color: #4A90E2;
+        }
+        .menu-icon {
+            font-size: 16px;
+        }
+
+        /* ========== 中间内容区（核心：帖子/相册/私人文件夹） ========== */
+        .content-area {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-height: 800px;
+        }
+        /* 板块标题 */
+        .content-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E8F1FC;
+            color: #333;
+        }
+        /* 隐藏所有板块，只显示active的 */
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ========== 动态帖子样式（按时间倒序） ========== */
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .post-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #fafbfc;
+        }
+        .post-time {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .post-content {
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        .post-img {
+            width: 300px;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+        }
+        .post-footer {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* ========== 个人相册（陈萍的画作） ========== */
+        .album-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .album-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .album-img {
+            width: 100%;
+            height: 180px;
+            background-color: #f0f5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .album-desc {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* ========== 私人文件夹（工作合同+病历） ========== */
+        .folder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .folder-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fafbfc;
+        }
+        .folder-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #4A90E2;
+        }
+        .folder-content {
+            line-height: 1.8;
+            font-size: 14px;
+            color: #333;
+            white-space: pre-line; /* 保留换行 */
+        }
+
+        /* ========== 右侧个人资料卡（简化版） ========== */
+        .right-card {
+            width: 240px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .card-info {
+            font-size: 14px;
+            line-height: 2;
+            color: #666;
+        }
+
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 移动端适配（简化） */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 0 10px;
+            }
+            .left-sidebar, .right-card {
+                width: 100%;
+            }
+            .post-img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <span class="menu-icon">🌿</span>
+        <span class="space-title">陈树的个人空间 - 记录萍萍的成长</span>
+    </div>
+
+    <!-- 主体容器 -->
+    <div class="main-container">
+        <!-- 左侧功能栏 -->
+        <div class="left-sidebar">
+            <!-- 个人头像+昵称 -->
+            <div class="avatar-box">
+                <div class="avatar">树</div>
+                <div class="nickname">陈树</div>
+                <div class="signature">海洋馆清洁工 | 萍萍的妈妈</div>
+            </div>
+            <!-- 功能菜单 -->
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-target="posts">
+                    <span class="menu-icon">📝</span> 我的动态
+                </li>
+                <li class="menu-item" data-target="album">
+                    <span class="menu-icon">🖼️</span> 个人相册
+                </li>
+                <li class="menu-item" data-target="folder">
+                    <span class="menu-icon">🔒</span> 私人文件夹
+                </li>
+                <li class="menu-item" data-target="profile">
+                    <span class="menu-icon">👤</span> 基本资料
+                </li>
+            </ul>
+        </div>
+
+        <!-- 中间内容区 -->
+        <div class="content-area">
+            <!-- 1. 我的动态（成长帖子） -->
+            <div class="content-section active" id="posts">
+                <div class="content-title">我的动态 - 萍萍的成长记录</div>
+                <div class="post-list">
+                    <!-- 帖子1：最新的 -->
+                    <div class="post-item">
+                        <div class="post-time">2026-03-20 19:30</div>
+                        <div class="post-content">
+                            今天下班早，带萍萍去我工作的海洋馆转了转。她盯着蓝吊鱼看了好久，回家后第一次主动拿起画笔，画了一条歪歪扭扭的小鱼（附图）。虽然萍萍还是不怎么说话，但能看到她对海洋有兴趣，我就很满足了。作为单亲妈妈，每天下班再累，只要看到她的小进步，就觉得一切都值了。
+                        </div>
+                        <img src="https://picsum.photos/id/1025/300/200" alt="陈萍画的小鱼" class="post-img">
+                        <div class="post-footer">❤️ 记录萍萍的第1次主动画画</div>
+                    </div>
+                    <!-- 帖子2 -->
+                    <div class="post-item">
+                        <div class="post-time">2026-03-10 08:15</div>
+                        <div class="post-content">
+                            今天送萍萍去特教机构，她下车时小声说了句“妈妈再见”。我愣了好久，这是她确诊自闭症后，第一次主动说完整的话。在海洋馆扫了3年地，每天起早贪黑，就盼着她能慢慢好起来。萍萍，妈妈永远陪着你。
+                        </div>
+                        <img src="https://picsum.photos/id/237/300/200" alt="萍萍的小手" class="post-img">
+                        <div class="post-footer">❤️ 萍萍第一次主动说“妈妈再见”</div>
+                    </div>
+                    <!-- 帖子3 -->
+                    <div class="post-item">
+                        <div class="post-time">2026-02-15 20:00</div>
+                        <div class="post-content">
+                            元宵节，给萍萍煮了她最爱吃的汤圆。她今天坐在我旁边，安安静静地画了一个圆圆的月亮，里面有我和她。虽然生活不容易，一个人打工养孩子，还要定期带她做康复，但看着她的画，心里暖暖的。海洋馆的同事们都很照顾我，偶尔会帮我带点零食给萍萍，谢谢这些好心人。
+                        </div>
+                        <img src="https://picsum.photos/id/188/300/200" alt="萍萍画的月亮" class="post-img">
+                        <div class="post-footer">❤️ 元宵节和萍萍的小美好</div>
+                    </div>
+                    <!-- 帖子4：最早的 -->
+                    <div class="post-item">
+                        <div class="post-time">2026-01-05 17:40</div>
+                        <div class="post-content">
+                            今天拿到了萍萍的自闭症病历，心里五味杂陈。作为单亲妈妈，我没有太多本事，只能在海洋馆做清洁工，赚点辛苦钱给她做康复。但我发誓，就算砸锅卖铁，也要让萍萍好好长大。今天把病历存进私人文件夹，提醒自己要更努力，给萍萍一个未来。
+                        </div>
+                        <img src=".\images\nnk2.jpg" alt="萍萍画的一家人" class="post-img">
+                        <div class="post-footer">❤️ 妈妈会永远保护你，我的萍萍</div>
+                    </div>
+                </div>
+            </div>
+
+           
+           
+             <!-- 2. 个人相册 -->
+            <div class="content-section" id="album">
+                <div class="content-title">个人相册 - 萍萍的画作</div>
+                <div class="album-list">
+                    <div class="album-item">
+                        <img src=".\images\neko.jpg" alt="萍萍画的一家人" class="album-img">
+                        <div class="album-desc">萍萍第一次主动画的海洋鱼</div>
+                    </div>
+                    <div class="album-item">
+                        <img src=".\images\hiro.jpg" alt="萍萍画的一家人" class="album-img">
+                        <div class="album-desc">元宵节画的团圆画</div>
+                    </div>
+                    <div class="album-item">
+                        <div class="album-img">
+                            🎨 彩色的海洋馆<br>（2026.01.20）
+                        </div>
+                        <div class="album-desc">听妈妈说海洋馆后画的</div>
+                    </div>
+                    <div class="album-item">
+                        <div class="album-img">
+                            🎨 小手印画的太阳<br>（2026.01.10）
+                        </div>
+                        <div class="album-desc">康复课上的手印画</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 私人文件夹（工作合同+病历） -->
+    <div class="content-section" id="folder">
+        <div class="content-title">私人文件夹 - 重要文件</div>
+        <div class="folder-list">
+            <!-- 工作合同 -->
+            <div class="folder-item">
+                <div class="folder-title">海洋馆清洁工聘用合同</div>
+                <div class="folder-content">
+聘用单位（甲方）：XX海洋馆
+受聘人（乙方）：陈树
+聘用岗位：场馆清洁员
+聘用期限：2023年3月1日 - 2026年2月28日
+工作内容：
+1. 负责海洋馆1-3层公共区域的清洁工作；
+2. 每日闭馆后清理展区玻璃、地面卫生；
+3. 协助饲养员清理小型水族箱周边卫生。
+薪资待遇：月薪3800元，含社保，月休4天，法定节假日加班双倍工资。
+备注：甲方知晓乙方为单亲妈妈，同意乙方可灵活调整上下班时间（提前1小时下班接孩子）。
+
+签署日期：2023年2月25日
+                </div>
+            </div>
+            <!-- 陈萍病历（加密） -->
+            <div class="folder-item">
+                <!-- 触发加密的标题 -->
+                <div class="folder-title" 
+                     data-encrypt="true" 
+                     data-pwd="juyuan99" 
+                     data-target="medical-content" 
+                     data-tip="此处存在谜题：" 
+                     data-error="medical-error"
+                     style="cursor: pointer;">
+                    陈萍 自闭症诊断病历 🔒
+                </div>
+                <!-- 错误提示（默认隐藏） -->
+                <div id="medical-error" style="display: none; color: #ff4444;">密码错误！</div>
+                <!-- 加密内容（默认隐藏） -->
+                <div id="medical-content" style="display: none;" class="folder-content">
+姓名：陈萍
+性别：女
+出生日期：2018年9月12日
+就诊日期：2025年10月18日
+就诊医院：XX市儿童医院 儿童发育行为科
+诊断结果：孤独症（自闭症）谱系障碍（轻度）
+主要症状：
+1. 语言发育迟缓，主动语言少，仅能说简单单字/叠词；
+2. 社交互动意愿低，回避眼神交流，偏好独自玩耍；
+3. 对海洋鱼类有特殊兴趣，可长时间专注观察。
+治疗建议：
+1. 每周3次行为康复训练；
+2. 家庭干预，多陪伴孩子进行兴趣相关互动（如绘画、看海洋生物）；
+3. 定期（每3个月）复诊，评估发育情况。
+
+医生签名：李XX
+医院盖章：XX市儿童医院
+                </div>
+            </div>
+        </div> <!-- 【关键修正1】补全folder-list的闭合标签 -->
+    </div> <!-- 【关键修正2】补全folder板块的闭合标签 -->
+
+    <!-- 4. 基本资料 -->
+    <div class="content-section" id="profile">
+        <div class="content-title">基本资料</div>
+        <div class="folder-list">
+            <div class="folder-item">
+                <div class="folder-content">
+姓名：陈树
+年龄：32岁
+职业：XX海洋馆清洁员
+家庭情况：单亲妈妈，独自抚养女儿陈萍（7岁）
+住址：XX市滨海新区XX小区4号楼201室
+联系方式：（隐私保护，未公开）
+个人简介：
+我是一名普通的海洋馆清洁工，也是7岁女儿萍萍的唯一依靠。萍萍确诊自闭症后，生活多了很多挑战，但只要看着她一点点进步，我就有无限的动力。这个空间只用来记录萍萍的成长，愿我的女儿能慢慢打开心扉，像海洋里的鱼一样自由。
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- 【关键修正3】确保content-area闭合标签位置正确 -->
+
+<!-- 右侧个人资料卡 -->
+<div class="right-card">
+    <div class="card-title">关于我</div>
+    <div class="card-info">
+        📍 所在地：XX市滨海新区<br>
+        👩‍👧 家庭：单亲妈妈，女儿陈萍（7岁）<br>
+        🏢 工作：XX海洋馆 - 清洁员<br>
+        💖 爱好：记录女儿的成长、海洋生物<br>
+        ✨ 心愿：萍萍能健康快乐长大
+    </div>
+</div>
+
+    <!-- JS实现板块切换 -->
+    <script>
+                // ===================== 1. 通用加密验证函数（核心：仅需写一次，全场景复用） =====================
+    /**
+     * 通用密码验证函数
+     * @param {string} inputPwd - 用户输入的密码
+     * @param {string} correctPwd - 正确密码
+     * @param {string} targetId - 要显示的加密内容/板块ID
+     * @param {string} errorId - 错误提示元素ID（可选）
+     * @returns {boolean} 验证是否通过
+     */
+    function verifyPassword(inputPwd, correctPwd, targetId, errorId) {
+        // 获取目标内容和错误提示元素
+        const targetEl = document.getElementById(targetId);
+        const errorEl = errorId ? document.getElementById(errorId) : null;
+
+        // 初始化：隐藏错误提示
+        if (errorEl) errorEl.style.display = 'none';
+
+        // 密码验证核心逻辑
+        if (inputPwd === correctPwd) {
+            // 密码正确：显示目标内容，标记已验证（避免重复输入）
+            targetEl.style.display = 'block';
+            targetEl.dataset.auth = 'true'; // 标记验证状态
+            return true;
+        } else {
+            // 密码错误/取消：隐藏内容，仅在用户输入错误（非取消）时显示提示
+            targetEl.style.display = 'none';
+            if (inputPwd !== null && errorEl) {
+                errorEl.style.display = 'block';
+            }
+            return false;
+        }
+    }
+
+    // ===================== 2. 批量绑定「单个加密元素」的点击事件（如病历、单张照片） =====================
+    // 给所有带 data-encrypt="true" 且非板块类型的元素绑定加密逻辑
+    document.querySelectorAll('[data-encrypt="true"]:not([data-type="section"])').forEach(el => {
+        el.addEventListener('click', function() {
+            // 从HTML自定义属性读取加密规则
+            const correctPwd = this.dataset.pwd;       // 正确密码
+            const targetId = this.dataset.target;       // 加密内容ID
+            const errorId = this.dataset.error;         // 错误提示ID
+            const tipText = this.dataset.tip || '请输入访问密码：'; // 密码框提示语
+            const targetEl = document.getElementById(targetId);
+
+            // 如果已验证通过，直接显示内容（无需重复输入）
+            if (targetEl.dataset.auth === 'true') {
+                targetEl.style.display = 'block';
+                return;
+            }
+
+            // 未验证：弹出密码框并调用通用验证函数
+            const inputPwd = prompt(tipText);
+            verifyPassword(inputPwd, correctPwd, targetId, errorId);
+        });
+    });
+
+    // ===================== 3. 板块切换逻辑（支持「整个板块加密」，如个人相册） =====================
+    // 获取板块切换相关元素
+    const menuItems = document.querySelectorAll('.menu-item'); // 左侧菜单按钮
+    const contentSections = document.querySelectorAll('.content-section'); // 内容板块
+
+    // 绑定菜单点击事件
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            let isAuthPass = true; // 验证通过标记（默认通过）
+
+            // 检查当前菜单是否是「加密板块」（data-encrypt="true" + data-type="section"）
+            if (this.hasAttribute('data-encrypt') && this.dataset.type === 'section') {
+                // 读取板块加密规则
+                const correctPwd = this.dataset.pwd;
+                const errorId = this.dataset.error;
+                const tipText = this.dataset.tip || '请输入板块访问密码：';
+                
+                // 弹出密码框并验证
+                const inputPwd = prompt(tipText);
+                isAuthPass = verifyPassword(inputPwd, correctPwd, targetId, errorId);
+
+                // 验证失败：终止后续切换逻辑
+                if (!isAuthPass) return;
+            }
+
+            // 验证通过：执行板块切换（原有逻辑不变）
+            if (isAuthPass) {
+                // 移除所有菜单的active状态
+                menuItems.forEach(menu => menu.classList.remove('active'));
+                // 激活当前点击的菜单
+                this.classList.add('active');
+
+                // 隐藏所有内容板块
+                contentSections.forEach(section => section.classList.remove('active'));
+                // 显示目标板块
+                document.getElementById(targetId).classList.add('active');
+            }
+        });
+    });
+
+    // ===================== 4. 可选：防手动修改DOM的双重验证（增强安全性，可保留/删除） =====================
+    // 监听加密元素的显示状态，防止手动修改DOM绕过密码
+    document.querySelectorAll('[data-encrypt="true"]').forEach(el => {
+        const targetId = el.dataset.target;
+        const targetEl = document.getElementById(targetId);
+        if (!targetEl) return;
+
+        // 创建监听实例
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                // 仅对未验证的加密元素生效
+                if (targetEl.dataset.auth !== 'true' && targetEl.style.display === 'block') {
+                    alert('请先输入正确密码后再访问！');
+                    targetEl.style.display = 'none';
+                }
+            });
+        });
+
+        // 监听目标元素的样式变化（仅监听display属性）
+        observer.observe(targetEl, {
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    });
+    </script>
+   
+</body>
+</html>
