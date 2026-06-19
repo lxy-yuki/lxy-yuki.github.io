@@ -52,12 +52,12 @@
             color: #3e2723;
         }
 
-        /* 搜索栏（核心修改：新增确认按钮样式） */
+        /* 搜索栏 */
         .search-bar {
             width: 80%;
             max-width: 650px;
             height: 55px;
-            background-color: #3e2723; /* 深棕色 */
+            background-color: #3e2723;
             border-radius: 4px;
             display: flex;
             align-items: center;
@@ -80,7 +80,6 @@
         .search-bar input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
-        /* 新增：确认按钮样式 */
         .search-confirm {
             background-color: #fff;
             color: #3e2723;
@@ -90,7 +89,6 @@
             font-size: 1em;
             cursor: pointer;
             margin-left: 15px;
-            transition: background-color 0.2s;
         }
         .search-confirm:hover {
             background-color: #f5f5f5;
@@ -113,7 +111,7 @@
         /* 右侧侧边栏 */
         aside {
             width: 220px;
-            background-color: #3e2723; /* 深棕色侧边栏 */
+            background-color: #3e2723;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -142,43 +140,68 @@
         .sidebar-btn {
             width: 100%;
             padding: 12px;
-            background-color: #5d4037; /* 稍浅棕色按钮 */
+            background-color: #5d4037;
             border: 1px solid #fff;
             border-radius: 4px;
             color: #fff;
             font-size: 1.1em;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
         .sidebar-btn:hover {
-            background-color: #795548; /*  hover 效果 */
+            background-color: #795548;
+        }
+
+        /* 弹窗样式（仅保留功能） */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 420px;
+        }
+        .modal-content p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .modal-btn {
+            float: right;
+            background: #3e2723;
+            color: #fff;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <!-- 左侧主内容区 -->
     <main>
         <div class="header">
             <div class="logo">logo</div>
             <div class="title">XX基金会</div>
         </div>
 
-        <!-- 搜索栏（核心修改：新增确认按钮 + 给输入框加id） -->
         <div class="search-bar">
             <div class="search-icon">🔍</div>
-            <!-- 新增id="search-input"，用于JS获取输入值 -->
             <input type="text" id="search-input" placeholder="请输入搜索内容">
-            <!-- 新增确认按钮 -->
             <button class="search-confirm" id="search-btn">确认</button>
             <div class="search-dot"></div>
         </div>
 
-        <div class="slogan">
-            加入基金会，享上流人生！
-        </div>
+        <div class="slogan">加入基金会，享上流人生！</div>
     </main>
 
-    <!-- 右侧侧边栏 -->
     <aside>
         <div class="user-avatar"></div>
         <button class="sidebar-btn">个人信息</button>
@@ -187,60 +210,54 @@
         <button class="sidebar-btn">调查结束</button>
     </aside>
 
-    <!-- 新增：搜索功能的JS代码 -->
+    <!-- 自动弹窗 -->
+    <div class="modal-overlay" id="autoModal">
+        <div class="modal-content">
+            <p>你关注的账号更新新动态啦，可随时前往查看！</p>
+            <button class="modal-btn" id="modalConfirm">确认</button>
+        </div>
+    </div>
+
     <script>
-        // 1. 获取DOM元素：输入框、确认按钮
+        // 搜索功能
         const searchInput = document.getElementById('search-input');
         const searchBtn = document.getElementById('search-btn');
-
-        // 2. 定义跳转函数（核心逻辑）
         function jumpToDetail() {
-            // 获取输入框的内容（去除首尾空格）
             const keyword = searchInput.value.trim();
-            // 判断是否输入指定关键词（可扩展为多关键词匹配）
-            if (keyword === '海洋馆溺亡美人鱼案') {
-                // 跳转到详情页（window.location.href用于页面跳转）
-                window.location.href = 'detail1.html';
-            } 
-            else if (keyword === '海洋馆') {
-                // 跳转到详情页（window.location.href用于页面跳转）
-                window.location.href = 'result1.html';
-            } 
-            else if (keyword === '陈树1999') {
-                // 跳转到详情页（window.location.href用于页面跳转）
-                window.location.href = 'shuchen.html';
-            } 
-            else {
-                // 非指定关键词给出提示
-                window.location.href = '404.html';
-            }
+            if(keyword==='海洋馆溺亡美人鱼案') window.location.href='detail1.html';
+            else if(keyword==='海洋馆') window.location.href='result1.html';
+            else if(keyword==='陈树1999') window.location.href='shuchen.html';
+            else window.location.href='404.html';
         }
-
-        // 3. 绑定事件：点击确认按钮触发跳转
         searchBtn.addEventListener('click', jumpToDetail);
+        searchInput.addEventListener('keydown',e=>{if(e.keyCode===13)jumpToDetail()});
 
-        // 4. 绑定事件：按下回车键触发跳转
-        searchInput.addEventListener('keydown', function(e) {
-            // e.keyCode === 13 代表回车键
-            if (e.keyCode === 13) {
-                jumpToDetail();
+        // 侧边栏跳转
+        document.getElementById('record-btn').onclick=()=>window.location.href='record.html';
+        document.getElementById('help-btn').onclick=()=>window.location.href='help.html';
+
+        // ====================== 自动弹窗逻辑 ======================
+        const autoModal = document.getElementById('autoModal');
+        const modalConfirm = document.getElementById('modalConfirm');
+
+        // 页面加载3秒后判断是否弹窗
+        window.onload = () => {
+            if(localStorage.getItem('hasClickedLink') === 'true'){
+                setTimeout(()=>{
+                    autoModal.style.display='flex';
+                    // 新增：弹窗弹出时，页面背景变为深红色
+                    document.body.style.backgroundColor = '#8B0000';
+                },3000);
             }
-        });
-        // 原有JS代码保持不变，新增以下内容 ↓
-// 1. 获取“调查记录”按钮
-const recordBtn = document.getElementById('record-btn');
+        };
 
-// 2. 绑定点击事件，跳转到调查记录页面
-recordBtn.addEventListener('click', function() {
-    window.location.href = 'record.html'; // 跳转到新页面record.html
-});
-// 1. 获取“帮助”按钮
-const helpBtn = document.getElementById('help-btn');
-
-// 2. 绑定点击事件，跳转到帮助页面
-helpBtn.addEventListener('click', function() {
-    window.location.href = 'help.html'; // 跳转到新页面help.html
-});       
-    </script>       
+        // 确认按钮跳转（修改为你的目标网址）
+        modalConfirm.onclick = () => {
+            // 新增：点击确认后恢复页面原始白色背景
+            document.body.style.backgroundColor = '#fff';
+            window.location.href = 'shuchen1.html';
+            localStorage.removeItem('hasClickedLink');
+        };
+    </script>
 </body>
 </html>

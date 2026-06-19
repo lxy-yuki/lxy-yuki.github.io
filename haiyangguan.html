@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海洋馆手绘版网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 顶部深蓝色栏 高度120px */
+        .top-bar {
+            width: 100%;
+            height: 120px;
+            background-color: #0033AA;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ----------------- 鱼图片：自动透明底 + 完美融合蓝色背景 ----------------- */
+        .top-right-img {
+            position: absolute;
+            right: 0px;
+            top: -90px;
+            width: 400px;
+            height: auto;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* 主体容器 */
+        .main-box {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 120px);
+            position: relative;
+        }
+
+        /* 左侧深蓝色竖条 固定宽度40px */
+        .left-blue-bar {
+            width: 40px;
+            background-color: #0033AA;
+            height: 100%;
+        }
+
+        /* 左侧按钮精准定位 */
+        .left-btn-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            z-index: 10;
+            padding-left: 28px;
+        }
+
+        /* 左侧按钮：1/5在左蓝区，4/5在白区 */
+        .left-btn {
+            width: 120px;
+            height: 42px;
+            border-radius: 21px;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* 首页按钮：上方1/4嵌入顶部深蓝色区域 */
+        .btn-home {
+            margin-top: -10.5px;
+            background-color: #FF6622;
+        }
+        .btn-facility { background-color: #FFCC00; }
+        .btn-history { background-color: #33CCFF; }
+        .btn-honor { background-color: #33DD33; }
+
+        .left-btn.active {
+            box-shadow: 0 0 0 3px #fff, 0 0 0 5px #333;
+        }
+
+        /* 白色内容区：彻底避开按钮，无重叠 + 新增滚动条（适配长内容） */
+        .content-area {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 40px 40px 40px 150px;
+            position: relative;
+            overflow-y: auto; /* 【修改1】添加纵向滚动，防止内容溢出 */
+        }
+        .content-panel { display: none; }
+        .content-panel.active { display: block; }
+
+        /* 【修改2】新增首页内容样式（文字排版） */
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0033AA;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .section-text {
+            font-size: 16px;
+            line-height: 1.8;
+            margin: 12px 0;
+            text-indent: 2em;
+        }
+
+        /* 右侧浅蓝色竖栏 */
+        .right-bar {
+            width: 180px;
+            background-color: #2277EE;
+            height: 100%;
+            position: relative;
+        }
+        /* 右侧新闻按钮：对称轴分界，跨顶部深蓝+右侧浅蓝 */
+        .news-btn {
+            width: 140px;
+            height: 42px;
+            border-radius: 21px;
+            border: none;
+            background-color: white;
+            color: #DD2222;
+            font-size: 18px;
+            cursor: pointer;
+            position: absolute;
+            top: -21px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .news-btn.active {
+            box-shadow: 0 0 0 3px #fff, 0 0 5px #333;
+        }
+        /* 馆史时间轴样式 */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #6ba5ff;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 2px solid #6ba5ff;
+        }
+        .timeline-year {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        /* 员工荣誉墙样式 */
+        .honor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .honor-card {
+            background-color:#6bd3ff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .honor-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .honor-desc {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 馆内新闻样式 */
+        .news-list {
+            margin-top: 20px;
+        }
+        /* 🔥 核心修改：淡蓝色背景 + 小圆角 + 优化样式 */
+        .news-item {
+            background-color: #e6f7ff; /* 柔和淡蓝色（海洋馆专属） */
+            padding: 15px;
+            border-radius: 10px; /* 小圆角（你要的小圆弧） */
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 轻微阴影，更美观 */
+        }
+        .news-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #0033AA; /* 标题颜色匹配顶部深蓝色，统一风格 */
+        }
+        .news-date {
+            font-size: 14px;
+            color: #2277EE; /* 日期颜色匹配右侧栏蓝色 */
+            margin-bottom: 8px;
+        }
+        /************************ 左下角水草图片样式 ************************/
+        .corner-img {
+            position: absolute;
+            left: -100px;
+            bottom: -20px;
+            width: 250px;
+            height: auto;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部深蓝栏 + 右上角鱼群图片（已去白底） -->
+    <div class="top-bar">
+        <img src="images/yu4.png" class="top-right-img">
+    </div>
+
+    <div class="main-box">
+        <div class="left-blue-bar"></div>
+
+        <!-- 左侧按钮组 -->
+        <div class="left-btn-area">
+            <button class="left-btn btn-home active" data-target="home">首页</button>
+            <button class="left-btn btn-facility" data-target="facility">馆内设施</button>
+            <button class="left-btn btn-history" data-target="history">馆史</button>
+            <button class="left-btn btn-honor" data-target="honor">员工荣誉墙</button>
+        </div>
+
+        <!-- 白色内容区 -->
+        <div class="content-area">
+            <!-- 【修改3】完全替换首页内容，添加介绍、图片、轮播图 -->
+            <div class="content-panel active" id="home">
+                <div class="section-title">海洋馆介绍</div>
+                <div class="section-text">
+                    欢迎您来到XX海洋馆！这里是全国最早，建设最好的一批海洋馆，其中，白鲸，海豚，海狮，海豹等海洋精灵齐聚一堂，我们将为您展示人与自然和谐共处的盛景！
+                </div>
+                <!-- 海洋馆建筑图片 -->
+                <div style="width: 300px; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff; margin: 20px auto;">
+                    <img src="images/nnk1.jpg" alt="海洋馆建筑" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <p style="text-align:center; margin-top:8px; font-size:15px;font-weight: bold;">海洋馆建筑示意图</p>
+                
+                <div class="section-text">
+                    我们始终秉持“保护海洋生态，传播海洋文化”的核心使命，每年接待游客超200万人次，开展海洋科普讲座、公益研学活动超百场，是XX市科普教育基地、国家级4A级旅游景区。
+                </div>
+                <div class="section-text">
+                    馆内拥有国内领先的海洋生物养护技术团队，致力于濒危海洋生物的救助与繁育，先后成功繁育白鲸、企鹅、水母等多种珍稀海洋生物，为海洋生态保护贡献力量。
+                </div>
+
+                <!-- 轮播图1：海洋生物展示 -->
+                <div style="width: 400px; margin: 30px auto; position: relative;">
+                    <div style="width: 100%; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                        <img src="images/fish1.jpg" class="carousel-img1" style="width:100%; display:block;">
+                        <img src="images/neko.jpg" class="carousel-img1" style="width:100%; display:none;">
+                        <img src="images/hiro.jpg" class="carousel-img1" style="width:100%; display:none;">
+                    </div>
+                    <button onclick="prevSlide1()" style="position: absolute; top: 45%; left: 10px; background: rgba(255,255,255,0.7); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer;">←</button>
+                    <button onclick="nextSlide1()" style="position: absolute; top: 45%; right: 10px; background: rgba(255,255,255,0.7); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer;">→</button>
+                    <div id="carousel-desc1" style="margin-top: 10px; text-align: center; font-size: 15px; font-weight: bold; color: #333;">海洋馆蓝吊鱼实景展示</div>
+                </div>
+
+                <div class="section-text">馆内地图及营业、演出时间表</div>
+
+                <!-- 轮播图2：地图/时间表 -->
+                <div style="width: 400px; margin: 30px auto; position: relative;">
+                    <div style="width: 100%; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                        <img src="images/miku.jpg" class="carousel-img2" style="width:100%; display:block;">
+                        <img src="images/mll.jpg" class="carousel-img2" style="width:100%; display:none;">
+                        <img src="images/sherry.jpg" class="carousel-img2" style="width:100%; display:none;">
+                    </div>
+                    <button onclick="prevSlide2()" style="position: absolute; top: 45%; left: 10px; background: rgba(255,255,255,0.7); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer;">←</button>
+                    <button onclick="nextSlide2()" style="position: absolute; top: 45%; right: 10px; background: rgba(255,255,255,0.7); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer;">→</button>
+                    <div id="carousel-desc2" style="margin-top: 10px; text-align: center; font-size: 15px; font-weight: bold; color: #333;">海洋馆内部地图</div>
+                </div>
+
+                <div class="section-text">
+                    馆内设施：除展览厅外，海洋馆为参观者设有<a href="restaurant.html" target="_blank" style="color: #02bd37; font-weight: bold;">海葵妈妈家庭餐厅</a>，<a href="park.html" target="_blank" style="color: #bdb702; font-weight: bold;">小珊瑚儿童乐园</a>，<a href="cinema.html" target="_blank" style="color: #bd02a1; font-weight: bold;">海洋知识宣传影院</a>，以及流动贩卖车三辆，休息室两处，母婴室一处，卫生间三处。
+                    我们还为参观者准备了<a href="souvenir.html" target="_blank" style="color: #bd0202; font-weight: bold;">纪念品商店</a>，欢迎大家在游览结束后进行商品选购。
+                </div>
+                <div class="section-text">
+                    联系电话:0333-23332333   紧急电话：19919991999
+                </div>
+            </div>
+
+            <!-- 2.馆内设施板块 -->
+            <div class="content-panel" id="facility">
+                <h2>馆内设施</h2>
+                <div class="section-text">
+                    除展览厅外，海洋馆为参观者设有<a href="restaurant.html" target="_blank" style="color: #02bd37; font-weight: bold;">海葵妈妈家庭餐厅</a>，<a href="park.html" target="_blank" style="color: #bdb702; font-weight: bold;">小珊瑚儿童乐园</a>，<a href="cinema.html" target="_blank" style="color: #bd02a1; font-weight: bold;">海洋知识宣传影院</a>，以及流动贩卖车三辆，休息室两处，母婴室一处，卫生间三处。
+                    我们还为参观者准备了<a href="souvenir.html" target="_blank" style="color: #bd0202; font-weight: bold;">纪念品商店</a>，欢迎大家在游览结束后进行商品选购。
+                </div>
+            </div>
+            <!-- 3. 馆史板块 -->
+            <div class="content-panel" id="history">
+                <div class="section-title">馆史沿革</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">2010年</div>
+                        <div class="section-text">XX海洋馆正式创立，由本地著名实业家，慈善家安XX投资建成。</div>
+                    </div>
+                    <div style="width: 300px; height: auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff; margin: 20px auto;">
+                    <img src=".\images\nnk1.jpg" alt="海洋馆建筑" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <!-- 👇 这就是图片下方的描述文字（居中+加粗） -->
+                    <p style="text-align: center; margin-top: 8px; font-size: 15px; font-weight: bold;">
+                        创始人照片
+                    </p>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-year">2013年</div>
+                        <div class="section-text">XX海洋馆正式对外开放，一代馆长安XX秉持着ABCD，ABCD的观念，经营着海洋馆，
+                            很快就成为了当地的地标式建筑与活动场所，深受各个年龄段市民的喜爱。首年接待游客突破100万人次。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2016年</div>
+                        <div class="section-text">二代馆长安XX学习国外先进经验，开创了海洋保护科普讲座。同时极地动物区建成开放，引入北极熊、北极狼、企鹅等极地生物。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2020年</div>
+                        <div class="section-text">获评国家级4A级旅游景区，启动美人鱼表演区升级改造。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2023年</div>
+                        <div class="section-text">三代馆长贾X引入资金，扩建了海洋馆，并拓展了许多游玩项目，使海洋馆焕发新生机。海洋生物救助中心成立，累计救助搁浅鲸豚、海龟等海洋生物超50只。</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 4. 员工荣誉墙板块 -->
+            <div class="content-panel" id="honor">
+                <div class="section-title">员工荣誉墙</div>
+                <div class="section-text">
+                    每一份荣誉的背后，都是海洋馆人对海洋事业的坚守与热爱。以下是近年来获得市级及以上表彰的优秀员工代表：
+                </div>
+                <div class="honor-list">
+                    <div class="honor-card">
+                        <div class="honor-name">驯养部——我们是动物伙伴</div>
+                        <div class="honor-desc">海洋馆目前有30名驯养员。为了保证海洋生灵的健康，并让参观者观赏到海洋生物的可爱姿态，驯养员24小时待命，许多员工与海洋生物同吃同住，为大家贡献人与自然和谐相处的美景。</div>
+                    </div>
+                    <div class="honor-card">
+                        <div class="honor-name">演职部——我们是海中精灵</div>
+                        <div class="honor-desc">海洋馆的演艺项目繁多，包括美人鱼表演，科普宣传等。作为海洋馆的宣传主力，16名演职部员工各个秉承信念，为参观者贡献了异彩纷呈的出色表演。
+                            <p>“当我潜入水下，仿佛就变成了真正的美人鱼，自在畅游，这不仅是一份我梦寐以求的表演工作，更能让我于动物们建立奇妙的链接！”-XX年XX月XX日入职的赵1（工号xxxx）这样说。作为一名舞蹈学院的毕业生，她的专业和热忱很快让她成为了演职部的明星员工，每天00:00，观看她美人鱼表演的参观者络绎不绝……”
+                            <p>“将海洋生物的知识传播出去，让更多人喜爱，了解海洋，是我的使命！”-XX年XX月XX日入职的XXX
+                        </div>
+                    </div>
+                    <div class="honor-card">
+                        <div class="honor-name">管理部——我们来规划指挥</div>
+                        <div class="honor-desc">海洋馆的管理人员分工明确，相处融洽，共同为海洋馆的未来绘制专业蓝图。
+                            <p>人事管理具体情况......
+                        </div>
+                    </div>
+                    <div class="honor-card">
+                        <div class="honor-name">后勤部——我们来维护美丽</div>
+                        <div class="honor-desc">后勤部与本省著名慈善公司多年合作，雇佣残障人士
+                            <p>具体贡献待补充......
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 5. 馆内新闻板块 -->
+            <div class="content-panel" id="news">
+                <div class="section-title">馆内新闻</div>
+                <div class="news-list">
+                    <div class="news-item">
+                        <div class="news-title">无限期停业通知</div>
+                        <div class="news-date">发布时间：2026-03-15</div>
+                        <div class="section-text">
+                            海洋馆不是解散了，只是没人来了......
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">纪念品上新，欢迎各位游客前来选购</div>
+                        <div class="news-date">发布时间：2026-02-28</div>
+                        <div class="section-text">
+                            XX海洋馆纪念品商店新上架xxx纪念品，满足您的更多需求！
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">本周海洋知识科普影院科普人员安排</div>
+                        <div class="news-date">发布时间：2026-01-10</div>
+                        <div class="section-text">
+                            甲:14:00-15:00<br>
+                            乙:15:00-16:00<br>
+                            丙:16:00-17:00 (反正均没有馆长参与)
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">关于海洋馆演出事故的道歉信</div>
+                        <div class="news-date">发布时间：2026-01-02</div>
+                        <div class="section-text">
+                            深表歉意私密马赛！
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 左下角水草图片 -->
+            <img src="images/shuicao2.png" class="corner-img">
+
+        </div>
+
+        <!-- 右侧栏 -->
+        <div class="right-bar">
+            <button class="news-btn" data-target="news">馆内新闻</button>
+        </div>
+    </div>
+
+    <script>
+        // 原有单页无刷新切换逻辑（无修改）
+        document.addEventListener('DOMContentLoaded', function () {
+            const allBtns = document.querySelectorAll('.left-btn, .news-btn');
+            const panels = document.querySelectorAll('.content-panel');
+
+            function switchTab(targetId) {
+                allBtns.forEach(btn => btn.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+                document.querySelector(`[data-target="${targetId}"]`).classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+            }
+
+            allBtns.forEach(btn => {
+                btn.onclick = () => {
+                    const target = btn.getAttribute('data-target');
+                    switchTab(target);
+                }
+            })
+        })
+
+        // 【修改4】新增轮播图1 交互逻辑(在desc1中修改轮播图描述)
+        let currentIndex1 = 0;
+        const imgs1 = document.querySelectorAll('.carousel-img1');
+        const desc1 = [
+            "海洋馆蓝吊鱼实景展示",
+            "萍萍第一次画的海洋鱼",
+            "萍萍的团圆画"
+        ];
+        function showSlide1(index) {
+            if (index >= imgs1.length) currentIndex1 = 0;
+            else if (index < 0) currentIndex1 = imgs1.length - 1;
+            else currentIndex1 = index;
+            imgs1.forEach(img => img.style.display = "none");
+            imgs1[currentIndex1].style.display = "block";
+            document.getElementById("carousel-desc1").innerText = desc1[currentIndex1];
+        }
+        function prevSlide1() { showSlide1(currentIndex1 - 1); }
+        function nextSlide1() { showSlide1(currentIndex1 + 1); }
+
+        // 【修改4】新增轮播图2 交互逻辑(在desc2中修改轮播图描述)
+        let currentIndex2 = 0;
+        const imgs2 = document.querySelectorAll('.carousel-img2');
+        const desc2 = [
+            "海洋馆内部地图",
+            "营业时间表",
+            "演出时间表"
+        ];
+        function showSlide2(index) {
+            if (index >= imgs2.length) currentIndex2 = 0;
+            else if (index < 0) currentIndex2 = imgs2.length - 1;
+            else currentIndex2 = index;
+            imgs2.forEach(img => img.style.display = "none");
+            imgs2[currentIndex2].style.display = "block";
+            document.getElementById("carousel-desc2").innerText = desc2[currentIndex2];
+        }
+        function prevSlide2() { showSlide2(currentIndex2 - 1); }
+        function nextSlide2() { showSlide2(currentIndex2 + 1); }
+    </script>
+</body>
+</html>

@@ -145,6 +145,7 @@
             font-size: 12px;
             color: #999;
             margin-bottom: 10px;
+            display: inline-block;
         }
         .post-content {
             line-height: 1.8;
@@ -216,7 +217,6 @@
             color: #333;
             white-space: pre-line; /* 保留换行 */
         }
-        
 
         /* ========== 右侧个人资料卡（简化版） ========== */
         .right-card {
@@ -257,6 +257,27 @@
             .post-img {
                 width: 100%;
             }
+        }
+
+        /* 新增：最新帖子专属样式 + 炫彩NEW标签 */
+        .latest-post-content {
+            font-size: 22pt !important;
+            font-weight: bold !important;
+            color: #ff0000 !important;
+        }
+        .neon-new {
+            background: linear-gradient(90deg, #ff0000, #ff9900, #33cc00, #0099ff, #9900ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            animation: glow 1s infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.5); }
         }
     </style>
 </head>
@@ -300,6 +321,17 @@
             <div class="content-section active" id="posts">
                 <div class="content-title">我的动态 - 萍萍的成长记录</div>
                 <div class="post-list">
+                    <!-- 新增：最新置顶帖子 -->
+                    <div class="post-item">
+                        <div class="post-time" id="latest-time"></div>
+                        <span class="neon-new">NEW！！！</span>
+                        <div class="post-content latest-post-content">
+                            这样的话鱼鱼们就再也不会挨饿啦！
+                        </div>
+                        <img src=".\images\nuoya.jpg" alt="喂鱼图片" class="post-img">
+                        <div class="post-footer">❤️ 给海洋馆的鱼儿们准备了充足的饲料</div>
+                    </div>
+
                     <!-- 帖子1：最新的 -->
                     <div class="post-item">
                         <div class="post-time">2026-03-20 19:30</div>
@@ -425,8 +457,8 @@
 医院盖章：XX市儿童医院
                 </div>
             </div>
-        </div> <!-- 【关键修正1】补全folder-list的闭合标签 -->
-    </div> <!-- 【关键修正2】补全folder板块的闭合标签 -->
+        </div>
+    </div>
 
     <!-- 4. 基本资料 -->
     <div class="content-section" id="profile">
@@ -446,7 +478,7 @@
             </div>
         </div>
     </div>
-</div> <!-- 【关键修正3】确保content-area闭合标签位置正确 -->
+</div>
 
 <!-- 右侧个人资料卡 -->
 <div class="right-card">
@@ -460,8 +492,21 @@
     </div>
 </div>
 
-    <!-- JS实现板块切换 -->
+    <!-- JS实现板块切换 + 新增动态时间 -->
     <script>
+        // 新增：动态生成最新帖子时间（当前打开页面时间 - 1分钟）
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - 1);
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const formatTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+            document.getElementById('latest-time').textContent = formatTime;
+        });
+
                 // ===================== 1. 通用加密验证函数（核心：仅需写一次，全场景复用） =====================
     /**
      * 通用密码验证函数

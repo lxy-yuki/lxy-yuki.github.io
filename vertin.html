@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XX基金会</title>
+    <style>
+        /* 全局样式：黑色背景，默认样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #000000; /* 纯黑色背景 */
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 25px;
+        }
+
+        /* 左上角基金会区域 */
+        .foundation-header {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* logo和文字的间距 */
+            margin-bottom: 120px;
+        }
+        /* 简易logo（白色方块，可替换为你的图片） */
+        .foundation-logo {
+            width: 32px;
+            height: 32px;
+            background-color: #ffffff;
+        }
+        /* 基金会文字：超细笔画、白色 */
+        .foundation-text {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 100; /* 关键：超细字体笔画 */
+            letter-spacing: 2px;
+        }
+
+        /* 正文内容居中 */
+        .main-content {
+            text-align: center;
+        }
+        /* 标题样式：二号字体、红色、超链接 */
+        .main-title {
+            font-size: 22pt; /* 标准二号字体 */
+            color: #ff0000; /* 纯红色 */
+            font-weight: normal;
+            margin-bottom: 40px;
+        }
+        /* 超链接样式：继承红色，去掉下划线 */
+        .main-title a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+        /* 图片样式：自适应宽度，居中显示 */
+        .content-img {
+            max-width: 80%;
+            height: auto;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角：XX基金会 Logo + 文字 -->
+    <div class="foundation-header">
+        <div class="foundation-logo"></div>
+        <span class="foundation-text">XX基金会</span>
+    </div>
+
+    <!-- 正文内容 -->
+    <div class="main-content">
+        <!-- 红色二号字体标题 + 超链接 -->
+        <h1 class="main-title">
+            <!-- 点击无跳转，仅记录状态 -->
+            <a href="javascript:void(0)" id="triggerBtn">我们一定会回到那个正确的时代</a>
+        </h1>
+        <!-- 随机图片（每次刷新都会变） -->
+        <img src=".\images\vertin.jpg" alt="主题图片" class="content-img">
+    </div>
+
+    <script>
+        // 点击红色标题 → 记录状态（用于基金会页面弹窗）
+        document.getElementById('triggerBtn').addEventListener('click', () => {
+            localStorage.setItem('hasClickedLink', 'true');
+        });
+    </script>
+</body>
+</html>
