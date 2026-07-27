@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>独家专访安伯然 - 光明财经专栏</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0F4C9C',
+            secondary: '#165EBD',
+            stockUp: '#E63946',
+            stockDown: '#2A9D8F',
+            darkBlue: '#0A3366',
+            lightGray: '#F5F7FA'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow-sm { text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+      .news-scroll { animation: scroll 30s linear infinite; }
+      @keyframes scroll {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+      .card-hover { transition: all 0.25s ease; }
+      .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(15,76,156,0.12); }
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+  <!-- 顶部通栏公告（首页显示，专栏页隐藏） -->
+  <div id="topTicker" class="bg-darkBlue text-white text-sm py-2 overflow-hidden hidden">
+    <div class="flex items-center news-scroll whitespace-nowrap">
+      <i class="fa fa-bolt text-yellow-400 mr-2"></i>
+      <span class="mx-6">【快讯】央行持续实施稳健货币政策，加大实体经济信贷支持力度</span>
+      <span class="mx-6">【A股】三大指数震荡上行，消费板块全线走强</span>
+      <span class="mx-6">【基金】新发权益基金募资回暖，机构加仓成长赛道</span>
+      <span class="mx-6">【产业】新能源储能政策落地，千亿市场空间打开</span>
+      <span class="mx-6">【外汇】人民币汇率保持平稳，跨境资本流动均衡</span>
+    </div>
+  </div>
+
+  <!-- 头部导航栏（公共导航，所有页面都显示） -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="flex justify-between items-center py-3">
+        <!-- Logo 区域：强制不换行 -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <div class="w-10 h-10 bg-primary rounded flex items-center justify-center">
+            <i class="fa fa-line-chart text-white text-xl"></i>
+          </div>
+          <div class="whitespace-nowrap">
+            <h1 class="text-[24px] font-bold text-primary leading-none">光明财经</h1>
+            <p class="text-xs text-gray-500">权威深度财经资讯平台</p>
+          </div>
+        </div>
+        <!-- 主导航：所有菜单项强制单行显示 -->
+        <nav class="hidden lg:flex gap-7 text-[15px] font-medium">
+          <a id="navHome" href="javascript:void(0)" class="hover:text-primary py-4 transition-colors whitespace-nowrap">首页</a>
+          <a href="#" class="hover:text-primary py-4 transition-colors whitespace-nowrap">宏观经济</a>
+          <a href="#" class="hover:text-primary py-4 transition-colors whitespace-nowrap">A股市场</a>
+          <a href="#" class="hover:text-primary py-4 transition-colors whitespace-nowrap">基金理财</a>
+          <a href="#" class="hover:text-primary py-4 transition-colors whitespace-nowrap">产业洞察</a>
+          <a href="#" class="hover:text-primary py-4 transition-colors whitespace-nowrap">国际金融</a>
+          <a href="#" class="hover:text-primary py-4 transition-colors whitespace-nowrap">研报中心</a>
+          <a id="navColumn" href="javascript:void(0)" class="text-primary border-b-2 border-primary py-4 whitespace-nowrap">财经专栏</a>
+        </nav>
+        <!-- 右侧功能区 -->
+        <div class="flex items-center gap-5 flex-shrink-0">
+          <div class="relative hidden md:block">
+            <input type="text" placeholder="搜索资讯、个股、研报..." class="w-[220px] bg-gray-100 rounded-full py-1.5 pl-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+            <i class="fa fa-search absolute right-3 top-2 text-gray-400"></i>
+          </div>
+          <button id="loginBtn" class="text-sm text-primary hover:text-secondary whitespace-nowrap">登录</button>
+          <button class="bg-primary text-white text-sm px-4 py-1.5 rounded-full hover:bg-secondary transition-colors whitespace-nowrap">订阅付费研报</button>
+          <button class="lg:hidden text-xl"><i class="fa fa-bars"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== 首页视图（默认隐藏） ========== -->
+  <main id="homePage" class="hidden bg-lightGray">
+    <div class="container mx-auto px-4 lg:px-8 py-6">
+      <!-- 指数行情实时板块 -->
+      <section class="bg-white rounded-lg shadow p-5 mb-6">
+        <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+          <i class="fa fa-area-chart text-primary"></i>
+          实时市场行情
+          <span class="text-xs text-gray-400 font-normal ml-2">更新于 2026-06-25 14:32</span>
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- 上证指数 -->
+          <div class="border rounded p-4 card-hover">
+            <div class="text-gray-500 text-sm">上证指数</div>
+            <div class="text-[24px] font-bold stockUp mt-1">3186.72</div>
+            <div class="text-sm mt-1">+23.56 <span class="stockUp">(+0.74%)</span></div>
+          </div>
+          <!-- 深证成指 -->
+          <div class="border rounded p-4 card-hover">
+            <div class="text-gray-500 text-sm">深证成指</div>
+            <div class="text-[24px] font-bold stockUp mt-1">10652.18</div>
+            <div class="text-sm mt-1">+98.32 <span class="stockUp">(+0.93%)</span></div>
+          </div>
+          <!-- 创业板指 -->
+          <div class="border rounded p-4 card-hover">
+            <div class="text-gray-500 text-sm">创业板指</div>
+            <div class="text-[24px] font-bold stockUp mt-1">2143.65</div>
+            <div class="text-sm mt-1">+19.76 <span class="stockUp">(+0.93%)</span></div>
+          </div>
+          <!-- 沪深300 -->
+          <div class="border rounded p-4 card-hover">
+            <div class="text-gray-500 text-sm">沪深300</div>
+            <div class="text-[24px] font-bold stockUp mt-1">3895.41</div>
+            <div class="text-sm mt-1">+31.25 <span class="stockUp">(+0.81%)</span></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mt-4">
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <div class="text-sm text-gray-500">北向资金</div>
+            <div class="font-semibold stockUp">净流入 42.68亿</div>
+          </div>
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <div class="text-sm text-gray-500">两市成交额</div>
+            <div class="font-semibold">7862亿</div>
+          </div>
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <div class="text-sm text-gray-500">上涨家数</div>
+            <div class="font-semibold stockUp">2863家</div>
+          </div>
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <div class="text-sm text-gray-500">下跌家数</div>
+            <div class="font-semibold stockDown">1412家</div>
+          </div>
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <div class="text-sm text-gray-500">涨停个股</div>
+            <div class="font-semibold stockUp">46只</div>
+          </div>
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <div class="text-sm text-gray-500">跌停个股</div>
+            <div class="font-semibold stockDown">3只</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧主内容区 9列 -->
+        <div class="lg:col-span-9">
+          <!-- 头条轮播 + 今日要闻 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+            <!-- 头条大图轮播 -->
+            <div class="md:col-span-2 bg-white rounded-lg shadow overflow-hidden relative h-[320px]">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+              <img src="https://images.unsplash.com/photo-1605792657660-596af9009e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+              <div class="absolute bottom-0 left-0 right-0 p-6 z-20 text-white">
+                <span class="bg-red-600 px-2 py-1 text-xs rounded mr-3">深度专题</span>
+                <h2 class="text-[22px] font-bold mt-2 text-shadow-sm">2026下半年宏观经济展望：内需修复、政策持续发力稳增长</h2>
+                <p class="text-gray-200 mt-2 text-sm line-clamp-2">光明财经独家专访多位央行、券商首席经济学家，全面解读财政、货币、地产、消费四大政策主线，预判全年经济走势与大类资产配置方向。</p>
+                <div class="flex gap-5 mt-4 text-xs text-gray-300">
+                  <span><i class="fa fa-user mr-1"></i>光明财经研究院</span>
+                  <span><i class="fa fa-clock-o mr-1"></i>2026-06-25</span>
+                  <span><i class="fa fa-eye mr-1"></i>12.6万阅读</span>
+                </div>
+              </div>
+            </div>
+            <!-- 侧边今日要闻 -->
+            <div class="bg-white rounded-lg shadow p-5 h-[320px] overflow-y-auto">
+              <h3 class="font-bold text-base border-b pb-3 mb-4 flex justify-between items-center">
+                今日核心要闻
+                <a href="#" class="text-xs text-primary">更多快讯 ></a>
+              </h3>
+              <ul class="space-y-4 text-sm">
+                <li class="flex gap-2">
+                  <span class="text-red-500 font-bold">01</span>
+                  <a href="#" class="hover:text-primary line-clamp-2">发改委出台制造业中长期贷款贴息政策，重点扶持高端装备、半导体赛道</a>
+                </li>
+                <li class="flex gap-2">
+                  <span class="text-red-500 font-bold">02</span>
+                  <a href="#" class="hover:text-primary line-clamp-2">多家头部券商上调消费行业评级，餐饮、白酒估值修复空间显现</a>
+                </li>
+                <li class="flex gap-2">
+                  <span class="text-red-500 font-bold">03</span>
+                  <a href="#" class="hover:text-primary line-clamp-2">美联储释放降息信号，全球资金持续流入新兴市场权益资产</a>
+                </li>
+                <li class="flex gap-2">
+                  <span class="text-red-500 font-bold">04</span>
+                  <a href="#" class="hover:text-primary line-clamp-2">公募REITs扩容提速，保障性租赁住房、产业园新品密集申报</a>
+                </li>
+                <li class="flex gap-2">
+                  <span class="text-red-500 font-bold">05</span>
+                  <a href="#" class="hover:text-primary line-clamp-2">多地出台地产优化政策，降低首付比例、放宽限购范围</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- A股市场专题板块 -->
+          <section class="bg-white rounded-lg shadow p-6 mb-8">
+            <div class="flex justify-between items-center border-b pb-4 mb-5">
+              <h2 class="text-xl font-bold flex items-center gap-2">
+                <i class="fa fa-line-chart text-primary"></i>
+                A股市场 · 热门资讯
+              </h2>
+              <div class="flex gap-4 text-sm">
+                <a href="#" class="text-primary border-b-2 border-primary pb-1">全部</a>
+                <a href="#" class="text-gray-500 hover:text-primary">公司公告</a>
+                <a href="#" class="text-gray-500 hover:text-primary">行业研报</a>
+                <a href="#" class="text-gray-500 hover:text-primary">龙虎榜</a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- 资讯卡片1 -->
+              <div class="flex gap-4 card-hover">
+                <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89df11?w=400&q=80" class="w-32 h-24 object-cover rounded">
+                <div class="flex-1">
+                  <span class="text-xs bg-blue-100 text-primary px-2 py-0.5 rounded">半导体</span>
+                  <h3 class="font-semibold mt-1 hover:text-primary cursor-pointer">国产芯片设备订单持续爆发，行业进入高景气扩张周期</h3>
+                  <p class="text-xs text-gray-500 mt-2 line-clamp-2">机构调研显示，国内晶圆厂资本开支维持高位，刻蚀、沉积设备国产化率加速提升，相关龙头全年业绩确定性较强。</p>
+                  <div class="text-xs text-gray-400 mt-2">光明财经 | 2小时前 · 阅读3.2万</div>
+                </div>
+              </div>
+              <!-- 资讯卡片2 -->
+              <div class="flex gap-4 card-hover">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a3db?w=400&q=80" class="w-32 h-24 object-cover rounded">
+                <div class="flex-1">
+                  <span class="text-xs bg-green-100 text-stockDown px-2 py-0.5 rounded">新能源</span>
+                  <h3 class="font-semibold mt-1 hover:text-primary cursor-pointer">储能产业链盈利修复，海外储能订单大幅增长</h3>
+                  <p class="text-xs text-gray-500 mt-2 line-clamp-2">锂电池价格企稳回落，海外户储、大储需求持续超预期，多家储能企业二季度业绩实现环比大幅增长。</p>
+                  <div class="text-xs text-gray-400 mt-2">光明财经 | 3小时前 · 阅读2.7万</div>
+                </div>
+              </div>
+              <!-- 资讯卡片3 -->
+              <div class="flex gap-4 card-hover">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&q=80" class="w-32 h-24 object-cover rounded">
+                <div class="flex-1">
+                  <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded">消费</span>
+                  <h3 class="font-semibold mt-1 hover:text-primary cursor-pointer">端午消费数据亮眼，线下餐饮、旅游市场全面复苏</h3>
+                  <p class="text-xs text-gray-500 mt-2 line-clamp-2">全国端午假期旅游总收入同比大幅提升，白酒、食品饮料动销改善，消费复苏主线持续得到资金认可。</p>
+                  <div class="text-xs text-gray-400 mt-2">光明财经 | 5小时前 · 阅读4.1万</div>
+                </div>
+              </div>
+              <!-- 资讯卡片4 -->
+              <div class="flex gap-4 card-hover">
+                <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=400&q=80" class="w-32 h-24 object-cover rounded">
+                <div class="flex-1">
+                  <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">金融</span>
+                  <h3 class="font-semibold mt-1 hover:text-primary cursor-pointer">券商财富管理转型提速，基金代销收入持续增长</h3>
+                  <p class="text-xs text-gray-500 mt-2 line-clamp-2">居民理财需求向权益市场转移，头部券商代销规模创新高，财富管理业务成为券商第二增长曲线。</p>
+                  <div class="text-xs text-gray-400 mt-2">光明财经 | 6小时前 · 阅读1.9万</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mt-6">
+              <button class="border border-primary text-primary px-6 py-2 rounded hover:bg-primary hover:text-white transition-colors">查看更多A股资讯</button>
+            </div>
+          </section>
+
+          <!-- 宏观经济深度专题 -->
+          <section class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-bold flex items-center gap-2 mb-5">
+              <i class="fa fa-bank text-primary"></i>
+              宏观经济深度专题
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div class="border rounded overflow-hidden card-hover">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h3 class="font-semibold hover:text-primary">财政专项债发力基建，托底实体经济增长</h3>
+                  <p class="text-sm text-gray-500 mt-2 line-clamp-2">专项债投放节奏加快，新型基建、城市更新、水利工程成为重点投向，对冲地产下行压力。</p>
+                </div>
+              </div>
+              <div class="border rounded overflow-hidden card-hover">
+                <img src="https://images.unsplash.com/photo-1549925245-f20a7c29da31?w=600&q=80" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h3 class="font-semibold hover:text-primary">央行流动性工具解读：LPR下调空间与传导机制</h3>
+                  <p class="text-sm text-gray-500 mt-2 line-clamp-2">持续宽松货币环境下，实体经济融资成本稳步下行，中小企业信贷支持持续加码。</p>
+                </div>
+              </div>
+              <div class="border rounded overflow-hidden card-hover">
+                <img src="https://images.unsplash.com/photo-1574264712433-8d81a830b36e?w=600&q=80" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h3 class="font-semibold hover:text-primary">进出口数据解读：外需分化下外贸结构转型</h3>
+                  <p class="text-sm text-gray-500 mt-2 line-clamp-2">机电产品、新能源出口保持韧性，新兴市场贸易占比持续提升，外贸韧性凸显。</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 右侧侧边栏 3列 -->
+        <div class="lg:col-span-3 space-y-6">
+          <!-- 热门个股榜单 -->
+          <div class="bg-white rounded-lg shadow p-5">
+            <h3 class="font-bold text-base border-b pb-3 mb-4">热门个股TOP10</h3>
+            <ul class="text-sm space-y-3">
+              <li class="flex justify-between items-center">
+                <div class="flex gap-2 items-center">
+                  <span class="w-5 h-5 bg-red-500 text-white text-xs rounded flex items-center justify-center">1</span>
+                  <span>中芯国际</span>
+                </div>
+                <span class="stockUp">+5.32%</span>
+              </li>
+              <li class="flex justify-between items-center">
+                <div class="flex gap-2 items-center">
+                  <span class="w-5 h-5 bg-red-400 text-white text-xs rounded flex items-center justify-center">2</span>
+                  <span>宁德时代</span>
+                </div>
+                <span class="stockUp">+3.17%</span>
+              </li>
+              <li class="flex justify-between items-center">
+                <div class="flex gap-2 items-center">
+                  <span class="w-5 h-5 bg-red-300 text-white text-xs rounded flex items-center justify-center">3</span>
+                  <span>贵州茅台</span>
+                </div>
+                <span class="stockUp">+1.86%</span>
+              </li>
+              <li class="flex justify-between items-center">
+                <div class="flex gap-2 items-center">
+                  <span class="w-5 h-5 bg-gray-300 text-white text-xs rounded flex items-center justify-center">4</span>
+                  <span>隆基绿能</span>
+                </div>
+                <span class="stockDown">-0.42%</span>
+              </li>
+              <li class="flex justify-between items-center">
+                <div class="flex gap-2 items-center">
+                  <span class="w-5 h-5 bg-gray-300 text-white text-xs rounded flex items-center justify-center">5</span>
+                  <span>招商银行</span>
+                </div>
+                <span class="stockUp">+0.95%</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 付费研报推广 -->
+          <div class="bg-primary text-white rounded-lg shadow p-5">
+            <h3 class="font-bold text-lg mb-2">光明财经研报会员</h3>
+            <p class="text-sm text-blue-100 mb-4">覆盖宏观、行业、个股深度研报，每日独家策略速递</p>
+            <ul class="text-sm space-y-2 mb-5">
+              <li><i class="fa fa-check text-yellow-400 mr-2"></i> 首席经济学家月度宏观策略</li>
+              <li><i class="fa fa-check text-yellow-400 mr-2"></i> 全行业深度调研白皮书</li>
+              <li><i class="fa fa-check text-yellow-400 mr-2"></i> 机构龙虎榜资金流向解析</li>
+              <li><i class="fa fa-check text-yellow-400 mr-2"></i> 个股基本面估值测算模型</li>
+            </ul>
+            <button class="w-full bg-white text-primary font-semibold py-2 rounded hover:bg-gray-100 transition-colors">立即开通会员 月费39元</button>
+          </div>
+
+          <!-- 财经专栏作家 -->
+          <div class="bg-white rounded-lg shadow p-5">
+            <h3 class="font-bold text-base border-b pb-3 mb-4">热门财经专栏</h3>
+            <div class="space-y-4">
+              <div class="flex gap-3 items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div>
+                  <div class="font-medium">张宏远 · 首席宏观分析师</div>
+                  <div class="text-xs text-gray-500">最新文章：下半年货币政策推演</div>
+                </div>
+              </div>
+              <div class="flex gap-3 items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div>
+                  <div class="font-medium">李婷 · 消费行业研究员</div>
+                  <div class="text-xs text-gray-500">最新文章：消费复苏持续性判断</div>
+                </div>
+              </div>
+              <div class="flex gap-3 items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div>
+                  <div class="font-medium">王辰 · 海外金融分析师</div>
+                  <div class="text-xs text-gray-500">最新文章：美联储降息周期节奏</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 国际金融快讯 -->
+          <div class="bg-white rounded-lg shadow p-5">
+            <h3 class="font-bold text-base border-b pb-3 mb-4">国际金融速报</h3>
+            <ul class="text-sm space-y-3 text-gray-700">
+              <li>• 美股三大指数收涨，科技板块领涨</li>
+              <li>• 国际原油价格小幅回落</li>
+              <li>• 黄金维持高位震荡，避险需求支撑金价</li>
+              <li>• 欧元区通胀持续降温，降息预期升温</li>
+              <li>• 美元指数震荡走弱，非美货币普遍反弹</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== 财经专栏详情页（默认显示） ========== -->
+  <main id="columnPage">
+    <div class="container mx-auto px-4 py-10 max-w-4xl">
+      <!-- 新闻标题区 -->
+      <div class="mb-8 text-center">
+        <h1 class="text-[32px] font-bold text-gray-900 leading-tight mb-4">独家专访安伯然：白手起家到慈善大亨-事业，家庭与他的理想</h1>
+        <div class="flex justify-center items-center gap-6 text-gray-500 text-sm mb-6">
+          <span><i class="fa fa-user mr-1"></i> 作者：光明财经记者 </span>
+          <span><i class="fa fa-clock-o mr-1"></i> 发布时间：2013年8月21日</span>
+          <span><i class="fa fa-eye mr-1"></i> 阅读 18.6万</span>
+        </div>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+
+      <!-- 新闻导读 -->
+      <div class="bg-lightGray p-5 rounded-lg border-l-4 border-primary mb-8">
+        <p class="text-gray-700 leading-relaxed"><strong>导言：</strong>今天我们坐的这个地方，是安伯然先生2003年捐建的第三座公立图书馆，窗外几百米就是他捐的第一所希望小学。很多人知道泊然集团是北方制造业里的标杆，却很少有人知道，安先生创业的第一笔启动资金里，有一半是当年还在上学的弟弟安仲斌，把自己勤工俭学攒的学费塞给他的。今天我们就和安伯然先生聊聊，一个从北方小工厂走出来的实业家，怎么把“兄弟搭把手、家乡不落下”这两句话，做成了几十年的坚持。
+</p>
+      </div>
+
+      <!-- 新闻配图 -->
+      <div class="mb-8">
+        <img src="images/only1.jpg" alt="货币政策解读" class="w-full h-auto rounded-lg shadow-sm">
+        <p class="text-xs text-gray-400 text-center mt-2">图源：上海魔裁o | 2026年货币政策框架示意图</p>
+      </div>
+
+      <!-- 新闻正文（标准财经报道格式） -->
+      <div class="text-[17px] leading-loose text-gray-800 space-y-6">
+        
+
+        <p class="font-bold text-primary text-lg">北方土地里长出来的实业起点</p>
+        <p>主持人：很多人说北方实业家的骨子里都带着一股“认死理”的劲儿，你当年从一个几个人的小加工厂起步，最苦的时候连买原材料的钱都凑不齐，那时候是什么撑着你走下来的？ </p>
+
+        <p>安伯然：七十年代我出来创业，在一个旧车间里租了半间房，冬天没有暖气，手冻得握不住扳手。那时候我弟安仲斌还在读大学，
+          周末就坐两个小时绿皮车过来帮我打包零件，他把准备交学费的三千块钱塞给我的时候，只说了一句“哥你先拿去用，我晚两年毕业没关系”。那时候没想过要做多大的集团，就想着不能辜负这份信任，也不能辜负老家这些跟着我一起干活的乡亲，大家把时间交给你，你就得带着大家吃上安稳饭。
+          那时候招工我优先找家乡的富余劳动力，很多没出过县城的老乡进了厂，我手把手带着学技术，后来这些人里很多都成了厂里的技术骨干，一干就是二十多年。到现在泊然集团在A省的十几个生产基地，直接解决的就业岗位超过两万个，其中近四成都是本地的村民。</p>
+        
+        <p>主持人：很多实业家在赚到第一桶金之后，都会选择去一线大城市开总部，你反而把根一直扎在A省，甚至把后续的文旅板块也落回了家乡，这个选择当时身边很多人都不理解吧？ </p>
+        
+        <p>安伯然：我是吃A省的米面长大的，这里的路我小时候踩过，这里的学校我小时候挤过，我走出去了，不能把生我养我的地方落下。当时很多朋友劝我去大城市，说营商环境更好、人才更多，但我想的是，
+          如果我们自己本土成长起来的企业都往外跑，那家乡的年轻人怎么办？谁来给他们提供家门口的工作机会？所以我不仅不走，还要把新的产业板块都落在这里，让孩子们不用背井离乡，就能陪着父母上班。</p>
+
+        <p class="font-bold text-primary text-lg">兄弟并肩，把“互帮互助”做成企业底色</p>
+        <p>主持人：大家都知道你和弟弟安仲斌的感情在商圈里是出了名的，你们兄弟俩一起搭伙干了几十年，就没有过意见不合的时候？</p>
+        <p>安伯然：怎么可能没有？早年上新生产线的时候，我想快速扩产能，他非要先把一线工人的宿舍全部翻新一遍，我们在办公室吵到拍桌子，最后吵完冷静下来才发现，我们俩的出发点其实是一样的：我想让企业活下去，他想让跟着企业干的人活得更舒服。
+          后来我们达成了共识，新生产线晚三个月上，先把所有工人的宿舍装上暖气和独立卫生间，现在回头看，那批老工人到现在都还留在厂里，说当年那间暖乎乎的宿舍，让他们觉得这不是一个打工的地方，是自己的另一个家。 
+          这么多年我们俩从来没计较过谁多干谁少干，他管生产的时候天天泡在车间里，手上的茧子比老工人还厚；后来集团拓展文旅板块，他主动扛下了最累的落地工作，跑遍了A省的海岸线选馆址，泊然海洋馆从图纸到开门迎客，他整整两年几乎没休过一个周末。</p>
+
+        <p>主持人：后来安仲斌先生从集团核心管理岗退休，你直接把泊然海洋馆整个板块交由他全权打理，很多人说这是“兄弟间的信任托底”，你当时就没有过一点顾虑？ </p>
+        <p>安伯然：完全没有顾虑。海洋馆从立项开始就是他一手跑出来的，他比任何人都懂这个馆的温度。现在他不用再盯着集团几千人的生产调度，反而能沉下心来把海洋馆做成A省孩子的海洋科普课堂，现在馆里每年都免费给周边的乡村小学开放科普课，很多山里的孩子第一次见到海豚，都是我弟带着他们看的。
+          他的儿子从小跟着安仲斌，非常热爱海洋生物，在国外专门读海洋生物的学位，已经做好了准备要接他老爹的班，把海洋馆做大做强。我们家里人这辈子，从来没算过账，小时候弟弟帮我凑学费，长大了我支持他和侄子做自己想做的事，一家人就该是这样，你托我一把，我扶你一程。</p>
+
+        <p class="font-bold text-primary text-lg">捐出来的学校、图书馆，是给家乡留的“长期礼物”</p>
+        <p>主持人：这么多年你给家乡捐建了几十所小学、博物馆和图书馆，很多人说企业家做公益大多是为了品牌宣传，但你这些年几乎没对外宣传过这些捐赠，很多学校的孩子甚至不知道教学楼是谁捐的，为什么要这么低调？ </p>
+        <p>安伯然：我小时候上学很苦，条件很差，那时候我就想，以后要是有能力，一定要让家乡的孩子坐在不漏雨、有暖气的教室里读书。我捐这些东西不是为了让孩子们记住我的名字，是为了让他们记住，自己的家乡有人在想着他们，未来他们长大了，也愿意回来建设这片土地。 
+          到现在我还保持着一个习惯，每一所新图书馆开馆，我都自己去选一批书，从儿童绘本到工业技术手册，我一本本挑，就想让农村的孩子也能看到和城里孩子一样的书。去年我去山里的一所小学，有个孩子在图书馆的留言本上写“长大了我要像安叔叔一样，给村里建更大的图书馆”，那一刻我觉得，比赚十个亿都值。</p>
+
+        <p>主持人：现在很多年轻的创业者都在谈“快速变现”“弯道超车”，你做实业几十年，又花这么多精力在家乡的公益上，你觉得“长期主义”在你这里到底是什么？ </p>
+        <p>安伯然：对我来说长期主义不是一句口号，是你建的教学楼能用五十年，你捐的图书馆能让三代人读到书，你带着一起干的工人，能在厂里干到退休养老。我做实业不追求赚快钱，赚来的钱一部分投去技术研发，一部分用来给家乡搭台子，我这一代人把地基打好，后面的年轻人才能在上面盖更高的楼。</p>
+
+        <!-- 新闻结语 -->
+      <div class="bg-lightGray p-5 rounded-lg border-l-4 border-primary mb-8">
+        <p class="text-gray-700 leading-relaxed"><strong>结语：</strong>如今，安伯然先生即将退休，他正把泊然集团的权利慢慢下放给很多年轻人。今天我们在图书馆里聊完了安伯然先生的故事，
+          窗外的小学刚好响起下课铃，孩子们正抱着球往操场跑。从北方旧车间里的冷板凳，到现在点亮了家乡几十所学校的灯光，安伯然用几十年的时间证明，一个真正的实业家，最珍贵的财富从来不是账面上的数字，是脚下这片土地记得你，身边的亲人信任你，家乡的孩子们，因为你的存在，多了更多看世界的机会。
+</p>
+      </div>
+
+        
+      </div>
+
+      <!-- 专栏作者介绍 -->
+      <div class="mt-10 p-5 bg-lightGray rounded-lg flex items-center gap-4">
+        <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0">
+          <i class="fa fa-user text-2xl"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg">张宏远</h3>
+          <p class="text-sm text-gray-600">光明财经首席宏观分析师，10年宏观经济研究经验，专注货币政策与大类资产配置，曾供职于头部券商研究所。</p>
+        </div>
+      </div>
+
+      <!-- 合规风险声明 -->
+      <div class="mt-8 text-xs text-gray-500 border-t pt-4">
+        <p><strong>风险声明：</strong>本文为光明财经专栏原创分析文章，仅供投资者参考，不构成任何投资建议。市场有风险，投资需谨慎。未经授权禁止转载。</p>
+        <p class="mt-2">© 2026 光明财经 版权所有</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部资讯矩阵（首页显示，专栏页隐藏） -->
+  <footer id="footerSection" class="bg-darkBlue text-gray-300 mt-10 pt-10 pb-6 hidden">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div>
+          <h4 class="text-white font-bold mb-4 text-base">资讯频道</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white">宏观经济</a></li>
+            <li><a href="#" class="hover:text-white">A股市场</a></li>
+            <li><a href="#" class="hover:text-white">基金理财</a></li>
+            <li><a href="#" class="hover:text-white">产业洞察</a></li>
+            <li><a href="#" class="hover:text-white">国际金融</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 text-base">研报服务</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white">行业深度研报</a></li>
+            <li><a href="#" class="hover:text-white">个股估值报告</a></li>
+            <li><a href="#" class="hover:text-white">宏观策略月报</a></li>
+            <li><a href="#" class="hover:text-white">机构调研纪要</a></li>
+            <li><a href="#" class="hover:text-white">付费会员服务</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 text-base">关于我们</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white">光明财经简介</a></li>
+            <li><a href="#" class="hover:text-white">研究员团队</a></li>
+            <li><a href="#" class="hover:text-white">媒体合作</a></li>
+            <li><a href="#" class="hover:text-white">投稿专栏</a></li>
+            <li><a href="#" class="hover:text-white">招聘信息</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 text-base">联系与合规</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white">用户服务热线</a></li>
+            <li><a href="#" class="hover:text-white">投诉反馈通道</a></li>
+            <li><a href="#" class="hover:text-white">隐私政策</a></li>
+            <li><a href="#" class="hover:text-white">用户服务协议</a></li>
+            <li><a href="#" class="hover:text-white">风险提示声明</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-900 mt-8 pt-6 text-sm text-center text-gray-400">
+        <div class="flex items-center justify-center gap-3 mb-3">
+          <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+            <i class="fa fa-line-chart text-primary"></i>
+          </div>
+          <span class="text-white font-bold text-lg">光明财经</span>
+        </div>
+        <p>风险提示：本网站所有资讯、研报仅供信息参考，不构成任何投资建议，投资有风险，入市需谨慎</p>
+        <p class="mt-2">© 2026 光明财经 版权所有 | 沪ICP备2026088888号</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 登录弹窗 -->
+  <div id="loginModal" class="fixed inset-0 bg-black/60 z-[999] hidden flex items-center justify-center">
+    <div class="bg-white w-full max-w-md rounded-lg p-6 relative">
+      <button id="closeLogin" class="absolute right-4 top-4 text-gray-400 text-xl hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-primary text-center mb-6">光明财经账号登录</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="text-sm text-gray-600 block mb-1">手机号</label>
+          <input type="text" placeholder="请输入注册手机号" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30">
+        </div>
+        <div>
+          <label class="text-sm text-gray-600 block mb-1">登录密码</label>
+          <input type="password" placeholder="请输入密码" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30">
+        </div>
+        <div class="flex justify-between text-sm">
+          <label class="flex items-center gap-1"><input type="checkbox"> 记住登录</label>
+          <a href="#" class="text-primary">忘记密码？</a>
+        </div>
+        <button class="w-full bg-primary text-white py-2.5 rounded hover:bg-secondary transition-colors font-medium">立即登录</button>
+        <div class="text-center text-sm text-gray-500">
+          暂无账号？<a href="#" class="text-primary">立即注册</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS交互逻辑 -->
+  <script>
+    // 1. 登录弹窗控制
+    const loginBtn = document.getElementById('loginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const closeLogin = document.getElementById('closeLogin');
+    loginBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
+    closeLogin.addEventListener('click', () => loginModal.classList.add('hidden'));
+    loginModal.addEventListener('click', (e) => {
+      if(e.target === loginModal) loginModal.classList.add('hidden');
+    });
+
+    // 2. 页面切换：首页 / 财经专栏
+    const navHome = document.getElementById('navHome');
+    const navColumn = document.getElementById('navColumn');
+    const homePage = document.getElementById('homePage');
+    const columnPage = document.getElementById('columnPage');
+    const topTicker = document.getElementById('topTicker');
+    const footerSection = document.getElementById('footerSection');
+
+    // 切换到财经专栏
+    navColumn.addEventListener('click', () => {
+      homePage.classList.add('hidden');
+      columnPage.classList.remove('hidden');
+      topTicker.classList.add('hidden');
+      footerSection.classList.add('hidden');
+      // 切换导航激活状态
+      navHome.classList.remove('text-primary', 'border-b-2', 'border-primary');
+      navColumn.classList.add('text-primary', 'border-b-2', 'border-primary');
+      // 滚动到页面顶部
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // 切换回首页
+    navHome.addEventListener('click', () => {
+      columnPage.classList.add('hidden');
+      homePage.classList.remove('hidden');
+      topTicker.classList.remove('hidden');
+      footerSection.classList.remove('hidden');
+      // 切换导航激活状态
+      navColumn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+      navHome.classList.add('text-primary', 'border-b-2', 'border-primary');
+      // 滚动到页面顶部
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  </script>
+</body>
+</html>

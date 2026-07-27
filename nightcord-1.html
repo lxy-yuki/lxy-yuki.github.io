@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XX省晚报 - 贴近生活 服务百姓 乐享都市</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- 自定义配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            nightOrange: '#FF7A00',
+            nightBlue: '#4A90E2',
+            nightGray: '#F8F5F0',
+            nightBrown: '#8B5A2B',
+          },
+          fontFamily: {
+            kai: ['KaiTi', 'serif'],
+            sans: ['Microsoft YaHei', 'PingFang SC', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow-sm {
+        text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .life-card-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+      }
+      .nav-active-life {
+        background-color: #E86A00;
+      }
+      /* 晚报新闻正文标准格式 */
+      .article-content p {
+        text-indent: 2em;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-nightGray font-sans text-gray-800">
+  <!-- 顶部生活信息栏 -->
+  <div class="bg-white border-b border-gray-200 text-sm py-2 px-4">
+    <div class="container mx-auto flex flex-wrap justify-between items-center">
+      <p id="current-time" class="text-gray-600"></p>
+      <div class="flex items-center gap-4">
+        <i class="fa fa-sun-o text-yellow-500"></i>
+        <span class="text-gray-600">XX市 22℃ 晴</span>
+        <a href="#" class="text-nightBlue hover:text-nightOrange">便民电话</a>
+        <a href="#" class="text-nightBlue hover:text-nightOrange">公交查询</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 报头区域 -->
+  <header class="bg-white py-5 border-b border-nightOrange">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+      <div class="text-center md:text-left mb-4 md:mb-0">
+        <h1 class="text-[clamp(2.2rem,5vw,3.8rem)] font-bold text-nightOrange font-kai tracking-wider">XX省晚报</h1>
+        <p class="text-nightBrown text-sm mt-1">城市生活顾问 百姓民生伙伴 | 省级权威都市生活媒体</p>
+      </div>
+      <div class="w-full md:w-auto">
+        <div class="flex border border-gray-300 rounded-full overflow-hidden">
+          <input type="text" placeholder="搜索美食、旅游、便民信息..." class="px-4 py-2 w-64 outline-none text-sm">
+          <button class="bg-nightOrange text-white px-4 py-2 hover:bg-opacity-90">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 导航栏 -->
+  <nav class="bg-nightOrange sticky top-0 z-50 shadow-md">
+    <div class="container mx-auto px-4">
+      <ul class="flex flex-wrap justify-center text-white text-base">
+        <li><a href="javascript:showHome()" id="nav-home" class="px-5 py-3 block hover:bg-opacity-80">首页</a></li>
+        <li><a href="javascript:showNews()" id="nav-news" class="px-5 py-3 block nav-active-life hover:bg-opacity-80">民生热点</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">美食探店</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">旅游休闲</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">健康养生</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">房产家居</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">汽车生活</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">教育亲子</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">文娱资讯</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 【默认隐藏】原版晚报首页 -->
+  <section id="home-page" class="hidden">
+    <!-- 轮播头条 -->
+    <section class="container mx-auto px-4 py-6">
+      <div class="relative h-[280px] md:h-[420px] rounded-xl overflow-hidden shadow-lg">
+        <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://picsum.photos/1200/420?random=10')">
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+            <h2 class="text-white text-[clamp(1.3rem,3vw,2rem)] font-bold text-shadow-sm mb-2">春日踏青好去处！全省10条小众休闲路线推荐</h2>
+            <p class="text-gray-200 text-sm">周末出游不扎堆，尽享田园风光</p>
+          </div>
+        </div>
+        <div class="absolute bottom-3 right-5 flex gap-2">
+          <button class="w-3 h-3 rounded-full bg-white opacity-90"></button>
+          <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+          <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主体内容区 -->
+    <main class="container mx-auto px-4 pb-12">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div class="md:col-span-8 space-y-6">
+          <!-- 本地民生新鲜事 -->
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="border-l-4 border-nightOrange pl-3 mb-4 flex justify-between items-center">
+              <h3 class="text-xl font-bold text-gray-800">本地新鲜事</h3>
+              <a href="#" class="text-sm text-nightOrange hover:underline">更多</a>
+            </div>
+            <div class="space-y-4">
+              <div class="life-card-hover p-3 rounded-lg flex flex-col md:flex-row gap-4">
+                <img src="https://picsum.photos/300/200?random=20" class="w-full md:w-32 h-20 object-cover rounded" alt="民生新闻">
+                <div>
+                  <h4 class="font-bold hover:text-nightOrange">市区新增20个便民早餐点 覆盖全城区</h4>
+                  <p class="text-gray-500 text-sm mt-1">今日上线 方便市民早餐需求</p>
+                </div>
+              </div>
+              <div class="life-card-hover p-3 rounded-lg flex flex-col md:flex-row gap-4">
+                <img src="https://picsum.photos/300/200?random=21" class="w-full md:w-32 h-20 object-cover rounded" alt="民生新闻">
+                <div>
+                  <h4 class="font-bold hover:text-nightOrange">地铁5号线下月开通 沿线生活配套全面升级</h4>
+                  <p class="text-gray-500 text-sm mt-1">出行更便捷 商圈新活力</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 美食+旅游双栏目 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-5 rounded-lg shadow-sm">
+              <div class="border-l-4 border-nightOrange pl-3 mb-4">
+                <h3 class="text-lg font-bold">美食探店</h3>
+              </div>
+              <div class="life-card-hover">
+                <img src="https://picsum.photos/400/220?random=30" class="w-full h-28 object-cover rounded mb-2" alt="美食">
+                <p class="font-bold hover:text-nightOrange text-sm">藏在老街的特色面馆 本地人私藏</p>
+              </div>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-sm">
+              <div class="border-l-4 border-nightOrange pl-3 mb-4">
+                <h3 class="text-lg font-bold">旅游休闲</h3>
+              </div>
+              <div class="life-card-hover">
+                <img src="https://picsum.photos/400/220?random=31" class="w-full h-28 object-cover rounded mb-2" alt="旅游">
+                <p class="font-bold hover:text-nightOrange text-sm">周边温泉民宿推荐 放松解压首选</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 生活服务 -->
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="border-l-4 border-nightOrange pl-3 mb-4 flex justify-between items-center">
+              <h3 class="text-xl font-bold">生活服务</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="life-card-hover p-3 border border-gray-100 rounded-lg text-center">
+                <i class="fa fa-heartbeat text-nightOrange text-xl mb-2"></i>
+                <p class="text-sm font-bold">春季养生指南</p>
+              </div>
+              <div class="life-card-hover p-3 border border-gray-100 rounded-lg text-center">
+                <i class="fa fa-home text-nightOrange text-xl mb-2"></i>
+                <p class="text-sm font-bold">家居装修小技巧</p>
+              </div>
+              <div class="life-card-hover p-3 border border-gray-100 rounded-lg text-center">
+                <i class="fa fa-car text-nightOrange text-xl mb-2"></i>
+                <p class="text-sm font-bold">爱车保养知识</p>
+              </div>
+              <div class="life-card-hover p-3 border border-gray-100 rounded-lg text-center">
+                <i class="fa fa-book text-nightOrange text-xl mb-2"></i>
+                <p class="text-sm font-bold">亲子教育干货</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧侧边栏 -->
+        <div class="md:col-span-4 space-y-6">
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="border-l-4 border-nightOrange pl-3 mb-4">
+              <h3 class="text-lg font-bold">便民服务</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-3 text-sm">
+              <a href="#" class="p-2 bg-gray-100 rounded text-center hover:bg-nightOrange hover:text-white">水电缴费</a>
+              <a href="#" class="p-2 bg-gray-100 rounded text-center hover:bg-nightOrange hover:text-white">社保查询</a>
+              <a href="#" class="p-2 bg-gray-100 rounded text-center hover:bg-nightOrange hover:text-white">公积金</a>
+              <a href="#" class="p-2 bg-gray-100 rounded text-center hover:bg-nightOrange hover:text-white">违章查询</a>
+            </div>
+          </div>
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="border-l-4 border-nightOrange pl-3 mb-4">
+              <h3 class="text-lg font-bold">生活小贴士</h3>
+            </div>
+            <ul class="text-sm space-y-2 text-gray-700">
+              <li>• 春季天干物燥 注意防火保湿</li>
+              <li>• 水果蔬菜应季吃 更营养健康</li>
+              <li>• 周末限行提示 出行提前规划</li>
+            </ul>
+          </div>
+          <div class="bg-white p-5 rounded-lg shadow-sm text-center">
+            <h3 class="text-lg font-bold mb-4">关注我们</h3>
+            <div class="flex justify-center gap-4 text-xl">
+              <a href="#" class="text-red-500"><i class="fa fa-weibo"></i></a>
+              <a href="#" class="text-green-500"><i class="fa fa-wechat"></i></a>
+              <a href="#" class="text-blue-500"><i class="fa fa-youtube-play"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- 【默认显示】纯净民生新闻详情（无侧边栏） -->
+  <section id="news-page" class="container mx-auto px-4 py-8 pb-12">
+    <div class="bg-white p-6 md:p-12 rounded-xl shadow-sm">
+      <!-- 新闻标题 -->
+      <h1 class="text-[clamp(1.6rem,3vw,2.4rem)] font-bold text-center text-gray-800 mb-5 font-kai">
+        泊然海洋馆突发意外 美人鱼演员表演时当众溺水身亡‌
+      </h1>
+      <!-- 新闻信息 -->
+      <div class="text-center text-gray-500 text-sm mb-6 pb-4 border-b border-gray-200">
+        <span>2025年03月30日 来源：XX省晚报</span>
+        <span class="mx-2"></span>
+        
+      </div>
+      <!-- 新闻配图 -->
+      <div class="mb-6 text-center">
+        <img src="images/only1.jpg" alt="便民早餐点" class="rounded-lg max-w-full h-auto shadow-md">
+        <p class="text-gray-500 text-sm mt-2">▲ coser在魔裁o现场拍摄合影</p>
+      </div>
+      <!-- 新闻正文 -->
+      <div class="article-content text-gray-800 text-lg">
+        <p>本报讯 2025年3月29日下午3时17分，位于A省B市的某海洋馆内，正在进行人鱼秀主题表演的女演员赵红（化名），
+          在水下表演池突发意外溺水。现场观众第一时间呼救，场馆工作人员随即下水施救，将其送往附近医院抢救，最终于当日17时22分宣告抢救无效身亡。</p>
+        <p>据现场多名目击者向本报记者描述，事发时该女演员身着全套美人鱼演出服，在水下表演到第三分钟时，突然停止动作，身体不受控制地向池底沉落。起初观众以为是表演设计环节，直到水面长时间没有动静，才察觉情况不对。</p>
+        <p>海洋馆当晚发布的官方声明称，该事件为演员个人突发身体不适导致的意外溺水，场馆已第一时间启动急救流程，后续将配合家属做好善后工作。目前当地文旅、市场监管部门已介入，对场馆的表演安全规范、水下急救配套设施展开全面核查，相关事件的具体细节仍在进一步调查中。</p>
+        <p>本报记者多次尝试联系场馆负责人询问事件细节，对方均以“警方正在调查，不便对外透露”为由拒绝回应。目前事发场馆正在停业整改中，开业日期未定。</p>
+      </div>
+      <!-- 新闻落款 -->
+      <p class="text-right mt-8 text-gray-700" style="text-indent: 0;">
+        本报记者<br>
+        2025年3月30日
+      </p>
+    </div>
+  </section>
+
+  <!-- 底部版权 -->
+  <footer class="bg-gray-800 text-white pt-8 pb-4">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div>
+          <h4 class="text-lg font-bold mb-3 border-b border-gray-600 pb-2">报社概况</h4>
+          <ul class="space-y-2 text-gray-300 text-sm">
+            <li><a href="#" class="hover:text-nightOrange">关于晚报</a></li>
+            <li><a href="#" class="hover:text-nightOrange">联系方式</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-3 border-b border-gray-600 pb-2">生活服务</h4>
+          <ul class="space-y-2 text-gray-300 text-sm">
+            <li><a href="#" class="hover:text-nightOrange">新闻爆料</a></li>
+            <li><a href="#" class="hover:text-nightOrange">广告合作</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-4 text-center text-gray-400 text-sm">
+        <p>© 2025 XX省晚报传媒有限公司 版权所有</p>
+        <p class="mt-1">贴近生活 服务百姓 做有温度的都市媒体</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 页面切换JS -->
+  <script>
+    // 显示首页
+    function showHome() {
+      document.getElementById('home-page').classList.remove('hidden');
+      document.getElementById('news-page').classList.add('hidden');
+      document.getElementById('nav-home').classList.add('nav-active-life');
+      document.getElementById('nav-news').classList.remove('nav-active-life');
+      document.title = "XX省晚报 - 贴近生活 服务百姓 乐享都市";
+    }
+
+    // 显示民生新闻
+    function showNews() {
+      document.getElementById('news-page').classList.remove('hidden');
+      document.getElementById('home-page').classList.add('hidden');
+      document.getElementById('nav-news').classList.add('nav-active-life');
+      document.getElementById('nav-home').classList.remove('nav-active-life');
+      document.title = "泊然海洋馆突发意外 美人鱼演员表演时当众溺水身亡‌ - XX省晚报";
+    }
+
+    // 显示当前时间
+    const date = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    document.getElementById('current-time').innerText = date.toLocaleDateString('zh-CN', options);
+  </script>
+</body>
+</html>

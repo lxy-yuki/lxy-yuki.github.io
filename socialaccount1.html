@@ -15,9 +15,11 @@
         body {
             background-color: #FF7F84;
             display: flex;
-            padding: 80px 40px 40px 40px;/* 分别对应上下左右边距 */
+            padding: 40px 40px 40px 40px;/* 分别对应上下左右边距 */
             gap: 32px;
-            min-height: 100vh;
+            height: 100vh;          /* 固定占满视口高度 */
+            overflow: hidden;       /* 禁止页面整体滚动 */
+            align-items: flex-start;/* 左侧栏不再随右侧拉伸 */
         }
         /* 左侧统一容器 */
         .left-container {
@@ -28,6 +30,8 @@
             display: flex;
             flex-direction: column;
             gap: 28px;
+            /* 按公式计算高度：视口高度 - 顶部80px间距 - 再减50px */
+            height: calc(100vh - 40px - 20px);
         }
         .avatar-wrap {
             display: flex;
@@ -86,18 +90,18 @@
             background-color: #FFF0F0;
             border-radius: 24px;
             padding: 40px;
+            height: calc(100vh - 40px - 20px); /* 右侧容器占满视口剩余高度 */
         }
         .content {
             width: 100%;
-            min-height: 580px;
-            max-height: 700px;
+            height: 100%;          /* 占满右侧容器 */
             border-radius: 20px;
             background-color: #FFFFFF;
             padding: 30px;
             font-size: 16px;
             color: #666;
             display: none;
-            overflow-y: auto;
+            overflow-y: auto;      /* 仅内容超出时内部滚动 */
         }
         .content.active {
             display: block;

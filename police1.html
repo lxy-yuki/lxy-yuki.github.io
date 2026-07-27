@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>警方通报 - 官方发布</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SimSun", "宋体", serif;
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+            line-height: 1.8;
+        }
+
+        /* 通报主体容器 */
+        .police-notice {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            /* 白色背景改为深蓝色背景 */
+            background: #002b5c;
+            /* 文字改为白色，适配深色背景 */
+            color: #ffffff;
+            padding: 60px 80px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* 标题样式 */
+        .notice-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+        }
+
+        /* 标题下方红色通栏横线 */
+        .title-line {
+            height: 2px;
+            background-color: #d40000;
+            margin: 0 auto 30px;
+            width: 100%;
+        }
+
+        /* 正文段落 */
+        .notice-content {
+            font-size: 18px;
+            text-align: justify;
+            text-indent: 2em;
+            margin-bottom: 20px;
+        }
+
+        /* 落款区域 */
+        .notice-footer {
+            margin-top: 50px;
+            text-align: right;
+            font-size: 18px;
+        }
+
+        .notice-footer p {
+            margin-bottom: 8px;
+        }
+
+        /* 官方印章样式 */
+        .seal {
+            position: absolute;
+            right: 80px;
+            bottom: 100px;
+            width: 120px;
+            height: 120px;
+            border: 2px solid #d40000;
+            border-radius: 50%;
+            color: #d40000;
+            text-align: center;
+            font-family: "SimHei", "黑体", sans-serif;
+            transform: rotate(-15deg);
+            box-sizing: border-box;
+            padding-top: 25px;
+            opacity: 0.9;
+        }
+
+        .seal-top {
+            font-size: 14px;
+            letter-spacing: 2px;
+            display: block;
+        }
+
+        .seal-bottom {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* 分割线 */
+        .divider {
+            height: 1px;
+            background-color: #333;
+            margin: 40px 0;
+        }
+
+        /* 适配手机 */
+        @media (max-width: 768px) {
+            .police-notice {
+                padding: 30px 20px;
+            }
+
+            .notice-title {
+                font-size: 22px;
+                letter-spacing: 4px;
+            }
+
+            .notice-content {
+                font-size: 16px;
+            }
+
+            .seal {
+                right: 20px;
+                bottom: 100px;
+                width: 100px;
+                height: 100px;
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="police-notice">
+        <!-- 标题 -->
+        <h1 class="notice-title">警 方 通 报</h1>
+        
+        <!-- 新增的红色通栏横线 -->
+        <div class="title-line"></div>
+
+        <!-- 正文内容 -->
+        <p class="notice-content">
+            2025年3月29日15时42分，我局接群众报警称，辖区泊然海洋馆内发生人员意外溺水事件。
+            接警后我局第一时间组织警力赶赴现场，同步联合文旅、卫健等部门开展全面调查工作。经调取场馆全区域公共监控、走访全部在场工作人员与现场目击者，结合法医出具的完整尸检报告，现已查明事件完整经过： 
+        </p>
+        <p class="notice-content">
+            死者赵某某，系该海洋馆聘用的水下表演演员。2025年3月29日14时57分，其在未携带备用应急氧气瓶的情况下，进入表演池开展当日的常规美人鱼演出。演出进行至15时12分，死者突发腿部肌肉痉挛，叠加当日未进食引发的急性低血糖症状，失去自主游动能力，无法上浮至水面换气，最终导致溺水身亡。经全面核查，现有所有证据均明确指向该事件为意外身亡，不存在他杀、人为加害等刑事案件情形，依法排除谋杀可能。
+            
+        </p>
+        <p class="notice-content">
+            针对泊然海洋馆在日常安全管理、演出安全规范、应急值守制度等方面存在的明显漏洞，相关行政监管部门已正式立案，将依法依规对涉事单位作出对应行政处罚，督促全行业开展安全隐患全面整改。请广大市民尊重调查结论，不信谣、不传谣，停止传播未经核实的不实信息，共同维护清朗有序的公共网络环境。
+        
+        </p>
+
+        <!-- 落款 + 印章 -->
+        <div class="notice-footer">
+            <p>B市公安局</p>
+            <p>2025年4月4日</p>
+        </div>
+
+        
+    </div>
+</body>
+</html>
