@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XX市日报 - 市委机关报 权威主流媒体</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- 自定义配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            partyRed: '#C8102E', // 党报标准红
+            partyBlue: '#1E293B',
+            lightGray: '#F5F7FA',
+          },
+          fontFamily: {
+            song: ['SimSun', 'serif'],
+            hei: ['Microsoft YaHei', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow {
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      }
+      .nav-active {
+        background-color: #A0081E;
+      }
+      .news-item-hover:hover {
+        background-color: #FEF2F2;
+        transform: translateX(2px);
+        transition: all 0.2s ease;
+      }
+      /* 新闻正文标准格式 */
+      .article-content p {
+        text-indent: 2em; /* 首行缩进2字符，党报标准 */
+        line-height: 1.8;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-lightGray font-hei text-gray-800">
+  <!-- 顶部信息栏 -->
+  <div class="bg-gray-100 border-b border-gray-200 text-sm py-1 px-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <p id="current-time" class="text-gray-600"></p>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-gray-600 hover:text-partyRed"><i class="fa fa-weibo"></i></a>
+        <a href="#" class="text-gray-600 hover:text-partyRed"><i class="fa fa-wechat"></i></a>
+        <a href="#" class="text-gray-600 hover:text-partyRed">客户端</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 报头区域 -->
+  <header class="bg-white py-4 border-b border-partyRed">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+      <div class="text-center md:text-left">
+        <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-partyRed font-song tracking-wider">XX市日报</h1>
+        <p class="text-gray-500 text-sm mt-1">中共XX市委员会机关报 | 市级主流权威媒体</p>
+      </div>
+      <div class="mt-4 md:mt-0 w-full md:w-auto">
+        <div class="flex border border-gray-300 rounded overflow-hidden">
+          <input type="text" placeholder="输入关键词搜索" class="px-3 py-2 w-64 outline-none text-sm">
+          <button class="bg-partyRed text-white px-3 py-2 hover:bg-opacity-90">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 导航栏 -->
+  <nav class="bg-partyRed sticky top-0 z-50 shadow-md">
+    <div class="container mx-auto px-4">
+      <ul class="flex flex-wrap justify-center md:justify-start text-white">
+        <li><a href="javascript:showHome()" id="nav-home" class="px-5 py-3 block hover:bg-opacity-80">首页</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">时政要闻</a></li>
+        <!-- 核心：本地新闻默认高亮 -->
+        <li><a href="javascript:showLocalNews()" id="nav-local" class="px-5 py-3 block nav-active hover:bg-opacity-80">本地新闻</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">经济建设</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">社会民生</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">文化教育</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">生态环保</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">专题专栏</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">公示公告</a></li>
+        <li><a href="#" class="px-5 py-3 block hover:bg-opacity-80">融媒体</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 第一版：首页内容（默认隐藏） -->
+  <section id="home-page" class="hidden">
+    <!-- 轮播头条区域 -->
+    <section class="container mx-auto px-4 py-5">
+      <div class="relative h-[300px] md:h-[450px] rounded overflow-hidden shadow-lg">
+        <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://picsum.photos/1200/450?random=1')">
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-5">
+            <h2 class="text-white text-[clamp(1.2rem,3vw,2rem)] font-bold text-shadow mb-2">市委召开全市经济工作会议 部署全年高质量发展任务</h2>
+            <p class="text-gray-200 text-sm">2025-04-20</p>
+          </div>
+        </div>
+        <div class="absolute bottom-3 right-5 flex gap-2">
+          <button class="w-3 h-3 rounded-full bg-white opacity-80"></button>
+          <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+          <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主体内容区 -->
+    <main class="container mx-auto px-4 pb-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div class="md:col-span-8">
+          <!-- 头条新闻 -->
+          <div class="bg-white p-5 rounded shadow-sm mb-6">
+            <div class="border-l-4 border-partyRed pl-3 mb-4">
+              <h3 class="text-xl font-bold text-partyBlue">头条新闻</h3>
+            </div>
+            <div class="space-y-4">
+              <div class="news-item-hover p-2 rounded">
+                <h4 class="text-lg font-bold hover:text-partyRed"><a href="#">市政府召开常务会议 研究民生实事项目推进工作</a></h4>
+                <p class="text-gray-500 text-sm mt-1">2025-04-20</p>
+                <p class="text-gray-600 mt-2 line-clamp-2">会议强调，要坚持以人民为中心的发展思想，扎实推进民生实事项目，切实解决群众急难愁盼问题...</p>
+              </div>
+              <div class="news-item-hover p-2 rounded">
+                <h4 class="text-lg font-bold hover:text-partyRed"><a href="#">全市主题教育总结大会召开 巩固拓展教育成果</a></h4>
+                <p class="text-gray-500 text-sm mt-1">2025-04-20</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 时政要闻 -->
+          <div class="bg-white p-5 rounded shadow-sm mb-6">
+            <div class="border-l-4 border-partyRed pl-3 mb-4 flex justify-between items-center">
+              <h3 class="text-xl font-bold text-partyBlue">时政要闻</h3>
+              <a href="#" class="text-sm text-partyRed hover:underline">更多</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="news-item-hover p-2 rounded">
+                <span class="text-partyRed text-xs mr-2">【时政】</span>
+                <a href="#" class="hover:text-partyRed">市领导走访慰问老干部 致以新春祝福</a>
+                <p class="text-gray-500 text-xs mt-1">2025-04-20</p>
+              </div>
+              <div class="news-item-hover p-2 rounded">
+                <span class="text-partyRed text-xs mr-2">【时政】</span>
+                <a href="#" class="hover:text-partyRed">全市党建工作会议召开 筑牢基层战斗堡垒</a>
+                <p class="text-gray-500 text-xs mt-1">2025-04-20</p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 图片新闻 -->
+          <div class="bg-white p-5 rounded shadow-sm">
+            <div class="border-l-4 border-partyRed pl-3 mb-4 flex justify-between items-center">
+              <h3 class="text-xl font-bold text-partyBlue">图片新闻</h3>
+              <a href="#" class="text-sm text-partyRed hover:underline">更多</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="group rounded overflow-hidden shadow-sm">
+                <img src="https://picsum.photos/400/225?random=2" class="w-full h-32 object-cover group-hover:scale-105 transition-transform" alt="图片新闻">
+                <p class="p-2 text-sm text-center">我市举办春季文化惠民演出</p>
+              </div>
+              <div class="group rounded overflow-hidden shadow-sm">
+                <img src="https://picsum.photos/400/225?random=3" class="w-full h-32 object-cover group-hover:scale-105 transition-transform" alt="图片新闻">
+                <p class="p-2 text-sm text-center">春耕备耕工作全面启动</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：侧边栏 -->
+      <div class="md:col-span-4 space-y-6">
+        <!-- 热门资讯 -->
+        <div class="bg-white p-5 rounded shadow-sm">
+          <div class="border-l-4 border-partyRed pl-3 mb-4">
+            <h3 class="text-lg font-bold text-partyBlue">热门资讯</h3>
+          </div>
+          <div class="space-y-3">
+            <div class="news-item-hover p-1 rounded flex gap-2">
+              <span class="text-partyRed font-bold">1</span>
+              <a href="#" class="text-sm hover:text-partyRed line-clamp-1">2025年全市民生实事项目清单公布</a>
+            </div>
+            <div class="news-item-hover p-1 rounded flex gap-2">
+              <span class="text-partyRed font-bold">2</span>
+              <a href="#" class="text-sm hover:text-partyRed line-clamp-1">我市新增3所公立幼儿园 缓解入学难</a>
+            </div>
+            <div class="news-item-hover p-1 rounded flex gap-2">
+              <span class="text-partyRed font-bold">3</span>
+              <a href="#" class="text-sm hover:text-partyRed line-clamp-1">地铁X号线全线贯通 预计下月通车</a>
+            </div>
+            <div class="news-item-hover p-1 rounded flex gap-2">
+              <span class="text-partyRed font-bold">4</span>
+              <a href="#" class="text-sm hover:text-partyRed line-clamp-1">全市最低工资标准上调 惠及百万职工</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 专题专栏 -->
+        <div class="bg-white p-5 rounded shadow-sm">
+          <div class="border-l-4 border-partyRed pl-3 mb-4">
+            <h3 class="text-lg font-bold text-partyBlue">专题专栏</h3>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="#" class="bg-gray-100 p-3 text-center rounded text-sm hover:bg-partyRed hover:text-white transition-colors">学习贯彻二十大</a>
+            <a href="#" class="bg-gray-100 p-3 text-center rounded text-sm hover:bg-partyRed hover:text-white transition-colors">高质量发展</a>
+            <a href="#" class="bg-gray-100 p-3 text-center rounded text-sm hover:bg-partyRed hover:text-white transition-colors">文明城市</a>
+            <a href="#" class="bg-gray-100 p-3 text-center rounded text-sm hover:bg-partyRed hover:text-white transition-colors">乡村振兴</a>
+          </div>
+        </div>
+
+        <!-- 天气预报 -->
+        <div class="bg-white p-5 rounded shadow-sm">
+          <div class="border-l-4 border-partyRed pl-3 mb-4">
+            <h3 class="text-lg font-bold text-partyBlue">天气预报</h3>
+          </div>
+          <div class="text-center">
+            <i class="fa fa-sun-o text-yellow-500 text-3xl mb-2"></i>
+            <p class="text-xl font-bold">18℃ - 26℃</p>
+            <p class="text-gray-500 text-sm">XX市 晴 微风</p>
+          </div>
+        </div>
+
+        <!-- 公示公告 -->
+        <div class="bg-white p-5 rounded shadow-sm">
+          <div class="border-l-4 border-partyRed pl-3 mb-4">
+            <h3 class="text-lg font-bold text-partyBlue">公示公告</h3>
+          </div>
+          <div class="space-y-2">
+            <a href="#" class="text-sm block hover:text-partyRed line-clamp-1">2025年市级机关公开遴选公务员公告</a>
+            <a href="#" class="text-sm block hover:text-partyRed line-clamp-1">城市道路施工临时交通管制通告</a>
+            <a href="#" class="text-sm block hover:text-partyRed line-clamp-1">节水型单位评选结果公示</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二版：纯净本地新闻详情（默认显示，无任何侧边栏） -->
+  <section id="local-news-page" class="container mx-auto px-4 py-6 pb-10">
+    <!-- 全宽新闻主体，无侧边栏 -->
+    <div class="bg-white p-6 md:p-10 rounded shadow-sm">
+      <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold text-center text-partyBlue mb-4 font-song">
+        海洋馆新风！理念升级更环保，科普普惠再出发
+      </h1>
+      
+      <div class="text-center text-gray-500 text-sm mb-6 pb-3 border-b border-gray-200">
+        <span>2013年6月16日 文旅专版报道</span>
+        <span class="mx-2">|</span>
+        <span>记者：A 通讯员：B</span>
+      </div>
+
+      
+
+      <div class="mb-6 text-center">
+        <img src="images/yingyuan.jpg" alt="老旧小区改造现场" class="rounded shadow-md max-w-full h-auto">
+        <p class="text-gray-500 text-sm mt-2">影院</p>
+      </div>
+
+      <div class="article-content text-gray-800">
+        <p>近日，泊然海洋馆正式完成管理层交接：由创馆馆长安仲斌牵头搭建的初代运营团队，平稳将场馆管理权移交至新一代负责人安永德手中。
+          这场低调的管理层更迭，不仅是场馆两代人的接力，更标志着这座A省本土标杆海洋馆，将正式迈入“重科普、轻表演、全公益”的全新发展阶段。</p>
+        <p>泊然海洋馆过去接待了数不清的市民，接下来，也将继续服务想要了解探索海洋世界的人们。
+          海洋馆即日起将取消高强度动物表演，推出免费开放日与海洋知识宣传影院，更加绿色生态地展现蓝色世界的美妙。</p>
+        
+      </div>
+
+      <div class="mt-8 text-right text-gray-500 text-sm">
+        <p>责任编辑：C</p>
+        <p>校对：D</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部版权区 -->
+  <footer class="bg-partyBlue text-white pt-8 pb-4">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div>
+          <h4 class="text-lg font-bold mb-3 border-b border-gray-600 pb-2">关于我们</h4>
+          <ul class="space-y-2 text-gray-300 text-sm">
+            <li><a href="#" class="hover:text-white">报社简介</a></li>
+            <li><a href="#" class="hover:text-white">联系方式</a></li>
+            <li><a href="#" class="hover:text-white">广告服务</a></li>
+            <li><a href="#" class="hover:text-white">人才招聘</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-3 border-b border-gray-600 pb-2">新闻服务</h4>
+          <ul class="space-y-2 text-gray-300 text-sm">
+            <li><a href="#" class="hover:text-white">投稿热线</a></li>
+            <li><a href="#" class="hover:text-white">新闻爆料</a></li>
+            <li><a href="#" class="hover:text-white">版权声明</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-3 border-b border-gray-600 pb-2">融媒体矩阵</h4>
+          <ul class="space-y-2 text-gray-300 text-sm">
+            <li><a href="#" class="hover:text-white">官方微信</a></li>
+            <li><a href="#" class="hover:text-white">官方微博</a></li>
+            <li><a href="#" class="hover:text-white">手机客户端</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-3 border-b border-gray-600 pb-2">联系我们</h4>
+          <p class="text-gray-300 text-sm">地址：XX市XX区XX路100号</p>
+          <p class="text-gray-300 text-sm mt-1">电话：0XX-XXXXXXXX</p>
+          <p class="text-gray-300 text-sm mt-1">邮编：XXXXXX</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-4 text-center text-gray-400 text-sm">
+        <p>© 2025 XX市日报传媒集团 版权所有 未经许可 不得转载</p>
+        <p class="mt-1">ICP备案号：粤ICP备XXXXXX号 | 互联网新闻信息服务许可证：XXXXXXX</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 页面切换JS -->
+  <script>
+    // 显示首页
+    function showHome() {
+      document.getElementById('home-page').classList.remove('hidden');
+      document.getElementById('local-news-page').classList.add('hidden');
+      document.getElementById('nav-home').classList.add('nav-active');
+      document.getElementById('nav-local').classList.remove('nav-active');
+      document.title = "XX市日报 - 市委机关报 权威主流媒体";
+    }
+
+    // 显示本地新闻
+    function showLocalNews() {
+      document.getElementById('local-news-page').classList.remove('hidden');
+      document.getElementById('home-page').classList.add('hidden');
+      document.getElementById('nav-local').classList.add('nav-active');
+      document.getElementById('nav-home').classList.remove('nav-active');
+      document.title = "海洋馆新风！理念升级更环保，科普普惠再出发 - XX市日报";
+    }
+
+    // 显示当前时间
+    const date = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    document.getElementById('current-time').innerText = date.toLocaleDateString('zh-CN', options);
+  </script>
+</body>
+</html>

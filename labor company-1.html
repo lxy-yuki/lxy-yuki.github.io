@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>劳而得劳务派遣有限公司 - 专业人力资源服务机构</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background-color: #1a5fb4;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #ffd700;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ffd700;
+        }
+
+        .employee-btn {
+            background-color: #ffd700;
+            color: #1a5fb4;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .employee-btn:hover {
+            background-color: #ffed4e;
+        }
+
+        /* Banner 区域 */
+        .banner {
+            background: linear-gradient(135deg, #1a5fb4 0%, #2c7be5 100%);
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .banner h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .banner p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* 通用区块样式 */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: #1a5fb4;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #ffd700;
+            margin: 15px auto 0;
+        }
+
+        /* 关于我们 */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 18px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .about-highlight {
+            background-color: #f0f6ff;
+            border-left: 4px solid #1a5fb4;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .about-highlight h4 {
+            color: #1a5fb4;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .about-highlight .number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .about-image {
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #e3ecf7;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 250px;      /* 给图片一个固定高度，可按需调整 */
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-image .image-desc {
+            margin: 0;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #1a5fb4;
+            background-color: #f0f6ff;
+        }
+
+
+        /* 核心业务 */
+        .business-section {
+            background-color: #fff;
+        }
+
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .business-card {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 35px 30px;
+            border-top: 4px solid #1a5fb4;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(26, 95, 180, 0.15);
+        }
+
+        .business-card h3 {
+            color: #1a5fb4;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .business-card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .business-card.special {
+            border-top-color: #ffd700;
+            background-color: #fffbf0;
+        }
+
+        .business-card.special h3 {
+            color: #d4a017;
+        }
+
+        /* 合作伙伴与案例 */
+        .partner-case {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+        }
+
+        .partner-list {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .partner-list h3 {
+            color: #1a5fb4;
+            margin-bottom: 25px;
+            font-size: 20px;
+        }
+
+        .partner-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        .case-detail {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .case-detail h3 {
+            color: #1a5fb4;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .case-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .case-info {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .case-info strong {
+            color: #333;
+        }
+
+        /* 页脚 */
+        .footer {
+            background-color: #2c3e50;
+            color: #bdc3c7;
+            padding: 50px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+        }
+
+        .footer-company h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .footer-company p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-contact h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .footer-contact p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #4a5c6e;
+            text-align: center;
+            font-size: 13px;
+            color: #95a5a6;
+        }
+
+        /* 登录弹窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .login-modal {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 40px 35px;
+            width: 380px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .login-modal h3 {
+            text-align: center;
+            color: #1a5fb4;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #1a5fb4;
+        }
+
+        .login-submit {
+            width: 100%;
+            background-color: #1a5fb4;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .login-submit:hover {
+            background-color: #2c7be5;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .banner h1 {
+                font-size: 30px;
+            }
+
+            .about-content,
+            .business-grid,
+            .partner-case,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 50px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">劳而得<span>劳务派遣</span></div>
+            <ul class="nav-menu">
+                <li><a href="#about">关于我们</a></li>
+                <li><a href="#business">核心业务</a></li>
+                <li><a href="#partner">合作伙伴</a></li>
+                <li><a href="#case">合作案例</a></li>
+                <li><a href="#contact">联系我们</a></li>
+            </ul>
+            <button class="employee-btn" onclick="openModal()">员工查询</button>
+        </div>
+    </header>
+
+    <!-- Banner 横幅 -->
+    <section class="banner">
+        <h1>专业人力资源服务解决方案提供商</h1>
+        <p>劳而得劳务派遣有限公司成立于2018年，致力于为用工单位提供高效、规范的劳务派遣解决方案</p>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section" id="about">
+        <h2 class="section-title">关于我们</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>劳而得劳务派遣有限公司成立于2018年，是A省专业人力资源服务机构。公司总部位于B市经济技术开发区，业务范围覆盖全省多个地市。</p>
+                <p>公司总部位于B市经济技术开发区，业务范围覆盖全省多个地市，合作客户涵盖制造业、服务业、物业管理等多个行业。公司高度重视社会责任，自成立以来即与A省残疾人联合会合作，持续开展残障人士就业帮扶项目，目前已累计为超过200名残障人士提供保洁、后勤等适宜岗位。</p>
+                <div class="about-highlight">
+                    <h4>残障人士就业帮扶</h4>
+                    <p>公司自成立以来即与A省残疾人联合会合作，持续开展残障人士就业帮扶项目。</p>
+                    <p><span class="number">200+</span> 名残障人士成功就业</p>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src=".\images2\office1.jpg" alt="企业形象展示">
+                <p class="image-desc">公司总部办公环境实景</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 核心业务 -->
+    <section class="section business-section" id="business">
+        <h2 class="section-title">核心业务</h2>
+        <div class="business-grid">
+            <div class="business-card">
+                <h3>劳务派遣</h3>
+                <p>为用工单位提供规范化的劳务派遣服务，涵盖人员招聘、合同签订、社会保险缴纳、薪酬发放、劳动关系管理等全流程服务。</p>
+            </div>
+            <div class="business-card special">
+                <h3>残障人士就业帮扶</h3>
+                <p>与各级残联合作，为残障人士对接适宜岗位，提供岗前培训和就业支持，助力残障人士融入社会，实现自我价值。</p>
+            </div>
+            <div class="business-card">
+                <h3>人事外包</h3>
+                <p>为企业提供专业的人力资源管理系统解决方案，帮助企业简化人事管理流程，降低管理成本，提升运营效率。</p>
+            </div>
+            <div class="business-card">
+                <h3>灵活用工</h3>
+                <p>针对季节性、临时性用工需求，提供短期人员派遣服务，帮助企业灵活应对用工波动，优化人力成本结构。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 合作伙伴与案例 -->
+    <section class="section" id="partner">
+        <h2 class="section-title">合作伙伴与案例</h2>
+        <div class="partner-case">
+            <div class="partner-list">
+                <h3>合作伙伴</h3>
+                <div class="partner-item">A省残疾人联合会</div>
+            </div>
+            <div class="case-detail" id="case">
+                <h3>合作案例</h3>
+                <div class="case-title">泊然海洋馆劳务派遣项目</div>
+                <div class="case-info">
+                    <p><strong>合作时间：</strong>2024年9月</p>
+                    <p><strong>合作内容：</strong>劳而得与泊然海洋馆达成劳务派遣合作，为海洋馆后勤部输送数名聋哑保洁人员，助力海洋馆残障人士帮扶项目落地。</p>
+                    <p><strong>工作范围：</strong>派遣人员负责馆内后台区域的日常清洁与维护工作。</p>
+                    <p><strong>合作现状：</strong>双方合作良好，后续根据馆方需求持续补充人员。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-company">
+                <h3>劳而得劳务派遣有限公司</h3>
+                <p>A省专业人力资源服务机构，致力于为用工单位提供高效、规范的劳务派遣解决方案。</p>
+            </div>
+            <div class="footer-contact">
+                <h4>联系我们</h4>
+                <p>地址：B市经济技术开发区劳动路88号</p>
+                <p>电话：XXXX-XXXXXXXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2018-2024 劳而得劳务派遣有限公司 版权所有
+        </div>
+    </footer>
+
+    <!-- 登录弹窗 -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-modal">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3>员工查询登录</h3>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="empName">姓名</label>
+                    <input type="text" id="empName" placeholder="请输入您的姓名" required>
+                </div>
+                <div class="form-group">
+                    <label for="empId">工号</label>
+                    <input type="text" id="empId" placeholder="请输入您的工号" required>
+                </div>
+                <button type="submit" class="login-submit">登录</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 打开弹窗
+        function openModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        // 点击遮罩层关闭弹窗
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // 处理登录提交
+        function handleLogin(event) {
+            event.preventDefault();
+            // 暂时不跳转页面
+            var name = document.getElementById('empName').value;
+            var id = document.getElementById('empId').value;
+            console.log('员工登录 - 姓名：' + name + '，工号：' + id);
+            // 可在此处添加后续逻辑
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

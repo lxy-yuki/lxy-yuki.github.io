@@ -25,13 +25,13 @@
             flex-direction: column;
         }
 
-        /* 【核心可调】Logo图片：可修改宽高、边距、与搜索栏的距离 */
+        /* Logo图片 */
         .foundation-logo {
-            width: 400px;          /* 图片宽度 */
-            height: auto;          /* 高度自适应，保持比例 */
-            margin-top: -60px;      /* 距离页面顶部距离 */
-            margin-left: 0px;      /* 距离页面左侧距离 */
-            margin-bottom: -30px;   /* 控制图片与搜索栏的垂直距离 */
+            width: 400px;
+            height: auto;
+            margin-top: -60px;
+            margin-left: 0px;
+            margin-bottom: -30px;
         }
 
         /* 搜索栏容器 */
@@ -48,11 +48,19 @@
             align-items: center;
             padding: 0 22px;
         }
-        .search-icon {
-            font-size: 26px;
-            color: #fff;
-            margin-right: 14px;
+
+        /* 搜索栏左侧图片图标（可调节大小、位置、间距） */
+        .search-icon-img {
+            width: 28px;            /* 【可调】图片宽度 */
+            height: 28px;           /* 【可调】图片高度 */
+            margin-right: 14px;     /* 【可调】图片与输入框文字的距离 */
+            margin-left: 0px;       /* 【可调】图片与搜索栏左侧内边距的距离 */
+            object-fit: contain;    /* 保持图片比例，不变形 */
+            vertical-align: middle;
+            position: relative;     /* 如需微调垂直位置可配合 top */
+            top: 0px;               /* 【可调】图片垂直偏移量，正数下移，负数上移 */
         }
+
         .search-input {
             flex: 1;
             height: 100%;
@@ -114,7 +122,6 @@
             flex-grow: 1;
             justify-content: space-between;
         }
-        /* 搜索历史按钮 */
         .search-history-btn {
             padding: 11px 32px;
             border: 1px solid #ff9900;
@@ -130,7 +137,6 @@
             content: "➤";
             font-size: 22px;
         }
-        /* 调查结束按钮 */
         .end-survey-btn {
             padding: 16px 42px;
             background-color: #ff9900;
@@ -150,7 +156,8 @@
         <!-- 搜索栏 -->
         <div class="search-box">
             <div class="search-bar">
-                <span class="search-icon">🔍</span>
+                <!-- 搜索栏左侧自定义图片 -->
+                <img class="search-icon-img" src=".\images\mirror1.png" alt="搜索图标">
                 <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索...">
             </div>
         </div>
@@ -179,22 +186,32 @@
         searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 const keyword = this.value.trim();
-                if (keyword === "海洋馆") {
-                    window.location.href = "mid/middle1.html";
+                if (keyword === "泊然海洋馆") {
+                    window.location.href = "mid/middle-Aquarium.html";
                 } else if (keyword === "陈树1999") {
-                    window.location.href = "mid/middle2.html";
+                    window.location.href = "mid/middle-chenshu.html";
+                } else if (keyword === "MT集团") {
+                    window.location.href = "mid/middle-MT.html";
+                } else if (keyword === "海洋馆溺亡美人鱼案") {
+                    window.location.href = "mid/middle-die.html";
+                } else if (keyword === "安伯然") {
+                    window.location.href = "mid/middle-boran.html";
+                } else if (keyword === "泊然集团") {
+                    window.location.href = "mid/middle-brcpny.html";
+                } else if (keyword === "安仲斌") {
+                    window.location.href = "mid/middle-azb.html";
                 } else {
                     window.location.href = "mid/middle404.html";
                 }
             }
         });
 
-        // 🔴 搜索历史按钮：点击直接跳转页面（自行填写链接）
+        // 搜索历史按钮：点击直接跳转页面
         document.getElementById('historyBtn').addEventListener('click', () => {
             window.location.href = "搜索历史页面链接";
         });
-        
-        // 🔴 调查结束按钮：修改为指定弹窗内容
+
+        // 调查结束按钮：弹窗
         document.getElementById('endBtn').addEventListener('click', () => {
             alert("亲爱的调查员，你还有很多工作要做，还不能休息哦");
         });

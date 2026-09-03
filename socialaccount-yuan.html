@@ -15,13 +15,12 @@
         body {
             background-color: #FF7F84;
             display: flex;
-            padding: 40px 40px 40px 40px;/* 分别对应上下左右边距 */
+            padding: 40px 40px 40px 40px;
             gap: 32px;
-            height: 100vh;          /* 固定占满视口高度 */
-            overflow: hidden;       /* 禁止页面整体滚动 */
-            align-items: flex-start;/* 左侧栏不再随右侧拉伸 */
+            height: 100vh;
+            overflow: hidden;
+            align-items: flex-start;
         }
-        /* 左侧统一容器 */
         .left-container {
             width: 260px;
             background-color: #FFF0F0;
@@ -30,20 +29,19 @@
             display: flex;
             flex-direction: column;
             gap: 28px;
-            /* 按公式计算高度：视口高度 - 顶部间距 - 再减20px */
             height: calc(100vh - 40px - 20px);
         }
         .avatar-wrap {
             display: flex;
             justify-content: center;
         }
-        /* 左侧栏头像：圆形裁剪显示 */
+        /* 左上角头像：圆形裁剪显示 */
         .avatar {
             width: 90px;
             height: 90px;
             border-radius: 50%;
             background-color: #FFB6B9;
-            background-image: url('images2/laoqian-0.jpg');
+            background-image: url('images2/yuanzi-0.jpg');
             background-size: cover;
             background-position: center;
             cursor: pointer;
@@ -94,30 +92,28 @@
             line-height: 1.6;
             text-align: center;
         }
-        /* 右侧主内容 */
         .main-page {
             flex: 1;
             background-color: #FFF0F0;
             border-radius: 24px;
             padding: 40px;
-            height: calc(100vh - 40px - 20px); /* 右侧容器占满视口剩余高度 */
+            height: calc(100vh - 40px - 20px);
         }
         .content {
             width: 100%;
-            height: 100%;          /* 占满右侧容器 */
+            height: 100%;
             border-radius: 20px;
             background-color: #FFFFFF;
             padding: 30px;
             font-size: 16px;
             color: #666;
             display: none;
-            overflow-y: auto;      /* 仅内容超出时内部滚动 */
+            overflow-y: auto;
         }
         .content.active {
             display: block;
         }
 
-        /* 动态样式 */
         .content-title {
             font-size: 22px;
             color: #FF7F84;
@@ -136,7 +132,6 @@
             border-radius: 16px;
             border: 1px solid #FFE0E2;
         }
-        
         .post-content {
             line-height: 1.8;
             color: #555;
@@ -159,7 +154,6 @@
             color: #999;
             margin-bottom: 12px;
         }
-        /* 帖子头部：头像+昵称 */
         .post-header {
             display: flex;
             align-items: center;
@@ -172,7 +166,7 @@
             height: 42px;
             border-radius: 50%;
             background-color: #FFB6B9;
-            background-image: url('images2/laoqian-0.jpg');
+            background-image: url('images2/yuanzi-0.jpg');
             background-size: cover;
             background-position: center;
             cursor: pointer;
@@ -188,11 +182,9 @@
             color: #FF7F84;
             font-weight: bold;
         }
-        /* 新增：父容器相对定位 */
         .content-section {
             position: relative;
         }
-        /* 新增：排序按钮样式 */
         .sort-btn {
             position: absolute;
             top: 0;
@@ -210,7 +202,6 @@
             background-color: #FF7F84;
         }
 
-        /* ========== 新增：评论区样式 ========== */
         .comment-section {
             margin-top: 20px;
             padding-top: 15px;
@@ -239,9 +230,9 @@
             background-color: #FFB6B9;
             flex-shrink: 0;
         }
-        /* 特定用户评论头像：有图片、可点击 */
+        /* 特定用户评论头像：有图片、可点击（备用） */
         .comment-avatar-img {
-            background-image: url('images2/laoqian-0.jpg');
+            background-image: url('images2/yuanzi-0.jpg');
             background-size: cover;
             background-position: center;
             cursor: pointer;
@@ -270,14 +261,11 @@
             color: #bbb;
             margin-top: 3px;
         }
-        /* 回复人昵称高亮样式 */
         .reply-name {
             color: #FF7F84;
             font-weight: bold;
         }
 
-
-        /* 文件内容样式 */
         .file-content-container {
             width: 100%;
             height: 100%;
@@ -294,10 +282,9 @@
         .file-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            /* 自动生成行，每行最小高度和前两行一致，不会缩小 */
-            grid-auto-rows: minmax(220px, auto); 
+            grid-auto-rows: minmax(220px, auto);
             gap: 25px;
-            min-height: 480px; /* 用最小高度替代固定高度，兼容多行 */
+            min-height: 480px;
         }
         .folder-card {
             border-radius: 20px;
@@ -330,7 +317,6 @@
             text-align: center;
         }
 
-        /* 返回按钮 */
         .back-btn {
             background-color: #FFB6B9;
             color: white;
@@ -348,7 +334,6 @@
             background-color: #FF7F84;
         }
 
-        /* 相册样式 */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -382,7 +367,6 @@
             margin-bottom: 12px;
             border: 1px solid #FFE0E2;
         }
-        /* 文档详情内容样式（和整体风格统一） */
         .doc-detail {
             margin-top: 8px;
             font-size: 14px;
@@ -390,21 +374,18 @@
             line-height: 1.6;
             padding-left: 5px;
         }
-        /* 文档标题样式（黑色加粗+大字号） */
         .doc-title {
-        font-size: 16px;
-        font-weight: bold;
-        color: #000000;
-        margin-bottom: 10px; /* 标题和内容的间距 */
+            font-size: 16px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 10px;
         }
-        /* 文档详情内容样式（小字号+常规） */
         .doc-detail {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.6;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
         }
 
-        /* ========== 密码弹窗样式（优化双按钮布局） ========== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -441,7 +422,6 @@
             outline: none;
             margin-bottom: 25px;
         }
-        /* 按钮组容器 */
         .modal-btn-group {
             display: flex;
             justify-content: space-between;
@@ -455,12 +435,10 @@
             cursor: pointer;
             font-size: 15px;
         }
-        /* 返回按钮（左侧） */
         .modal-btn-back {
             background: #FFB6B9;
             color: #fff;
         }
-        /* 确认按钮（右侧） */
         .modal-btn-confirm {
             background: #FF7F84;
             color: #fff;
@@ -469,9 +447,9 @@
             opacity: 0.9;
         }
 
-        /* ========== 头像预览模态框新增样式 ========== */
+        /* 头像预览模态框样式 */
         #avatarModal {
-            cursor: pointer; /* 点击遮罩关闭 */
+            cursor: pointer;
         }
         #avatarModal img {
             max-width: 90%;
@@ -479,7 +457,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             object-fit: contain;
-            cursor: default; /* 图片本身不触发关闭 */
+            cursor: default;
             transition: transform 0.2s;
         }
         #avatarModal img:hover {
@@ -491,7 +469,7 @@
     <!-- 左侧栏 -->
     <div class="left-container">
         <div class="avatar-wrap">
-            <div class="avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
+            <div class="avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
         </div>
 
         <div class="btn-wrap">
@@ -504,384 +482,286 @@
 
         <div class="intro-wrap">
             <div class="intro-content">
-                IM a changed man.
+                一枚圆子
             </div>
         </div>
     </div>
 
     <!-- 右侧内容区域 -->
     <div class="main-page">
-        <!-- 我的主页空间：集成你的成长记录动态 -->
         <div id="home" class="content active">
-            <!-- 中间内容区 -->
             <div class="content-area">
-                <!-- 1. 我的动态（成长帖子） -->
                 <div class="content-section">
-                    
                     <div class="content-title">我的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
-                        <!-- 帖子-17 -->
-                        <div class="post-item">
-                            <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man</div>
-                            </div>
-                            <div class="post-content">
-                                如果我解决掉所有事，你会回头吗？
-                            </div>
-                            <img src="https://picsum.photos/id/188/300/200" alt="" class="post-img">
-                            <div class="post-footer">曾经的美好</div>
-                            <div class="post-time">2025.1.1</div>
-                        </div>
-                        
                         <!-- 帖子-16 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
-                            
                             <div class="post-content">
-                                真不干了，以后都别找我了。没开玩笑。
-                            </div>
-                            
-                            <div class="post-time">2024.12.20</div>
-                            <div class="comment-section">
-                                <div class="comment-list">
-                                    <div class="comment-item">
-                                        <div class="comment-avatar"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">不重要的朋友</div>
-                                            <div class="comment-text">想不干就不干，膜拜。</div>
-                                            <div class="comment-time">2024-12-20</div>
-                                        </div>
-                                    </div>
-                                    <div class="comment-item">
-                                        <!-- 特定用户头像：添加 img 类及点击事件 -->
-                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">IM a changed man</div>
-                                            <div class="comment-text">
-                                                回复<span class="reply-name">不重要的朋友</span>：不是想不干就不干。但是总有不干的办法。
-                                            </div>
-                                            <div class="comment-time">2024-12-21</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                大家都走了。我走之前去看了最后一次鳐鱼。
+                                <p>它们贴在玻璃上，跟平时一样是一张一张可爱的笑脸。</p>
+                                <p>我还记得为什么要选择这个工作。我现在也觉得，这是一份能带来爱和快乐的工作。
+                                    但是带我进入这个行业的人和给予我最多快乐的人都已经不在了。</p>
+                                <p>有些同事问我要不要和他们一起等一等，再关注一下海洋馆里动物们要被如何处置，我答应了。</p>
+                                <p>即使我知道已经不可能了，但是我也许还在期待能和她一起浸泡在大大的海缸里嬉笑的日子能够回来。</p>
+                                <div class="post-time">2025.7.18</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-15 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>搞砸了</p>
-                                <div class="post-time">2024.12.7</div>
+                                <p>为什么啊</p>
+                                <div class="post-time">2025.7.18</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-14 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>真不想干了</p>
-                                <div class="post-time">2024.12.1</div>
+                                昨天晚上梦见她了。想来想去总觉得她有话要跟我说，于是偷偷回去把她的潜水服拿走了。妈妈叫我换一个工作吧，别想了。但是如果我不想，我怕别人会忘记她。
+                                <div class="post-time">2025.4.10</div>
                             </div>
                         </div>
 
                         <!-- 帖子-13 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>我也不爱总喝酒，但不干钱哪来。圈子里就是好人少，我有什么办法？！</p>
-                                <div class="post-time">2024.11.15</div>
+                                因为你的死，我开始怀疑一切了。
+                                <div class="post-time">2025.4.2</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-12 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>转发了一篇文章<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">《如何平衡兄弟和伴侣》</a></p>
-                                <div class="post-time">2024.11.3</div>
+                                如果我今天上班就好了。
+                                <p>晚安，我的小美人鱼，愿你在那边不必再担惊受怕。</p>
+                                <div class="post-time">2025.3.29</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-11 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>分享一首歌<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">《空白格》</a></p>
-                                <div class="post-time">2024.10.20</div>
+                                今天跟她搭话，她不理我，给她零食也不吃。我好难过，难道我们不是朋友吗？我希望她可以把一切都告诉我让我分担，但是我只感觉到她一直在把我往外推。回去之后偷偷哭了，但我不会放弃的，明天还要跟她说话给她带好吃的！
+                                <div class="post-time">2025.3.10</div>
                             </div>
                         </div>
 
                         <!-- 帖子-10 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>分享一首歌<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">《修炼爱情》</a></p>
-                                <div class="post-time">2024.10.8</div>
+                                喂其他动物的同事问我，鳐鱼吃饭还好吗。我问她怎么了，她说好多缸的大鱼有点拒食。
+                                我鼓起勇气去问安馆长饲料怎么了，他脸色不好。感觉整个馆里只有我还食欲旺盛，好多人都愁眉苦脸的，好不安QAQ
+                                <div class="post-time">2025.2.18</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-9 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>好吧，我爸居然很顺利就答应了。还以为要吵十天十夜。</p>
-                                <div class="post-time">2024.9.28</div>
+                                贾总在休息的时候问我她怎么了。我感觉好奇怪，就说她分手了心情不好吧。不知道这么说对不对。
+                                <p>贾总走了之后，晚上偶像也来找我。他看起来也很奇怪。我有点相信她的话了。</p>
+                                <p>她最近瘦了好多，吃饭也不怎么动筷子。我有时候多打一份饭放她门口，也不知道她吃了没有。 (｡•́︿•̀｡）</p>
+                                <div class="post-time">2025.2.10</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-8 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>翘班。</p>
-                                <div class="post-time">2024.8.23</div>
+                                她最近太紧张了，总是躲着人，在角落里缩着，好担心她。
+                                <p>而且好奇怪，她让我小心偶像。是不是有什么误会。 (´･_･`)</p>
+                                <div class="post-time">2025.1.28</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-7 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                爽玩结束。上班去了。
+                                蛙趣，也不用这么彻底的消失掉吧orz好愧疚。
+                                <p>虽然讨厌他，但希望人没有事。</p>
+                                <div class="post-time">2025.1.5</div>
                             </div>
-                            <img src="https://picsum.photos/id/188/300/200" alt="" class="post-img">
-                            <div class="post-footer">宽敞工位</div>
-                            <div class="post-time">2024.6.30</div>
                         </div>
-                        
+
                         <!-- 帖子-6 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>她要教我潜水，下午就到国外海边。这就是效率。</p>
-                                <div class="post-time">2024.5.20</div>
+                                最讨厌纠缠不休阴魂不散的男人(｡•́︿•̀｡)
+                                <div class="post-time">2024.12.20</div>
                             </div>
                         </div>
 
                         <!-- 帖子-5 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>找不到工作也哭，找到工作也哭。真没招。</p>
-                                <div class="post-time">2024.2.20</div>
+                                她说分手了，看起来很难过，但是没哭。我其实不太会安慰人，就坐旁边扯些别的。 (｡ŏ_ŏ)虽然这么说有点抱歉，但其实我有点高兴。
+                                <div class="post-time">2024.12.7</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-4 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>近日蔚蓝集团和泊然海洋馆进行合作，详情请点击<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">https://ikari.eco.cn</a>
-</p>
-                                <div class="post-time">2023.10.10</div>
+                                今天看到她的男朋友跟贾总一起从后台那边走过来。两个人边走边说话，离得很近。我低头擦缸假装没看见 ᕕ( ᐛ )ᕗ
+                                <p>后来跟她说了，但她好像不是很想聊这个TAT</p>
+                                <div class="post-time">2024.11.3</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-3 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>她说想留B市。我说这还不简单。</p>
-                                <div class="post-time">2023.6.20</div>
+                                可恶，她最近好像瘦了一点。
+                                <p>我明天带点吃的给她吧。 (´･ω･`)</p>
+                                <div class="post-time">2024.10.10</div>
                             </div>
                         </div>
-                        
+
                         <!-- 帖子-2 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                
+                                偶像问我最近工作怎么样，有没有什么不舒服不习惯的事，好幸福！但是想了半天都没觉得有什么，只有备料间噪音太大了有时候不太习惯。
+                                <div class="post-time">2024.9.25</div>
                             </div>
-                            <img src="https://picsum.photos/id/188/300/200" alt="" class="post-img">
-                            <div class="post-footer"></div>
-                            <div class="post-time">2023.4.12</div>
                         </div>
 
                         <!-- 帖子-1 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
-                            
                             <div class="post-content">
-                                别误会，真不是朋友。
-                            </div>
-                            <img src="https://picsum.photos/id/188/300/200" alt="" class="post-img">
-                            <div class="post-footer"></div>
-                            <div class="post-time">2023.3.8</div>
-                            <div class="comment-section">
-                                <div class="comment-list">
-                                    <div class="comment-item">
-                                        <div class="comment-avatar"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">不重要的朋友</div>
-                                            <div class="comment-text">牛👍，祝钱哥嫂子99</div>
-                                            <div class="comment-time">2023-03-08</div>
-                                        </div>
-                                    </div>
-                                    <div class="comment-item">
-                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">IM a changed man</div>
-                                            <div class="comment-text">
-                                                回复<span class="reply-name">不重要的朋友</span>：赏。
-                                            </div>
-                                            <div class="comment-time">2023-03-08</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                她的男朋友配不上她 (｡•́︿•̀｡)
+                                <div class="post-time">2024.9.15</div>
                             </div>
                         </div>
 
                         <!-- 帖子0 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
-                            
                             <div class="post-content">
-                                定位：<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">B市舞蹈学院</a>
-                            </div>
-                            <div class="post-time">2023.2.10</div>
-                            <div class="comment-section">
-                                <div class="comment-list">
-                                    <div class="comment-item">
-                                        <div class="comment-avatar"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">不重要的朋友</div>
-                                            <div class="comment-text">我去还在追那个吗</div>
-                                            <div class="comment-time">2023-02-10</div>
-                                        </div>
-                                    </div>
-                                    <div class="comment-item">
-                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">IM a changed man</div>
-                                            <div class="comment-text">
-                                                回复<span class="reply-name">不重要的朋友</span>：对。
-                                            </div>
-                                            <div class="comment-time">2023-02-10</div>
-                                        </div>
-                                    </div>
-                                    <div class="comment-item">
-                                        <div class="comment-avatar"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">不重要的朋友</div>
-                                            <div class="comment-text">
-                                                回复<span class="reply-name">IM a changed man</span>：牛👍
-                                            </div>
-                                            <div class="comment-time">2023-02-10</div>
-                                        </div>
-                                    </div>
-                                    <div class="comment-item">
-                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                        <div class="comment-body">
-                                            <div class="comment-name">IM a changed man</div>
-                                            <div class="comment-text">
-                                                回复<span class="reply-name">不重要的朋友</span>：滚。
-                                            </div>
-                                            <div class="comment-time">2023-02-10</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                比她的容貌更闪亮的是她那颗善良的心（昏迷）我将严肃企图成为她的朋友……
+                                <div class="post-time">2024.9.1</div>
                             </div>
                         </div>
 
                         <!-- 帖子1 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>有偿求一个明天下午某法餐厅的预定位置。价格不限，急。</p>
-                                <div class="post-time">2022.12.3</div>
+                                新同事的美照亮了我……好闪亮！
+                                <div class="post-time">2024.8.23</div>
                             </div>
                         </div>
 
                         <!-- 帖子2 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                定位：<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">B市舞蹈学院</a>
-                                <div class="post-time">2022.11.25</div>
+                                今天海缸换水忙了一整天。偶像路过的时候帮我搭了把手。他穿着旧工装，袖子卷到胳膊肘上，手套全是水。
+                                <p>贾总从旁边经过，西装革履的，看了一眼就走了。 </p>
+                                <p>悄悄说，这两个人完全实干派vs口头派。</p>
+                                <div class="post-time">2024.6.15</div>
                             </div>
                         </div>
 
                         <!-- 帖子3 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                定位：<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">B市舞蹈学院</a>
-                                <div class="post-time">2022.11.3</div>
+                                馆里组织聚餐，怎么感觉同事之间有小团体哇……喝多了酒之后氛围怪怪的。
+                                <p>可能我想多了。 (｡ŏ_ŏ)</p>
+                                <div class="post-time">2023.12.25</div>
                             </div>
                         </div>
 
                         <!-- 帖子4：最早的 -->
                         <div class="post-item">
                             <div class="post-header">
-                                <div class="post-header-avatar" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
-                                <div class="post-header-name">IM a changed man.</div>
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">一枚圆子</div>
                             </div>
                             <div class="post-content">
-                                <p>兄弟去舞蹈学院看学生跳舞，非要我开那辆最贵的车带他。必须请我吃饭！</p>
-                                <div class="post-time">2022.10.22</div>
+                                入职！分到了海缸区，负责喂鳐鱼。第一天上班喂鱼的时候，它们贴着玻璃游过来，像在笑一样 (´▽`ʃ♡)ƪ
+                                <p>我的偶像安副馆长来巡馆，说“好好干，鱼都交给你了”。</p>
+                                <p>我狂点头。</p>
+                                <div class="post-time">2023.11.10</div>
                             </div>
                         </div>
                     </div>
@@ -892,44 +772,35 @@
         <!-- 我的文件 -->
         <div id="file" class="content">
             <div class="file-content-container">
-                <!-- 文件主界面 -->
                 <div id="file-main" class="file-section active">
                     <h3 style="color: #FF7F84; margin-bottom:20px;">📁 我的文件总览</h3>
                     <div class="file-grid">
-                        <!-- 1：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('album')">
                             <div class="folder-name">萍萍成长相册</div>
                         </div>
-                        <!-- 2：加密文件夹（病历） -->
                         <div class="folder-card folder-secret" onclick="openPwdModal('medical')">
                             <div class="folder-key">🗝</div>
                             <div class="folder-name">病历档案<br>(私密)</div>
                         </div>
-                        <!-- 3：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('daily')">
                             <div class="folder-name">日常随笔文档</div>
                         </div>
-                        <!-- 4：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('rehab')">
                             <div class="folder-name">康复训练记录</div>
                         </div>
-                        <!-- 5：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('note')">
                             <div class="folder-name">生活心情笔记</div>
                         </div>
-                        <!-- 6：加密文件夹（合同） -->
                         <div class="folder-card folder-secret" onclick="openPwdModal('contract')">
                             <div class="folder-key">🗝</div>
                             <div class="folder-name">合同文件<br>(私密)</div>
                         </div>
-                        <!-- 7：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('game')">
                             <div class="folder-name">萍萍爱玩的游戏</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 子页面1：相册 -->
                 <div id="file-album" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">🖼️ 萍萍的成长相册</h3>
@@ -950,7 +821,6 @@
                     </div>
                 </div>
 
-                <!-- 子页面2：病历档案 -->
                 <div id="file-medical" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">🗝 萍萍病历档案（私密）</h3>
@@ -961,7 +831,6 @@
                     </div>
                 </div>
 
-                <!-- 子页面3：日常随笔 -->
                 <div id="file-daily" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">📝 日常随笔文档</h3>
@@ -976,7 +845,6 @@
                     </div>
                 </div>
 
-                <!-- 子页面4：康复记录 -->
                 <div id="file-rehab" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">💪 萍萍康复训练记录</h3>
@@ -986,7 +854,6 @@
                     </div>
                 </div>
 
-                <!-- 子页面5：生活笔记 -->
                 <div id="file-note" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">❤️ 生活心情笔记</h3>
@@ -996,7 +863,6 @@
                     </div>
                 </div>
 
-                <!-- 子页面6：合同文件 -->
                 <div id="file-contract" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">🗝 个人合同文件（私密）</h3>
@@ -1005,17 +871,15 @@
                         <div class="doc-item">📄 特教机构缴费协议</div>
                     </div>
                 </div>
-                <!-- 子页面7：试验加页 -->
                 <div id="file-game" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
                     <h3 style="color: #FF7F84;">❤️ 游戏收录</h3>
-                    
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========== 密码弹窗HTML（双按钮） ========== -->
+    <!-- 密码弹窗 -->
     <div class="modal-overlay" id="pwdModal">
         <div class="modal-box">
             <div class="modal-title">此处存在谜题</div>
@@ -1027,9 +891,9 @@
         </div>
     </div>
 
-    <!-- ========== 头像预览模态框（新增） ========== -->
+    <!-- 头像预览模态框 -->
     <div class="modal-overlay" id="avatarModal" onclick="closeAvatarModal()">
-        <img src="images2/laoqian-0.jpg" alt="完整头像" onclick="event.stopPropagation()">
+        <img src="images2/yuanzi-0.jpg" alt="完整头像" onclick="event.stopPropagation()">
     </div>
 
     <script>
@@ -1040,22 +904,18 @@
         };
         let currentTarget = "";
 
-        // 1. 切换主页面（主页/文件）
         function switchTab(tabName) {
             document.querySelectorAll('.content').forEach(item => item.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
-            
             document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // 2. 切换文件子页面
         function switchFileSection(sectionName) {
             document.querySelectorAll('.file-section').forEach(section => section.classList.remove('active'));
             document.getElementById('file-' + sectionName).classList.add('active');
         }
 
-        // 3. 打开密码弹窗
         function openPwdModal(target) {
             currentTarget = target;
             document.getElementById('pwdModal').style.display = 'flex';
@@ -1063,12 +923,10 @@
             document.getElementById('pwdInput').focus();
         }
 
-        // 4. 关闭密码弹窗
         function closePwdModal() {
             document.getElementById('pwdModal').style.display = 'none';
         }
 
-        // 5. 验证密码
         function checkPassword() {
             const inputVal = document.getElementById('pwdInput').value.trim();
             const rightPwd = pwdConfig[currentTarget];
@@ -1080,7 +938,6 @@
             }
         }
 
-        // 回车键触发确认密码
         document.getElementById('pwdInput').addEventListener('keydown', function(e) {
             if(e.key === 'Enter') {
                 checkPassword();
@@ -1096,7 +953,7 @@
             document.getElementById('avatarModal').style.display = 'none';
         }
 
-        // 动态排序切换功能
+        // 动态排序
         const sortBtn = document.getElementById('sortBtn');
         const postList = document.getElementById('postList');
         let isDescOrder = true;

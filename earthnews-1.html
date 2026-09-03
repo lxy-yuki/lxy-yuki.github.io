@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>环球新资讯 - 生活频道</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1a365d',
+            secondary: '#e53e3e',
+            dark: '#2d3748',
+            lightGray: '#f7fafc'
+          },
+          fontFamily: {
+            sans: ['"Noto Sans SC"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .nav-underline {
+        position: relative;
+      }
+      .nav-underline::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #e53e3e;
+        transition: width 0.3s ease;
+      }
+      .nav-underline:hover::after {
+        width: 100%;
+      }
+      .news-card-hover {
+        transition: all 0.3s ease;
+      }
+      .news-card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      .marquee-container {
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .marquee-content {
+        display: inline-block;
+        animation: marquee 25s linear infinite;
+      }
+      @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+      .prose-news p {
+        margin-bottom: 1rem;
+        line-height: 1.8;
+        text-indent: 2em;
+      }
+      .prose-news h3 {
+        text-indent: 0;
+        margin: 1.5rem 0 0.8rem 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-lightGray font-sans text-dark">
+  <!-- 顶部状态栏 -->
+  <div class="bg-primary text-white text-xs py-1">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <span>2026年7月28日 星期二 农历丙午年六月十五</span>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-gray-200 transition">设为首页</a>
+        <a href="#" class="hover:text-gray-200 transition">收藏本站</a>
+        <a href="#" class="hover:text-gray-200 transition">登录</a>
+        <a href="#" class="hover:text-gray-200 transition">注册</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 快讯滚动条 -->
+  <div class="bg-white border-b border-gray-200 py-2">
+    <div class="max-w-7xl mx-auto px-4 flex items-center">
+      <span class="bg-secondary text-white text-xs px-2 py-1 rounded mr-4 font-bold shrink-0">快讯</span>
+      <div class="marquee-container flex-1 text-sm text-gray-700">
+        <div class="marquee-content">
+          2026年暑期全国旅游人次突破8.3亿 同比增长12.7% &nbsp;&nbsp;|&nbsp;&nbsp;
+          国内首条跨海高铁全线贯通 东南沿海城市群再提速 &nbsp;&nbsp;|&nbsp;&nbsp;
+          教育部发布新规：秋季学期起全面落实义务教育课后服务提质 &nbsp;&nbsp;|&nbsp;&nbsp;
+          我国新能源汽车出口量连续18个月位居全球第一 &nbsp;&nbsp;|&nbsp;&nbsp;
+          新一轮成品油价格调整窗口开启 92号汽油每升上调0.18元
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 头部与导航 -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center justify-between py-4">
+        <div class="flex items-center gap-2">
+          <div class="text-primary text-3xl font-bold">环球新资讯</div>
+          <span class="text-xs text-gray-500 mt-2">GLOBAL NEWS DAILY</span>
+        </div>
+        <div class="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2 w-80">
+          <input type="text" placeholder="搜索新闻、话题、关键词..." class="bg-transparent outline-none flex-1 text-sm">
+          <button class="text-gray-500 hover:text-secondary transition">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+      <nav class="border-t border-gray-100">
+        <ul class="flex gap-8 py-3 text-sm font-medium overflow-x-auto">
+          <li><a href="#" id="navHome" class="nav-underline hover:text-secondary transition whitespace-nowrap">首页</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">时政</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">财经</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">科技</a></li>
+          <li><a href="#" id="navLife" class="nav-underline text-secondary font-bold whitespace-nowrap">生活</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">文化</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">体育</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">娱乐</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">健康</a></li>
+          <li><a href="#" class="nav-underline hover:text-secondary transition whitespace-nowrap">国际</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 主页内容（默认隐藏） -->
+    <div id="homePage" class="hidden">
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <!-- 头条与要闻区 -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <!-- 大图头条 -->
+          <div class="lg:col-span-2 relative rounded-lg overflow-hidden shadow-md news-card-hover cursor-pointer">
+            <img src="https://picsum.photos/id/1015/800/450" alt="头条新闻" class="w-full h-80 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+              <span class="bg-secondary text-xs px-2 py-1 rounded mb-2 inline-block">头条</span>
+              <h2 class="text-xl font-bold mb-2">2026年全国经济半年报出炉 主要指标稳步回升向好</h2>
+              <p class="text-sm text-gray-200 line-clamp-2">国家统计局今日发布上半年国民经济运行数据，国内生产总值同比增长5.8%，消费市场持续恢复，产业升级态势明显，高质量发展取得新成效。</p>
+            </div>
+          </div>
+
+          <!-- 右侧要闻列表 -->
+          <div class="bg-white rounded-lg shadow-sm p-5">
+            <h3 class="text-lg font-bold border-l-4 border-secondary pl-3 mb-4">今日要闻</h3>
+            <ul class="space-y-3 text-sm">
+              <li class="flex gap-2 pb-2 border-b border-gray-100">
+                <span class="text-secondary font-bold shrink-0">01</span>
+                <a href="#" class="hover:text-secondary transition line-clamp-1">多部门联合印发方案 进一步支持小微企业融资纾困</a>
+              </li>
+              <li class="flex gap-2 pb-2 border-b border-gray-100">
+                <span class="text-secondary font-bold shrink-0">02</span>
+                <a href="#" class="hover:text-secondary transition line-clamp-1">全国高温范围持续扩大 多地启动高温四级应急响应</a>
+              </li>
+              <li class="flex gap-2 pb-2 border-b border-gray-100">
+                <span class="text-secondary font-bold shrink-0">03</span>
+                <a href="#" class="hover:text-secondary transition line-clamp-1">国产大飞机C919完成首次商业跨洋飞行 航程超6000公里</a>
+              </li>
+              <li class="flex gap-2 pb-2 border-b border-gray-100">
+                <span class="text-secondary font-bold shrink-0">04</span>
+                <a href="#" class="hover:text-secondary transition line-clamp-1">教育部：秋季学期起中小学全面开设人工智能基础课程</a>
+              </li>
+              <li class="flex gap-2 pb-2 border-b border-gray-100">
+                <span class="text-secondary font-bold shrink-0">05</span>
+                <a href="#" class="hover:text-secondary transition line-clamp-1">央行宣布下调存款准备金率0.25个百分点 释放长期资金</a>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-gray-400 font-bold shrink-0">06</span>
+                <a href="#" class="hover:text-secondary transition line-clamp-1">第28届上海国际电影节开幕 全球影片展映规模创新高</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 新闻板块两栏布局 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- 左侧主内容区 -->
+          <div class="lg:col-span-2 space-y-8">
+            <!-- 国内新闻板块 -->
+            <section class="bg-white rounded-lg shadow-sm p-5">
+              <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+                <h3 class="text-lg font-bold">国内新闻</h3>
+                <a href="#" class="text-sm text-gray-500 hover:text-secondary transition">更多 <i class="fa fa-angle-right ml-1"></i></a>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="news-card-hover cursor-pointer">
+                  <img src="https://picsum.photos/id/1039/400/220" alt="" class="w-full h-36 object-cover rounded mb-3">
+                  <h4 class="font-medium mb-1 hover:text-secondary transition line-clamp-2">长江流域防汛抗旱指挥部部署新一轮强降雨防范工作</h4>
+                  <p class="text-xs text-gray-500 line-clamp-2">针对近期长江中下游地区出现的持续性强降雨天气，国家防总启动防汛四级应急响应，要求各地做好隐患排查与群众转移准备。</p>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex gap-3">
+                    <img src="https://picsum.photos/id/1043/120/80" alt="" class="w-24 h-16 object-cover rounded shrink-0">
+                    <div>
+                      <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2 cursor-pointer">全国铁路暑期运输启动 预计发送旅客8.6亿人次</h5>
+                      <span class="text-xs text-gray-400 mt-1 inline-block">2小时前</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <img src="https://picsum.photos/id/1058/120/80" alt="" class="w-24 h-16 object-cover rounded shrink-0">
+                    <div>
+                      <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2 cursor-pointer">我国新增12处国家级自然保护区 生物多样性保护扩容</h5>
+                      <span class="text-xs text-gray-400 mt-1 inline-block">4小时前</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <img src="https://picsum.photos/id/1062/120/80" alt="" class="w-24 h-16 object-cover rounded shrink-0">
+                    <div>
+                      <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2 cursor-pointer">三部门联合开展网络虚假宣传专项整治行动</h5>
+                      <span class="text-xs text-gray-400 mt-1 inline-block">昨天</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 财经新闻板块 -->
+            <section class="bg-white rounded-lg shadow-sm p-5">
+              <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+                <h3 class="text-lg font-bold">财经资讯</h3>
+                <a href="#" class="text-sm text-gray-500 hover:text-secondary transition">更多 <i class="fa fa-angle-right ml-1"></i></a>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="news-card-hover cursor-pointer">
+                  <img src="https://picsum.photos/id/1061/400/220" alt="" class="w-full h-36 object-cover rounded mb-3">
+                  <h4 class="font-medium mb-1 hover:text-secondary transition line-clamp-2">A股三大指数集体收涨 新能源板块领涨市场</h4>
+                  <p class="text-xs text-gray-500 line-clamp-2">截至收盘，沪指涨1.23%，深成指涨1.89%，创业板指涨2.45%，两市成交额突破1.3万亿元，北向资金单日净买入超80亿元。</p>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex gap-3">
+                    <img src="https://picsum.photos/id/180/120/80" alt="" class="w-24 h-16 object-cover rounded shrink-0">
+                    <div>
+                      <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2 cursor-pointer">7月LPR报价保持不变 1年期与5年期均维持现有水平</h5>
+                      <span class="text-xs text-gray-400 mt-1 inline-block">3小时前</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <img src="https://picsum.photos/id/20/120/80" alt="" class="w-24 h-16 object-cover rounded shrink-0">
+                    <div>
+                      <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2 cursor-pointer">上半年全国网上零售额同比增长11.2% 实物商品占比提升</h5>
+                      <span class="text-xs text-gray-400 mt-1 inline-block">5小时前</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <img src="https://picsum.photos/id/366/120/80" alt="" class="w-24 h-16 object-cover rounded shrink-0">
+                    <div>
+                      <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2 cursor-pointer">多家银行下调美元存款利率 专家提示汇率风险</h5>
+                      <span class="text-xs text-gray-400 mt-1 inline-block">昨天</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 生活资讯板块 -->
+            <section class="bg-white rounded-lg shadow-sm p-5">
+              <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+                <h3 class="text-lg font-bold">生活万象</h3>
+                <a href="#" class="text-sm text-gray-500 hover:text-secondary transition">更多 <i class="fa fa-angle-right ml-1"></i></a>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="news-card-hover cursor-pointer">
+                  <img src="https://picsum.photos/id/1060/300/180" alt="" class="w-full h-28 object-cover rounded mb-2">
+                  <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2">暑期夜间经济持续升温 多地打造特色消费地标</h5>
+                  <span class="text-xs text-gray-400">6小时前</span>
+                </div>
+                <div class="news-card-hover cursor-pointer">
+                  <img src="https://picsum.photos/id/292/300/180" alt="" class="w-full h-28 object-cover rounded mb-2">
+                  <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2">中消协发布暑期消费提示：警惕低价旅游陷阱</h5>
+                  <span class="text-xs text-gray-400">8小时前</span>
+                </div>
+                <div class="news-card-hover cursor-pointer">
+                  <img src="https://picsum.photos/id/493/300/180" alt="" class="w-full h-28 object-cover rounded mb-2">
+                  <h5 class="text-sm font-medium hover:text-secondary transition line-clamp-2">新一轮高温天气来袭 专家提醒做好防暑降温</h5>
+                  <span class="text-xs text-gray-400">10小时前</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- 右侧边栏 -->
+          <aside class="space-y-6">
+            <!-- 热搜榜 -->
+            <div class="bg-white rounded-lg shadow-sm p-5">
+              <h3 class="text-lg font-bold border-l-4 border-secondary pl-3 mb-4">热搜榜</h3>
+              <ol class="space-y-3 text-sm">
+                <li class="flex gap-3 items-start">
+                  <span class="bg-secondary text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">1</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">全国多地发布高温红色预警 局地气温超42℃</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-secondary text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">2</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">2026年暑期档总票房突破85亿元 刷新历史纪录</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-orange-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">3</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">国产芯片再获突破 7nm工艺实现规模化量产</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-gray-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">4</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">教育部通报校外培训治理典型案例 8家机构被查处</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-gray-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">5</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">国际金价创历史新高 突破每盎司2480美元</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-gray-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">6</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">我国成功发射新一代气象卫星 观测精度大幅提升</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-gray-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">7</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">知名演员宣布退出综艺录制 工作室发声明回应</a>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="bg-gray-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded shrink-0 mt-0.5">8</span>
+                  <a href="#" class="hover:text-secondary transition line-clamp-2">最新研究：每天步行8000步可显著降低心血管风险</a>
+                </li>
+              </ol>
+            </div>
+
+            <!-- 专题推荐 -->
+            <div class="bg-white rounded-lg shadow-sm p-5">
+              <h3 class="text-lg font-bold border-l-4 border-secondary pl-3 mb-4">专题聚焦</h3>
+              <div class="space-y-4">
+                <div class="relative rounded overflow-hidden cursor-pointer group">
+                  <img src="https://picsum.photos/id/1019/300/120" alt="" class="w-full h-20 object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-sm font-medium">
+                    2026年经济半年报解读
+                  </div>
+                </div>
+                <div class="relative rounded overflow-hidden cursor-pointer group">
+                  <img src="https://picsum.photos/id/1036/300/120" alt="" class="w-full h-20 object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-sm font-medium">
+                    暑期出行全攻略
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 便民服务 -->
+            <div class="bg-white rounded-lg shadow-sm p-5">
+              <h3 class="text-lg font-bold border-l-4 border-secondary pl-3 mb-4">便民查询</h3>
+              <div class="grid grid-cols-4 gap-2 text-center text-xs">
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-cloud text-lg text-primary"></i>
+                  <span>天气</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-train text-lg text-primary"></i>
+                  <span>火车票</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-plane text-lg text-primary"></i>
+                  <span>机票</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-calendar-check text-lg text-primary"></i>
+                  <span>黄历</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-percent text-lg text-primary"></i>
+                  <span>个税</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-gas-pump text-lg text-primary"></i>
+                  <span>油价</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-hospital text-lg text-primary"></i>
+                  <span>挂号</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-secondary transition">
+                  <i class="fa fa-qrcode text-lg text-primary"></i>
+                  <span>更多</span>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <!-- 生活新闻详情页（默认显示） -->
+    <article id="newsDetail" class="max-w-3xl mx-auto px-4 py-8">
+      <!-- 面包屑导航 -->
+      <div class="text-sm text-gray-500 mb-6">
+        <a href="#" id="crumbHome" class="hover:text-secondary transition">首页</a>
+        <span class="mx-2">/</span>
+        <span>生活</span>
+        <span class="mx-2">/</span>
+        <span class="text-gray-700">正文</span>
+      </div>
+
+      <!-- 新闻标题 -->
+      <h1 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-dark leading-tight mb-4">
+        泊然海洋馆重装开业在即！打卡攻略抢先看
+      </h1>
+
+      <!-- 新闻元信息 -->
+      <div class="flex flex-wrap items-center text-sm text-gray-500 pb-4 border-b border-gray-200 mb-6 gap-y-2">
+        <span>来源：环球新资讯 · 生活频道</span>
+        <span class="mx-3 hidden sm:inline">|</span>
+        <span>记者：A</span>
+        <span class="mx-3 hidden sm:inline">|</span>
+        <span>2024年7月1日 </span>
+        <span class="mx-3 hidden sm:inline">|</span>
+        <span><i class="fa fa-eye mr-1"></i> 176281</span>
+      </div>
+
+      <!-- 导语 -->
+      <p class="text-lg text-gray-700 font-medium leading-relaxed mb-6 border-l-4 border-secondary pl-4">
+        这个夏天，B市最好玩的地方即将回归！经过近一年的闭馆改造，泊然海洋馆终于要在本月底重新对外开放了！小编第一时间拿到了新馆的第一手资料，
+        现在就带大家提前探秘这座号称“A省最大海洋主题场馆”的全新面貌——到底值不值得去？怎么玩最划算？看这一篇就够了。
+      </p>
+
+      <!-- 主配图 -->
+      <figure class="mb-8">
+        <img src=".\images\ocean-4.jpg" alt="夜间经济市集" class="w-full rounded-lg shadow-sm">
+        <figcaption class="text-xs text-gray-500 text-center mt-2"></figcaption>
+      </figure>
+
+      <!-- 正文主体 -->
+      <div class="prose-news text-gray-700 text-base leading-relaxed">
+        
+
+        <h3 class="text-xl font-bold text-dark">【新馆速览】</h3>
+        <p>
+          泊然海洋馆位于B市滨海路88号，从市区自驾约30分钟可达，公交线路也刚刚增加了直达班次。新馆在原有基础上扩建了近一倍，新增了白鲸馆、海豚剧场、极地展区三大主题区域。
+          据馆长贾剑明在媒体见面会上透露，新馆的目标是打造“全年龄段一站式海洋体验”，不论情侣约会还是亲子出游，都能找到适合自己的玩法。
+        </p>
+        
+
+        <h3 class="text-xl font-bold text-dark">【打卡攻略】</h3>
+        <p>
+          <strong>📍打卡点一：白鲸馆（首推！全馆C位）</strong>
+        </p>
+        <p>
+          新馆最重磅的区域。三只白鲸将在超大落地展缸中与游客见面，展缸宽度超过十五米，是目前省内最大的白鲸展示区。
+          拍照出片率极高，建议上午光线好的时候先去。每天有固定时段的饲养员投喂互动环节，可以看到白鲸跃出水面接鱼的画面（这个比表演还精彩）。
+        </p>
+        <p>
+          <strong>📍打卡点二：海豚剧场</strong>
+        </p>
+        <p>
+          新馆恢复了动物表演项目，由专业驯演团队设计了全新节目。海豚跳跃、顶球、与驯养员配合表演等经典项目都有，
+          据内测反馈，现场氛围非常热烈。表演时间目前公布为每日11:00和15:00两场，建议提前十五分钟到场占座。
+        </p>
+        <p>
+          <strong>📍打卡点三：海底隧道</strong>
+        </p>
+        <p>
+          这是老馆保留下来的经典区域，但新馆做了全面升级——隧道长度增加到了五十米，光线和玻璃通透度都有了明显改善，
+          拍照比老馆好看很多。幸运的话能看到饲养员在水中喂食鱼群，成群的鱼从头顶游过非常震撼。
+        </p>
+        <p>
+          <strong>📍打卡点四：纪念品商店（新馆必逛）</strong>
+        </p>
+        <p>
+          新馆出口处的纪念品商店面积是老馆的三倍。白鲸、海豚、海狮、小丑鱼等十余种海洋动物玩偶均有售，
+          部分商品为泊然海洋馆限定款，外面买不到。小编强烈推荐白鲸款，手感绝佳，自留送人都合适。
+        </p>
+        <h3 class="text-xl font-bold text-dark">【实用内容】</h3>
+        <p>重开时间：2024年7月底（具体日期以官方公告为准）</p>
+        <p>开放时间：每日9:00-17:30（周末延长至18:00）</p>
+        <p>票价：成人120元/儿童60元（1.2米以下免票）/家庭套票260元（两大一小）</p>
+        <p>地址：B市滨海路88号</p>
+        <p>交通:自驾导航“泊然海洋馆”；公交新设海洋馆专线（详情查询本地公交APP）</p>
+        <h3 class="text-xl font-bold text-dark">【小编写在最后】</h3>
+        <p>升级改造后的泊然海洋馆，确实比以前好逛了很多。无论是对老游客还是新朋友来说，都是一个值得来一次的周末去处。
+            这个夏天，带上家人朋友，去看海豚跃出水面，去听白鲸在水下的歌声，去过一个被海洋包围的周末吧。🌊 我们海洋馆见！</p>
+      </div>
+
+      <!-- 标签区 -->
+      <div class="mt-10 pt-6 border-t border-gray-200">
+        <div class="flex flex-wrap gap-2 text-sm">
+          <span class="text-gray-500 mr-2">相关标签：</span>
+          <a href="#" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full hover:bg-secondary hover:text-white transition">#旅游去处</a>
+          <a href="#" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full hover:bg-secondary hover:text-white transition">#泊然海洋馆重启</a>
+          <a href="#" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full hover:bg-secondary hover:text-white transition">#城市生活</a>
+          
+        </div>
+      </div>
+
+      <!-- 编辑信息 -->
+      <div class="mt-6 text-sm text-gray-500 text-right">
+        <p>责任编辑：B</p>
+        <p class="text-xs mt-1">本文为环球新资讯原创稿件，未经授权不得转载</p>
+      </div>
+    </article>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="bg-primary text-white mt-10">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h4 class="text-lg font-bold mb-4">关于我们</h4>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li><a href="#" class="hover:text-white transition">报社简介</a></li>
+            <li><a href="#" class="hover:text-white transition">联系方式</a></li>
+            <li><a href="#" class="hover:text-white transition">广告合作</a></li>
+            <li><a href="#" class="hover:text-white transition">人才招聘</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-4">服务频道</h4>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li><a href="#" class="hover:text-white transition">便民查询</a></li>
+            <li><a href="#" class="hover:text-white transition">读者来信</a></li>
+            <li><a href="#" class="hover:text-white transition">版权声明</a></li>
+            <li><a href="#" class="hover:text-white transition">隐私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-4">关注我们</h4>
+          <div class="flex gap-4 text-xl">
+            <a href="#" class="hover:text-gray-300 transition"><i class="fa fa-weibo"></i></a>
+            <a href="#" class="hover:text-gray-300 transition"><i class="fa fa-weixin"></i></a>
+            <a href="#" class="hover:text-gray-300 transition"><i class="fa fa-qq"></i></a>
+            <a href="#" class="hover:text-gray-300 transition"><i class="fa fa-tiktok"></i></a>
+          </div>
+          <p class="text-xs text-gray-400 mt-4">扫码关注官方公众号<br>获取每日精选资讯推送</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-4">客户端下载</h4>
+          <div class="bg-white p-2 rounded w-24 h-24 flex items-center justify-center">
+            <span class="text-gray-400 text-xs text-center">二维码占位</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-2">苹果 / 安卓客户端</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center text-xs text-gray-400">
+        <p>© 2026 环球新资讯 版权所有 京ICP备12345678号-1 京公网安备11010102001234号</p>
+        <p class="mt-1">本网站内容仅供参考，不构成任何投资建议 如有侵权请联系我们及时处理</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="backToTop" class="fixed bottom-8 right-8 bg-secondary text-white w-10 h-10 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-red-700 z-50">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // 页面切换逻辑
+    const navHome = document.getElementById('navHome');
+    const navLife = document.getElementById('navLife');
+    const crumbHome = document.getElementById('crumbHome');
+    const homePage = document.getElementById('homePage');
+    const newsDetail = document.getElementById('newsDetail');
+
+    function showHomePage() {
+      homePage.classList.remove('hidden');
+      newsDetail.classList.add('hidden');
+      // 更新导航高亮
+      navHome.classList.add('text-secondary', 'font-bold');
+      navLife.classList.remove('text-secondary', 'font-bold');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showNewsPage() {
+      homePage.classList.add('hidden');
+      newsDetail.classList.remove('hidden');
+      // 更新导航高亮
+      navLife.classList.add('text-secondary', 'font-bold');
+      navHome.classList.remove('text-secondary', 'font-bold');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    navHome.addEventListener('click', function(e) {
+      e.preventDefault();
+      showHomePage();
+    });
+
+    navLife.addEventListener('click', function(e) {
+      e.preventDefault();
+      showNewsPage();
+    });
+
+    crumbHome.addEventListener('click', function(e) {
+      e.preventDefault();
+      showHomePage();
+    });
+
+    // 返回顶部功能
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.remove('opacity-0', 'invisible');
+        backToTopBtn.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopBtn.classList.add('opacity-0', 'invisible');
+        backToTopBtn.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // 导航栏滚动效果
+    let lastScroll = 0;
+    const header = document.querySelector('header');
+    
+    window.addEventListener('scroll', function() {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll && currentScroll > 100) {
+        header.style.transform = 'translateY(-100%)';
+      } else {
+        header.style.transform = 'translateY(0)';
+      }
+      lastScroll = currentScroll;
+    });
+    header.style.transition = 'transform 0.3s ease';
+  </script>
+</body>
+</html>

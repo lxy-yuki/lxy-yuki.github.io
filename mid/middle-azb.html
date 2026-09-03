@@ -52,11 +52,19 @@
             align-items: center;
             padding: 0 20px;
         }
-        .search-input .icon {
-            color: #fff;
-            font-size: 22px;
-            margin-right: 12px;
+
+        /* ===== 新增：搜索栏左侧图片图标 ===== */
+        .search-icon-img {
+            width: 24px;            /* 【可调】图片宽度 */
+            height: 24px;           /* 【可调】图片高度 */
+            margin-right: 12px;     /* 【可调】图片与输入框文字的距离 */
+            margin-left: 0px;       /* 【可调】图片与搜索栏左侧内边距的距离 */
+            object-fit: contain;    /* 保持图片比例，不变形 */
+            vertical-align: middle;
+            position: relative;     /* 如需微调垂直位置可配合 top */
+            top: 0px;               /* 【可调】图片垂直偏移量，正数下移，负数上移 */
         }
+
         .search-input input {
             flex: 1;
             background: transparent;
@@ -142,17 +150,18 @@
     <!-- 右侧搜索栏+渐变展示区域 -->
     <div class="search-area">
         <div class="search-input">
-            <span class="icon">🔍</span>
+            <!-- 原搜索图标已删除，替换为自定义图片 -->
+            <img class="search-icon-img" src="..\images\mirror1.png" alt="搜索图标">
             <input type="text" placeholder="请输入搜索内容">
         </div>
         
         <!-- 淡黄色渐变区域：自定义文字超链接 -->
         <div class="gradient-block">
             <!-- 黑色加粗大标题 -->
-            <div class="result-title">共找到如下X个搜索结果：</div>
+            <div class="result-title">共找到如下1个搜索结果：</div>
             
             <!-- 超链接格式：href=跳转链接，中间文字=页面显示的自定义内容 -->
-            <a class="result-link" href="..\Aquarium.html">泊然海洋馆主页</a>
+            <a class="result-link" href="..\B-daily-2.html">【B市日报】海洋馆新风！更先进，更环保！</a>
             
         </div>
     </div>

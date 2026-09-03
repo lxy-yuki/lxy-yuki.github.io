@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>向日葵娱乐 - 领先的文娱资讯平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunflower: {
+                            50: '#FFFBEB',
+                            100: '#FEF3C7',
+                            200: '#FDE68A',
+                            300: '#FCD34D',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                            700: '#B45309',
+                            800: '#92400E',
+                            900: '#78350F',
+                        },
+                        entertainment: {
+                            dark: '#1A1A2E',
+                            medium: '#16213E',
+                            light: '#0F3460'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .line-clamp-2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .line-clamp-3 {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .news-body p {
+                margin-bottom: 1.25rem;
+                text-indent: 2em;
+                line-height: 1.9;
+                color: #333;
+                font-size: 1.05rem;
+            }
+            .news-body h2 {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin: 2rem 0 1rem 0;
+                color: #111;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- 顶部信息栏 -->
+            <div class="flex justify-between items-center py-2 text-xs text-gray-500 border-b border-gray-100">
+                <div class="flex items-center space-x-4">
+                    <span>2026年7月28日 星期二</span>
+                    <span class="text-sunflower-600 font-medium">农历丙午年六月十五</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hover:text-sunflower-600 transition-colors">登录</a>
+                    <a href="#" class="hover:text-sunflower-600 transition-colors">注册</a>
+                    <a href="#" class="hover:text-sunflower-600 transition-colors">客户端下载</a>
+                </div>
+            </div>
+            
+            <!-- Logo与主导航 -->
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="showPage('home')">
+                    <div class="w-10 h-10 bg-gradient-to-br from-sunflower-400 to-sunflower-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-entertainment-dark tracking-wide">向日葵娱乐</h1>
+                        <p class="text-xs text-gray-400 -mt-1">SUNFLOWER ENTERTAINMENT</p>
+                    </div>
+                </div>
+                
+                <nav class="flex items-center space-x-1">
+                    <button onclick="showPage('home')" class="nav-item px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200" data-page="home">首页</button>
+                    <button class="px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200">时尚</button>
+                    <button onclick="showPage('travel')" class="nav-item px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200" data-page="travel">旅游</button>
+                    <button class="px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200">明星</button>
+                    <button class="px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200">电影</button>
+                    <button class="px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200">音乐</button>
+                    <button class="px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200">综艺</button>
+                    <button class="px-5 py-2 font-medium text-gray-700 hover:text-sunflower-600 hover:bg-sunflower-50 rounded-md transition-all duration-200">艺术</button>
+                </nav>
+                
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <input type="text" placeholder="搜索资讯..." class="w-48 pl-4 pr-10 py-2 text-sm border border-gray-200 rounded-full focus:outline-none focus:border-sunflower-400 focus:ring-1 focus:ring-sunflower-400 transition-all">
+                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-sunflower-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 首页内容 -->
+    <main id="page-home" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <!-- 头条轮播区 -->
+            <section class="grid grid-cols-3 gap-4 mb-8">
+                <div class="col-span-2 relative rounded-lg overflow-hidden h-96 group cursor-pointer">
+                    <img src="https://picsum.photos/800/500?random=1" alt="头条大图" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <span class="inline-block px-3 py-1 bg-sunflower-500 text-white text-xs font-medium rounded mb-3">头条</span>
+                        <h2 class="text-2xl font-bold mb-2 text-shadow leading-tight">2026春夏国际时装周盛大启幕 全球顶尖设计师齐聚魔都</h2>
+                        <p class="text-sm text-gray-200 line-clamp-2">本届时装周以"新生万物"为主题，汇聚来自全球30多个国家的200余位设计师，呈现一场东西方美学交融的视觉盛宴...</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col space-y-4">
+                    <div class="relative rounded-lg overflow-hidden h-[184px] group cursor-pointer">
+                        <img src="https://picsum.photos/400/200?random=2" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                            <span class="text-xs text-sunflower-300 font-medium">明星</span>
+                            <h3 class="text-base font-semibold mt-1 line-clamp-2">知名导演新作首映口碑爆棚 首日票房突破两亿</h3>
+                        </div>
+                    </div>
+                    <div class="relative rounded-lg overflow-hidden h-[184px] group cursor-pointer">
+                        <img src="https://picsum.photos/400/200?random=3" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                            <span class="text-xs text-sunflower-300 font-medium">音乐</span>
+                            <h3 class="text-base font-semibold mt-1 line-clamp-2">新生代歌手专辑销量破纪录 数位时代的实体奇迹</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 主体内容区 -->
+            <div class="grid grid-cols-12 gap-6">
+                <!-- 左侧主内容 -->
+                <div class="col-span-8 space-y-8">
+                    <!-- 时尚板块 -->
+                    <section>
+                        <div class="flex items-center justify-between mb-4 border-b-2 border-sunflower-500 pb-2">
+                            <h3 class="text-xl font-bold text-entertainment-dark flex items-center">
+                                <span class="w-1 h-6 bg-sunflower-500 mr-3 rounded-full"></span>
+                                时尚前沿
+                            </h3>
+                            <span class="text-sm text-gray-500">查看更多 ></span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-5">
+                            <article class="group cursor-pointer">
+                                <div class="overflow-hidden rounded-lg mb-3">
+                                    <img src="https://picsum.photos/400/250?random=10" alt="" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <h4 class="font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2 mb-2">2026年度时尚盛典落幕 多元审美重塑行业新标准</h4>
+                                <p class="text-sm text-gray-500 line-clamp-2">本届盛典以"无界美学"为核心理念，打破传统身材与年龄界限，见证了时尚产业包容性的重大进步...</p>
+                            </article>
+                            <div class="space-y-4">
+                                <div class="flex space-x-3 group cursor-pointer">
+                                    <img src="https://picsum.photos/120/80?random=11" alt="" class="w-28 h-20 object-cover rounded flex-shrink-0">
+                                    <div>
+                                        <h5 class="text-sm font-medium text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2">国潮品牌崛起：东方美学如何征服全球市场</h5>
+                                        <p class="text-xs text-gray-400 mt-2">2小时前 · 时尚评论</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3 group cursor-pointer">
+                                    <img src="https://picsum.photos/120/80?random=12" alt="" class="w-28 h-20 object-cover rounded flex-shrink-0">
+                                    <div>
+                                        <h5 class="text-sm font-medium text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2">可持续时尚成主流 环保材料引领新一季风潮</h5>
+                                        <p class="text-xs text-gray-400 mt-2">5小时前 · 产业观察</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3 group cursor-pointer">
+                                    <img src="https://picsum.photos/120/80?random=13" alt="" class="w-28 h-20 object-cover rounded flex-shrink-0">
+                                    <div>
+                                        <h5 class="text-sm font-medium text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2">复古风回潮：90年代穿搭为何再度风靡年轻群体</h5>
+                                        <p class="text-xs text-gray-400 mt-2">昨天 · 潮流解析</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 旅游板块 -->
+                    <section>
+                        <div class="flex items-center justify-between mb-4 border-b-2 border-sunflower-500 pb-2">
+                            <h3 class="text-xl font-bold text-entertainment-dark flex items-center">
+                                <span class="w-1 h-6 bg-sunflower-500 mr-3 rounded-full"></span>
+                                旅游探索
+                            </h3>
+                            <button onclick="showPage('travel')" class="text-sm text-gray-500 hover:text-sunflower-600 transition-colors">查看更多 ></button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <article class="group cursor-pointer" onclick="showPage('travel')">
+                                <div class="overflow-hidden rounded-lg mb-2">
+                                    <img src="https://picsum.photos/300/200?random=20" alt="" class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <h4 class="text-sm font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2">暑期文旅市场持续升温 小众目的地成游客新宠</h4>
+                                <p class="text-xs text-gray-400 mt-1">3小时前</p>
+                            </article>
+                            <article class="group cursor-pointer">
+                                <div class="overflow-hidden rounded-lg mb-2">
+                                    <img src="https://picsum.photos/300/200?random=21" alt="" class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <h4 class="text-sm font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2">边境小城旅游热度攀升 异域风情带动地方经济</h4>
+                                <p class="text-xs text-gray-400 mt-1">6小时前</p>
+                            </article>
+                            <article class="group cursor-pointer">
+                                <div class="overflow-hidden rounded-lg mb-2">
+                                    <img src="https://picsum.photos/300/200?random=22" alt="" class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <h4 class="text-sm font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors line-clamp-2">非遗文化体验游走红 传统技艺焕发全新生命力</h4>
+                                <p class="text-xs text-gray-400 mt-1">昨天</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- 娱乐资讯列表 -->
+                    <section>
+                        <div class="flex items-center justify-between mb-4 border-b-2 border-sunflower-500 pb-2">
+                            <h3 class="text-xl font-bold text-entertainment-dark flex items-center">
+                                <span class="w-1 h-6 bg-sunflower-500 mr-3 rounded-full"></span>
+                                文娱要闻
+                            </h3>
+                        </div>
+                        <div class="space-y-5">
+                            <article class="flex space-x-5 pb-5 border-b border-gray-100 group cursor-pointer">
+                                <img src="https://picsum.photos/200/140?random=30" alt="" class="w-44 h-28 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors mb-2">国内首部沉浸式互动戏剧开演 观众成剧情参与者</h4>
+                                        <p class="text-sm text-gray-500 line-clamp-2">全新的戏剧形态打破了舞台与观众席的界限，每位观众都能获得独一无二的观剧体验，标志着国内演出市场进入全新发展阶段...</p>
+                                    </div>
+                                    <div class="flex items-center text-xs text-gray-400 space-x-4">
+                                        <span>戏剧频道</span>
+                                        <span>·</span>
+                                        <span>1.2万阅读</span>
+                                        <span>·</span>
+                                        <span>2小时前</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="flex space-x-5 pb-5 border-b border-gray-100 group cursor-pointer">
+                                <img src="https://picsum.photos/200/140?random=31" alt="" class="w-44 h-28 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors mb-2">知名博物馆推出数字展览 足不出户领略千年文明</h4>
+                                        <p class="text-sm text-gray-500 line-clamp-2">借助最新的虚拟现实技术，观众可以360度全景欣赏珍贵文物，甚至放大观察文物细节，文化传播迎来数字化新篇章...</p>
+                                    </div>
+                                    <div class="flex items-center text-xs text-gray-400 space-x-4">
+                                        <span>文化频道</span>
+                                        <span>·</span>
+                                        <span>8652阅读</span>
+                                        <span>·</span>
+                                        <span>4小时前</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="flex space-x-5 pb-5 border-b border-gray-100 group cursor-pointer">
+                                <img src="https://picsum.photos/200/140?random=32" alt="" class="w-44 h-28 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 group-hover:text-sunflower-600 transition-colors mb-2">青年艺术家扶持计划启动 助力新锐创作者成长</h4>
+                                        <p class="text-sm text-gray-500 line-clamp-2">该计划将在未来三年内为百位青年艺术家提供创作资金、展览空间与专业指导，为艺术行业注入新鲜血液与创新活力...</p>
+                                    </div>
+                                    <div class="flex items-center text-xs text-gray-400 space-x-4">
+                                        <span>艺术频道</span>
+                                        <span>·</span>
+                                        <span>5431阅读</span>
+                                        <span>·</span>
+                                        <span>昨天</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- 右侧边栏 -->
+                <aside class="col-span-4 space-y-6">
+                    <!-- 热门排行 -->
+                    <div class="bg-white rounded-lg p-5 shadow-sm">
+                        <h4 class="font-bold text-lg mb-4 flex items-center">
+                            <span class="w-1 h-5 bg-sunflower-500 mr-2 rounded-full"></span>
+                            热门排行
+                        </h4>
+                        <ol class="space-y-3">
+                            <li class="flex items-start space-x-3 group cursor-pointer">
+                                <span class="w-5 h-5 bg-sunflower-500 text-white text-xs font-bold rounded flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                                <p class="text-sm text-gray-700 group-hover:text-sunflower-600 transition-colors line-clamp-2">顶流偶像官宣新代言 商业价值再创新高引发行业热议</p>
+                            </li>
+                            <li class="flex items-start space-x-3 group cursor-pointer">
+                                <span class="w-5 h-5 bg-sunflower-400 text-white text-xs font-bold rounded flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                                <p class="text-sm text-gray-700 group-hover:text-sunflower-600 transition-colors line-clamp-2">暑期档电影总票房突破百亿 国产影片表现亮眼</p>
+                            </li>
+                            <li class="flex items-start space-x-3 group cursor-pointer">
+                                <span class="w-5 h-5 bg-sunflower-300 text-white text-xs font-bold rounded flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                                <p class="text-sm text-gray-700 group-hover:text-sunflower-600 transition-colors line-clamp-2">老牌歌手复出演唱会秒售罄 情怀牌为何屡试不爽</p>
+                            </li>
+                            <li class="flex items-start space-x-3 group cursor-pointer">
+                                <span class="w-5 h-5 bg-gray-200 text-gray-600 text-xs font-bold rounded flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+                                <p class="text-sm text-gray-700 group-hover:text-sunflower-600 transition-colors line-clamp-2">新锐导演处女作获国际大奖 华语电影再添荣光</p>
+                            </li>
+                            <li class="flex items-start space-x-3 group cursor-pointer">
+                                <span class="w-5 h-5 bg-gray-200 text-gray-600 text-xs font-bold rounded flex items-center justify-center flex-shrink-0 mt-0.5">5</span>
+                                <p class="text-sm text-gray-700 group-hover:text-sunflower-600 transition-colors line-clamp-2">网红城市旅游热度不减 文旅融合成发展新引擎</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- 专题推荐 -->
+                    <div class="bg-white rounded-lg p-5 shadow-sm">
+                        <h4 class="font-bold text-lg mb-4 flex items-center">
+                            <span class="w-1 h-5 bg-sunflower-500 mr-2 rounded-full"></span>
+                            精选专题
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="relative rounded-lg overflow-hidden h-28 group cursor-pointer">
+                                <img src="https://picsum.photos/300/120?random=40" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                <span class="absolute bottom-3 left-3 text-white text-sm font-medium">夏日音乐节全攻略</span>
+                            </div>
+                            <div class="relative rounded-lg overflow-hidden h-28 group cursor-pointer">
+                                <img src="https://picsum.photos/300/120?random=41" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                <span class="absolute bottom-3 left-3 text-white text-sm font-medium">国产动画崛起之路</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- 旅游新闻详情页 -->
+    <main id="page-travel" class="page-content">
+        <article class="max-w-3xl mx-auto px-4 py-8">
+            <!-- 新闻头部 -->
+            <header class="mb-8">
+                
+                <h1 class="text-3xl font-bold text-gray-900 leading-tight mb-4">B市新晋约会圣地！泊然海洋馆打卡攻略来了</h1>
+                <div class="flex items-center text-sm text-gray-500 space-x-4 pb-6 border-b border-gray-200">
+                    <span>来源：向日葵娱乐</span>
+                    <span>·</span>
+                    <span>记者：A</span>
+                    <span>·</span>
+                    <span>2024-07-15 </span>
+                    <span>·</span>
+                    <span>阅读 9642</span>
+                </div>
+            </header>
+
+            <!-- 新闻正文 -->
+            <div class="news-body">
+                <div class="mb-8">
+                    <img src=".\images\ocean-5.jpg" alt="暑期旅游市场" class="w-full rounded-lg">
+                    
+                </div>
+
+                <p>周末不知道带TA去哪？B市新开这家海洋馆，浪漫到犯规！</p>
+
+                <p>最近后台好多小伙伴在问：B市有没有什么适合约会的新地方？这题我会！泊然海洋馆重装开业，小编第一时间冲去探路，负责任地说——B市约会地标+1，情侣必冲，随便一拍都是手机壁纸📸</p>
+
+                <h2>先划重点</h2>
+
+                <p>🐋 白鲸馆超大落地展缸，出片率100%</p>
+                <p>🐬 海豚剧场升级回归，全程高能</p>
+                <p>🎁 限定款玩偶只有这里有，送对象超加分</p>
+                <p>🎫 大学生凭学生证享八折优惠</p>
+
+                <h2>📍白鲸馆，必须第一个去</h2>
+                <p>全馆最火的区域，没有之一。超有镜头感的白鲸，随手一拍就是“人与动物温暖瞬间”。</p>
+                <p>最佳拍摄位置：展缸左侧拐角处，光线最好，可以拍到白鲸和你同框的侧影。建议上午去，人少光好。（小编的朋友圈已经被刷屏了，杏仁网上也全是打卡照，懂的自然懂。）</p>
+
+                <h2>🐬海豚剧场，全程“哇”不停</h2>
+                <p>驯养员和海豚之间默契配合，海豚跃出水面的瞬间全场欢呼，拍照拍到手机没电。</p>
+                <p>表演时间：每日11:00 / 15:00（建议提前15分钟占座）</p>
+
+                <div class="my-8">
+                    <img src=".\images\ocean-3.jpg" alt="小众目的地风光" class="w-full rounded-lg">
+                    
+                </div>
+
+                <h2>🌊海底隧道，氛围感天花板</h2>
+                <p>五十米海底隧道，给你海底漫步的蓝调氛围，自带滤镜，完全不需要后期。</p>
+
+                <h2>📦限定玩偶，只有这里买得到</h2>
+                <p>出口处的纪念品商店面积很大，白鲸、海豚、小丑鱼等十余种海洋动物玩偶均有售，部分是泊然海洋馆限定款。小丑鱼款太可爱了小编直接入手，送对象送朋友都很合适。</p>
+
+                <h2>【小编最后的碎碎念】</h2>
+
+                <p>无论你是想找个周末去处，还是正在规划第一次约会，这里都不错。不是所有浪漫都在远方。🐋🌊</p>
+
+                <p>最后悄悄说一句：杏仁网上现在搜“泊然海洋馆”全是美图，去之前可以先做功课哟。</p>
+
+                
+
+                <!-- 编辑信息 -->
+                <div class="mt-10 pt-6 border-t border-gray-200 text-sm text-gray-500">
+                    <p>本文编辑：B</p>
+                    <p>美术编辑：Z</p>
+                </div>
+            </div>
+
+            
+        </article>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-entertainment-dark text-gray-400 mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-10">
+            <div class="grid grid-cols-4 gap-8 pb-8 border-b border-gray-700">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-sunflower-400 to-sunflower-600 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <span class="text-white text-lg font-bold">向日葵娱乐</span>
+                    </div>
+                    <p class="text-sm leading-relaxed">专注文娱领域深度报道，传递前沿时尚资讯，打造有品质、有态度的文化娱乐平台。</p>
+                </div>
+                <div>
+                    <h5 class="text-white font-medium mb-4">频道导航</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">首页</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">时尚</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">旅游</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">明星</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">电影</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-medium mb-4">关于我们</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">公司简介</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">联系方式</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">加入我们</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">用户协议</a></li>
+                        <li><a href="#" class="hover:text-sunflower-400 transition-colors">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-medium mb-4">关注我们</h5>
+                    <div class="flex space-x-3 mb-4">
+                        <div class="w-9 h-9 bg-gray-700 rounded-full flex items-center justify-center hover:bg-sunflower-500 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                        </div>
+                        <div class="w-9 h-9 bg-gray-700 rounded-full flex items-center justify-center hover:bg-sunflower-500 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                        </div>
+                        <div class="w-9 h-9 bg-gray-700 rounded-full flex items-center justify-center hover:bg-sunflower-500 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                        </div>
+                    </div>
+                    <p class="text-xs">客服热线：666-666-6666</p>
+                    <p class="text-xs">商务合作：XXX@YYYYYYY.com</p>
+                </div>
+            </div>
+            <div class="pt-6 text-center text-xs">
+                <p>© 2026 向日葵娱乐 SUNFLOWER ENTERTAINMENT 版权所有 | 京ICP备12345678号-1 | 京公网安备 11010502000000号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 页面切换功能
+        function showPage(pageName) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // 显示目标页面
+            const targetPage = document.getElementById('page-' + pageName);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            // 更新导航栏激活状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('text-sunflower-600', 'bg-sunflower-50');
+                if (item.dataset.page === pageName) {
+                    item.classList.add('text-sunflower-600', 'bg-sunflower-50');
+                }
+            });
+            
+            // 滚动到页面顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 页面加载完成后，默认显示旅游新闻页
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('travel');
+        });
+    </script>
+</body>
+</html>
