@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XX省晚报 - 贴近生活 服务百姓 乐享都市</title>
+  <title>A省晚报 - 贴近生活 服务百姓 乐享都市</title>
   <!-- 引入Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- 引入Font Awesome图标 -->
@@ -54,10 +54,10 @@
   <!-- 顶部生活信息栏 -->
   <div class="bg-white border-b border-gray-200 text-sm py-2 px-4">
     <div class="container mx-auto flex flex-wrap justify-between items-center">
-      <p id="current-time" class="text-gray-600"></p>
+      
       <div class="flex items-center gap-4">
         <i class="fa fa-sun-o text-yellow-500"></i>
-        <span class="text-gray-600">XX市 22℃ 晴</span>
+        <span class="text-gray-600">B市 晴</span>
         <a href="#" class="text-nightBlue hover:text-nightOrange">便民电话</a>
         <a href="#" class="text-nightBlue hover:text-nightOrange">公交查询</a>
       </div>
@@ -68,7 +68,7 @@
   <header class="bg-white py-5 border-b border-nightOrange">
     <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
       <div class="text-center md:text-left mb-4 md:mb-0">
-        <h1 class="text-[clamp(2.2rem,5vw,3.8rem)] font-bold text-nightOrange font-kai tracking-wider">XX省晚报</h1>
+        <h1 class="text-[clamp(2.2rem,5vw,3.8rem)] font-bold text-nightOrange font-kai tracking-wider">A省晚报</h1>
         <p class="text-nightBrown text-sm mt-1">城市生活顾问 百姓民生伙伴 | 省级权威都市生活媒体</p>
       </div>
       <div class="w-full md:w-auto">
@@ -101,22 +101,26 @@
 
   <!-- 【默认隐藏】原版晚报首页 -->
   <section id="home-page" class="hidden">
-    <!-- 轮播头条 -->
-    <section class="container mx-auto px-4 py-6">
-      <div class="relative h-[280px] md:h-[420px] rounded-xl overflow-hidden shadow-lg">
-        <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://picsum.photos/1200/420?random=10')">
-          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-            <h2 class="text-white text-[clamp(1.3rem,3vw,2rem)] font-bold text-shadow-sm mb-2">春日踏青好去处！全省10条小众休闲路线推荐</h2>
-            <p class="text-gray-200 text-sm">周末出游不扎堆，尽享田园风光</p>
-          </div>
-        </div>
-        <div class="absolute bottom-3 right-5 flex gap-2">
-          <button class="w-3 h-3 rounded-full bg-white opacity-90"></button>
-          <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
-          <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+  <section class="container mx-auto px-4 py-6">
+    <div class="relative h-[280px] md:h-[420px] rounded-xl overflow-hidden shadow-lg">
+      <!-- 背景图 div，加入 style 背景图片 -->
+      <div class="w-full h-full bg-cover bg-center" 
+           style="background-image: url('images2/taqing1.jpg');">
+        <!-- 文字遮罩层 -->
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+          <h2 class="text-white text-[clamp(1.3rem,3vw,2rem)] font-bold text-shadow-sm mb-2">春日踏青好去处！全省10条小众休闲路线推荐</h2>
+          <p class="text-gray-200 text-sm">周末出游不扎堆，尽享田园风光</p>
         </div>
       </div>
-    </section>
+      <!-- 轮播指示点 -->
+      <div class="absolute bottom-3 right-5 flex gap-2">
+        <button class="w-3 h-3 rounded-full bg-white opacity-90"></button>
+        <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+        <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+      </div>
+    </div>
+  </section>
+
 
     <!-- 主体内容区 -->
     <main class="container mx-auto px-4 pb-12">
@@ -239,15 +243,15 @@
       </h1>
       <!-- 新闻信息 -->
       <div class="text-center text-gray-500 text-sm mb-6 pb-4 border-b border-gray-200">
-        <span>2025年03月30日 来源：XX省晚报</span>
+        <span>2025年03月30日 来源：A省晚报</span>
         <span class="mx-2"></span>
         
       </div>
       
       <!-- 新闻正文 -->
       <div class="article-content text-gray-800 text-lg">
-        <p>本报讯 2025年3月29日下午3时17分，位于A省B市的某海洋馆内，正在进行人鱼秀主题表演的女演员赵红（化名），
-          在水下表演池突发意外溺水。现场观众第一时间呼救，场馆工作人员随即下水施救，将其送往附近医院抢救，最终于当日17时22分宣告抢救无效身亡。</p>
+        <p>本报讯 2025年3月29日下午1时42分，位于A省B市的某海洋馆内，正在进行人鱼秀主题表演的女演员赵红（化名），
+          在水下表演时突发意外溺水。现场观众第一时间呼救，场馆工作人员随即下水施救，将其送往附近医院抢救，最终于当日17时22分宣告抢救无效身亡。</p>
         <p>据现场多名目击者向本报记者描述，事发时该女演员身着全套美人鱼演出服，在水下表演到第三分钟时，突然停止动作，身体不受控制地向池底沉落。起初观众以为是表演设计环节，直到水面长时间没有动静，才察觉情况不对。</p>
         <p>海洋馆当晚发布的官方声明称，该事件为演员个人突发身体不适导致的意外溺水，场馆已第一时间启动急救流程，后续将配合家属做好善后工作。目前当地文旅、市场监管部门已介入，对场馆的表演安全规范、水下急救配套设施展开全面核查，相关事件的具体细节仍在进一步调查中。</p>
         <p>本报记者多次尝试联系场馆负责人询问事件细节，对方均以“警方正在调查，不便对外透露”为由拒绝回应。目前事发场馆正在停业整改中，开业日期未定。</p>
@@ -280,7 +284,7 @@
         </div>
       </div>
       <div class="border-t border-gray-700 pt-4 text-center text-gray-400 text-sm">
-        <p>© 2025 XX省晚报传媒有限公司 版权所有</p>
+        <p>© 2026 A省晚报传媒有限公司 版权所有</p>
         <p class="mt-1">贴近生活 服务百姓 做有温度的都市媒体</p>
       </div>
     </div>
@@ -294,7 +298,7 @@
       document.getElementById('news-page').classList.add('hidden');
       document.getElementById('nav-home').classList.add('nav-active-life');
       document.getElementById('nav-news').classList.remove('nav-active-life');
-      document.title = "XX省晚报 - 贴近生活 服务百姓 乐享都市";
+      document.title = "A省晚报 - 贴近生活 服务百姓 乐享都市";
     }
 
     // 显示民生新闻
@@ -303,7 +307,7 @@
       document.getElementById('home-page').classList.add('hidden');
       document.getElementById('nav-news').classList.add('nav-active-life');
       document.getElementById('nav-home').classList.remove('nav-active-life');
-      document.title = "泊然海洋馆突发意外 美人鱼演员表演时当众溺水身亡‌ - XX省晚报";
+      document.title = "泊然海洋馆突发意外 美人鱼演员表演时当众溺水身亡‌ - A省晚报";
     }
 
     // 显示当前时间
