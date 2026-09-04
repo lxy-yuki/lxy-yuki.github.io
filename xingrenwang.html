@@ -27,16 +27,16 @@
             display: flex;
             flex-direction: column;
             gap: 8%;
-            position: relative; /* 新增：作为图片区域的定位参照 */
+            position: relative;
         }
 
         /* ========== 顶部图片插入区域（可调整位置） ========== */
         .img-container {
             height: 200px;
-            position: absolute; /* 修改：脱离文档流，不占用布局空间 */
-            top: 0%; /* 与原顶部内边距对齐 */
-            left: 120px; /* 与原左侧内边距对齐 */
-            width: calc(100% - 16%); /* 与原内容区域宽度一致 */
+            position: absolute;
+            top: 0%;
+            left: 120px;
+            width: calc(100% - 16%);
         }
 
         .img-container img {
@@ -57,7 +57,7 @@
             align-items: center;
             padding: 0 35px;
             position: relative;
-            margin-top: 150px; /* 新增：固定搜索栏的垂直位置，数值可微调 */
+            margin-top: 150px;
         }
 
         .search-input {
@@ -90,7 +90,7 @@
         .sidebar {
             width: 220px;
             background-color: #FFD9A8;
-            padding: 80px 20px 30px; /* 底部增加内边距，避免按钮贴边 */
+            padding: 80px 20px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -105,7 +105,7 @@
             flex-shrink: 0;
         }
 
-        /* 搜索记录列表容器：flex:1 自动撑开剩余空间，把按钮挤到最底部 */
+        /* 搜索记录列表容器 */
         .follow-list {
             width: 100%;
             flex: 1;
@@ -116,7 +116,7 @@
             padding-right: 4px;
         }
 
-        /* 清空历史按钮：固定在底部 */
+        /* 清空历史按钮 */
         .clear-btn {
             width: 100%;
             padding: 10px 0;
@@ -127,7 +127,7 @@
             font-size: 14px;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            flex-shrink: 0; /* 禁止被压缩 */
+            flex-shrink: 0;
         }
 
         .clear-btn:hover {
@@ -164,7 +164,7 @@
             line-height: 1.4;
         }
 
-        /* 空状态/无结果提示 */
+        /* 空状态提示 */
         .empty-tip {
             text-align: center;
             color: #C4A47A;
@@ -186,15 +186,12 @@
 <body>
     <!-- 左侧主内容 -->
     <div class="main-area">
-        <!-- 顶部可调整位置的图片插入区 -->
         <div class="img-container">
             <img src="images/xingren5.png" alt="顶部自定义图片">
         </div>
 
-        <!-- 搜索栏 -->
         <div class="search-bar">
             <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索...">
-            <!-- 搜索栏右侧自定义图片 -->
             <img class="search-side-img" src="images/xingren6.png" alt="右侧自定义图片">
         </div>
     </div>
@@ -205,12 +202,11 @@
         <div class="follow-list" id="followList">
             <div class="empty-tip">搜索记录<br>将显示在这里</div>
         </div>
-        <!-- 清空按钮移到列表下方，即侧边栏最底部 -->
         <button class="clear-btn" id="clearBtn">清空历史记录</button>
     </div>
 
     <script>
-        // ========== 1. 自定义关键词映射表：按格式添加即可 ==========
+        // ========== 1. 自定义关键词映射表 ==========
         const keywordMap = {
             "陈树": {
                 name: "陈树",
@@ -220,52 +216,39 @@
             "李挚圆": {
                 name: "李挚圆",
                 desc: "一枚圆子",
-                url: "haiyangguan.html"
+                url: "socialaccount-yuan.html"
             },
             "刘真": {
                 name: "刘真",
                 desc: "最爱海豚",
-                url: "Aquarium.html"
+                url: "socialaccount-lz.html"
             },
             "赵雨虹": {
                 name: "赵雨虹",
                 desc: "雨后彩虹rainbow",
-                url: "B-daily.html"
+                url: "socialaccount2.html"
             },
             "张智": {
                 name: "张智",
                 desc: "海洋知识智慧哥哥",
-                url: "nightcord-1.html"
+                url: "socialaccount-zhangz.html"
+            },
+            "钱蔚东": {
+                name: "钱蔚东",
+                desc: "IM a changed man.",
+                url: "socialaccount3.html"
             }
         };
 
         const listContainer = document.getElementById('followList');
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
-        const STORAGE_KEY = 'xingren_search_history';
 
-        // ========== 2. 读取本地保存的搜索历史 ==========
-        function getSearchHistory() {
-            try {
-                const data = localStorage.getItem(STORAGE_KEY);
-                return data ? JSON.parse(data) : [];
-            } catch (e) {
-                return [];
-            }
-        }
+        // ========== 2. 使用内存变量存储搜索历史（页面关闭自动清空） ==========
+        let historyList = [];
 
-        // ========== 3. 保存搜索历史到本地 ==========
-        function saveSearchHistory(list) {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-            } catch (e) {
-                console.warn('本地存储失败');
-            }
-        }
-
-        // ========== 4. 渲染右侧列表 ==========
+        // ========== 3. 渲染右侧列表 ==========
         function renderHistoryList() {
-            const historyList = getSearchHistory();
             listContainer.innerHTML = '';
 
             if (historyList.length === 0) {
@@ -286,7 +269,7 @@
             });
         }
 
-        // ========== 5. 核心搜索逻辑 ==========
+        // ========== 4. 核心搜索逻辑 ==========
         function handleSearch() {
             const keyword = searchInput.value.trim();
             if (!keyword) return;
@@ -306,17 +289,16 @@
                 return;
             }
 
-            let historyList = getSearchHistory();
+            // 去重后插入到最前面
             historyList = historyList.filter(item => item.url !== matchedItem.url);
             historyList.unshift(matchedItem);
-            saveSearchHistory(historyList);
             renderHistoryList();
 
             window.open(matchedItem.url, '_blank');
             searchInput.value = '';
         }
 
-        // ========== 6. 绑定事件 ==========
+        // ========== 5. 绑定事件 ==========
         searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 handleSearch();
@@ -324,18 +306,17 @@
         });
 
         clearBtn.addEventListener('click', function() {
-            const historyList = getSearchHistory();
             if (historyList.length === 0) {
                 alert('暂无历史记录可清空');
                 return;
             }
             if (confirm('确定要清空所有搜索历史记录吗？此操作不可恢复。')) {
-                localStorage.removeItem(STORAGE_KEY);
+                historyList = [];
                 renderHistoryList();
             }
         });
 
-        // ========== 7. 页面初始化 ==========
+        // ========== 6. 页面初始化 ==========
         renderHistoryList();
     </script>
 </body>

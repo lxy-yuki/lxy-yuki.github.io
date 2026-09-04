@@ -49,16 +49,16 @@
             padding: 0 22px;
         }
 
-        /* 搜索栏左侧图片图标（可调节大小、位置、间距） */
+        /* 搜索栏左侧图片图标 */
         .search-icon-img {
-            width: 28px;            /* 【可调】图片宽度 */
-            height: 28px;           /* 【可调】图片高度 */
-            margin-right: 14px;     /* 【可调】图片与输入框文字的距离 */
-            margin-left: 0px;       /* 【可调】图片与搜索栏左侧内边距的距离 */
-            object-fit: contain;    /* 保持图片比例，不变形 */
+            width: 28px;
+            height: 28px;
+            margin-right: 14px;
+            margin-left: 0px;
+            object-fit: contain;
             vertical-align: middle;
-            position: relative;     /* 如需微调垂直位置可配合 top */
-            top: 0px;               /* 【可调】图片垂直偏移量，正数下移，负数上移 */
+            position: relative;
+            top: 0px;
         }
 
         .search-input {
@@ -156,7 +156,6 @@
         <!-- 搜索栏 -->
         <div class="search-box">
             <div class="search-bar">
-                <!-- 搜索栏左侧自定义图片 -->
                 <img class="search-icon-img" src=".\images\mirror1.png" alt="搜索图标">
                 <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索...">
             </div>
@@ -181,37 +180,55 @@
     </div>
 
     <script>
-        // 搜索框回车触发（无弹窗，直接跳转）
+        // 搜索框回车触发：在新标签页打开搜索结果，并携带 keyword 参数
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 const keyword = this.value.trim();
+                // 对所有关键词统一处理：新窗口打开对应页面，并带上 keyword 参数
+                let targetPage = "";
                 if (keyword === "泊然海洋馆") {
-                    window.location.href = "mid/middle-Aquarium.html";
+                    targetPage = "mid/middle-Aquarium.html";
                 } else if (keyword === "陈树1999") {
-                    window.location.href = "mid/middle-chenshu.html";
+                    targetPage = "mid/middle-chenshu.html";
                 } else if (keyword === "MT集团") {
-                    window.location.href = "mid/middle-MT.html";
+                    targetPage = "mid/middle-MT.html";
                 } else if (keyword === "海洋馆溺亡美人鱼案") {
-                    window.location.href = "mid/middle-die.html";
+                    targetPage = "mid/middle-die.html";
                 } else if (keyword === "安伯然") {
-                    window.location.href = "mid/middle-boran.html";
+                    targetPage = "mid/middle-boran.html";
                 } else if (keyword === "泊然集团") {
-                    window.location.href = "mid/middle-brcpny.html";
+                    targetPage = "mid/middle-brcpny.html";
                 } else if (keyword === "安仲斌") {
-                    window.location.href = "mid/middle-azb.html";
+                    targetPage = "mid/middle-azb.html";
+                } else if (keyword === "安永得") {
+                    targetPage = "mid/middle-ayd.html";
+                } else if (keyword === "贾剑明") {
+                    targetPage = "mid/middle-jjm.html";
+                } else if (keyword === "明通集团") {
+                    targetPage = "mid/middle-mtjt.html";
+                } else if (keyword === "杏仁网") {
+                    targetPage = "mid/middle-xingren.html";
+                } else if (keyword === "蔚蓝传媒") {
+                    targetPage = "mid/middle-bluemedia.html";
+                } else if (keyword === "钱宏达") {
+                    targetPage = "mid/middle-qhd.html";
+                } else if (keyword === "劳而得") {
+                    targetPage = "mid/middle-labor.html";
                 } else {
-                    window.location.href = "mid/middle404.html";
+                    targetPage = "mid/middle404.html";
                 }
+                // 使用 window.open 在新标签页打开，并在 URL 后附带 keyword 参数
+                window.open(targetPage + "?keyword=" + encodeURIComponent(keyword), "_blank");
             }
         });
 
-        // 搜索历史按钮：点击直接跳转页面
+        // 搜索历史按钮：点击直接跳转页面（原逻辑不变）
         document.getElementById('historyBtn').addEventListener('click', () => {
             window.location.href = "搜索历史页面链接";
         });
 
-        // 调查结束按钮：弹窗
+        // 调查结束按钮：弹窗（原逻辑不变）
         document.getElementById('endBtn').addEventListener('click', () => {
             alert("亲爱的调查员，你还有很多工作要做，还不能休息哦");
         });

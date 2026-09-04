@@ -19,13 +19,11 @@
             overflow: hidden;
         }
 
-        /* 左上角Logo容器：可自由调整 位置/大小 */
+        /* 左上角Logo容器 */
         .logo-box {
             position: absolute;
-            /* 位置：修改top/left可上下左右移动 */
             top: 0px;
             left: 30px;
-            /* 大小：修改width/height可缩放图片 */
             width: 350px;
             height: 240px;
         }
@@ -42,7 +40,6 @@
             left: 34%;
             width: 62%;
         }
-        /* 橙色搜索输入框 */
         .search-input {
             width: 100%;
             height: 50px;
@@ -53,16 +50,15 @@
             padding: 0 20px;
         }
 
-        /* ===== 新增：搜索栏左侧图片图标 ===== */
         .search-icon-img {
-            width: 24px;            /* 【可调】图片宽度 */
-            height: 24px;           /* 【可调】图片高度 */
-            margin-right: 12px;     /* 【可调】图片与输入框文字的距离 */
-            margin-left: 0px;       /* 【可调】图片与搜索栏左侧内边距的距离 */
-            object-fit: contain;    /* 保持图片比例，不变形 */
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            margin-left: 0px;
+            object-fit: contain;
             vertical-align: middle;
-            position: relative;     /* 如需微调垂直位置可配合 top */
-            top: 0px;               /* 【可调】图片垂直偏移量，正数下移，负数上移 */
+            position: relative;
+            top: 0px;
         }
 
         .search-input input {
@@ -77,33 +73,29 @@
             color: rgba(255,255,255,0.8);
         }
 
-        /* 淡黄色渐变到白色 静态展示区域 */
+        /* 淡黄色渐变展示区域 */
         .gradient-block {
             width: 100%;
             height: 200px;
             margin-top: 15px;
             background: linear-gradient(to bottom, #FFF3D8, #ffffff);
             border-radius: 20px;
-            /* 内边距，让文字不贴边 */
             padding: 25px;
         }
-        /* 搜索结果标题：黑色加粗 + 大字号 */
         .result-title {
             font-size: 20px;
             font-weight: bold;
             color: #000000;
-            margin-bottom: 20px; /* 标题和链接之间的垂直间距 */
+            margin-bottom: 20px;
         }
-        /* 蓝色超链接样式 + 多行间距 */
         .result-link {
-            display: block; /* 独占一行 */
+            display: block;
             font-size: 16px;
             font-weight: normal;
             color: #0066cc;
             text-decoration: underline;
-            margin-bottom: 12px; /* 多个链接之间的垂直间距 */
+            margin-bottom: 12px;
         }
-        /* 超链接 hover 效果 */
         .result-link:hover {
             color: #004999;
         }
@@ -150,21 +142,18 @@
     <!-- 右侧搜索栏+渐变展示区域 -->
     <div class="search-area">
         <div class="search-input">
-            <!-- 原搜索图标已删除，替换为自定义图片 -->
             <img class="search-icon-img" src="..\images\mirror1.png" alt="搜索图标">
-            <input type="text" placeholder="请输入搜索内容">
+            <!-- 添加 readonly 属性，使输入框不可编辑 -->
+            <input type="text" id="searchDisplay" placeholder="请输入搜索内容" readonly>
         </div>
         
         <!-- 淡黄色渐变区域：自定义文字超链接 -->
         <div class="gradient-block">
-            <!-- 黑色加粗大标题 -->
             <div class="result-title">共找到如下3个搜索结果：</div>
-            
-            <!-- 超链接格式：href=跳转链接，中间文字=页面显示的自定义内容 -->
             <a class="result-link" href="..\nightcord-1.html">【A省晚报】2025.3.29-海洋馆美人鱼演员当众溺水！抢救无效身亡！</a>
             <a class="result-link" href="..\police1.html">【警方通报】关于美人鱼溺亡事件的调查通告</a>
             <a class="result-link" href="..\B-daily-1.html">【B市日报】泊然海洋馆面对市民的一封道歉信</a>
-            
+
         </div>
     </div>
 
@@ -175,5 +164,17 @@
             返回主页
         </a>
     </div>
+
+    <!-- 读取 URL 中的 keyword 参数并填入搜索框 -->
+    <script>
+        function getQueryParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+        const keyword = getQueryParam('keyword');
+        if (keyword) {
+            document.getElementById('searchDisplay').value = decodeURIComponent(keyword);
+        }
+    </script>
 </body>
 </html>
