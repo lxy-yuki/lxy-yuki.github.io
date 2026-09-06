@@ -87,11 +87,16 @@
             background-color: #FFB6B9;
             padding: 24px 16px;
             display: flex;
+            flex-direction: column;  /* 新增：垂直排列 */
             align-items: center;
             justify-content: center;
-            color: #555;
+            color: #ffffff;
+            gap: 8px;                /* 新增：行间距 */
             line-height: 1.6;
             text-align: center;
+        }
+        .intro-content p {
+            margin: 0;               /* 新增：去除段落外边距 */
         }
         /* 右侧主内容 */
         .main-page {
@@ -407,7 +412,8 @@
 
         <div class="intro-wrap">
             <div class="intro-content">
-                这里是个人简介，记录日常与心情✨
+                女/1976年
+                <p>苹苹平安</p>
             </div>
         </div>
     </div>
@@ -420,7 +426,7 @@
             <div class="content-area">
                 <!-- 1. 我的动态（成长帖子） -->
                 <div class="content-section">
-                    <div class="content-title">我的动态</div>
+                    <div class="content-title">苹果树的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
                         <!-- 帖子1：最新的 -->

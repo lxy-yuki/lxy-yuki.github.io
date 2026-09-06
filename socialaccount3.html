@@ -88,11 +88,16 @@
             background-color: #FFB6B9;
             padding: 24px 16px;
             display: flex;
+            flex-direction: column;  /* 新增：垂直排列 */
             align-items: center;
             justify-content: center;
-            color: #555;
+            color: #ffffff;
+            gap: 8px;                /* 新增：行间距 */
             line-height: 1.6;
             text-align: center;
+        }
+        .intro-content p {
+            margin: 0;               /* 新增：去除段落外边距 */
         }
         /* 右侧主内容 */
         .main-page {
@@ -504,7 +509,8 @@
 
         <div class="intro-wrap">
             <div class="intro-content">
-                IM a changed man.
+                男/1996年
+                <p>少烦。</p>
             </div>
         </div>
     </div>
@@ -518,7 +524,7 @@
                 <!-- 1. 我的动态（成长帖子） -->
                 <div class="content-section">
                     
-                    <div class="content-title">我的动态</div>
+                    <div class="content-title">IM a changed man.的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
                         <!-- 帖子-17 -->
@@ -740,7 +746,7 @@
                             <div class="post-content">
                                 
                             </div>
-                            <img src="./images/cp2.jpg" alt="" class="post-img">
+                            <img src="./images2/cp2.jpg" alt="" class="post-img">
                             <div class="post-footer"></div>
                             <div class="post-time">2023.4.12</div>
                         </div>
@@ -755,7 +761,7 @@
                             <div class="post-content">
                                 别误会，真不是朋友。
                             </div>
-                            <img src="./images2/cp1.jpg" alt="" class="post-img">
+                            <img src="./images2/cp3.jpg" alt="" class="post-img">
                             <div class="post-footer"></div>
                             <div class="post-time">2023.3.8</div>
                             <div class="comment-section">

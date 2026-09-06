@@ -84,11 +84,16 @@
             background-color: #FFB6B9;
             padding: 24px 16px;
             display: flex;
+            flex-direction: column;  /* 新增：垂直排列 */
             align-items: center;
             justify-content: center;
-            color: #555;
+            color: #ffffff;
+            gap: 8px;                /* 新增：行间距 */
             line-height: 1.6;
             text-align: center;
+        }
+        .intro-content p {
+            margin: 0;               /* 新增：去除段落外边距 */
         }
         .main-page {
             flex: 1;
@@ -472,7 +477,8 @@
 
         <div class="intro-wrap">
             <div class="intro-content">
-                风雨后见我❤
+                女/2001年
+                <p>风雨后见我❤</p>
             </div>
         </div>
     </div>
@@ -482,7 +488,7 @@
         <div id="home" class="content active">
             <div class="content-area">
                 <div class="content-section">
-                    <div class="content-title">我的动态</div>
+                    <div class="content-title">雨后彩虹rainbow的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
                         <!-- 帖子-26 -->

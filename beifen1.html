@@ -12,78 +12,81 @@
             font-family: "微软雅黑", sans-serif;
         }
 
-        /* 全局取消页面滚动，仅内容区滚动 */
         body {
             background-color: #c9d8f5;
             min-height: 100vh;
-            overflow: hidden; 
+            overflow: hidden;
+            /* 如需完全禁用横向滚动可取消注释，但会导致小屏下布局可能挤压；建议保留自适应 */
+            /* min-width: 1200px; */
         }
 
-        /* ====================== 全屏顶部图片 ====================== */
+        :root {
+            --banner-height: clamp(100px, 15vh, 150px);
+            --nav-offset: clamp(30px, 5vh, 60px);
+            --content-top: calc(var(--banner-height) + var(--nav-offset) + 15px);
+            --content-left: clamp(20px, 5vw, 80px);
+            --content-right: clamp(20px, 3vw, 40px);
+            --content-max-width: 1400px;
+        }
+
+        /* ====================== 顶部全屏横幅 ====================== */
         .top-banner {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: var(--banner-height);
             object-fit: cover;
             object-position: top;
             display: block;
-            z-index: 1;      /* 改为最底层：作为背景 */
+            z-index: 1;
         }
 
-        /* 顶部固定容器（导航栏） */
+        /* ====================== 顶部固定容器（导航栏） ====================== */
         .top-fixed-container {
-            position: fixed; 
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             background-color: transparent;
-            z-index: 999;    /* 最上层：导航永远可见 */
+            z-index: 999;
+            pointer-events: none; /* 允许点击穿透到按钮 */
         }
 
-        /* 图片容器（保留原结构） */
         .logo-container {
-            padding-top: 12px;
-            padding-left: 60px;
-            padding-right: 60px;
-            height: 78px;
+            padding-top: clamp(5px, 1vh, 12px);
+            padding-left: clamp(20px, 4vw, 60px);
+            padding-right: clamp(20px, 4vw, 60px);
+            height: calc(var(--banner-height) * 0.6);
             display: flex;
             align-items: center;
+            pointer-events: auto;
         }
 
         .logo-img {
-            max-height: 54px;
+            max-height: 100%;
             width: auto;
         }
 
-        /* 导航栏核心布局 */
         .nav-wrapper {
             width: 92%;
             max-width: 1280px;
-            margin: 60px auto 25px;
+            margin: calc(var(--banner-height) * 0.5) auto clamp(10px, 2vh, 25px);
             display: flex;
-            gap: 20px;
-            padding-right: 20px;
-            padding-left: 21vw;
+            gap: clamp(10px, 2vw, 20px);
+            padding: 0 clamp(10px, 2vw, 20px) 0 clamp(80px, 16vw, 250px);
             align-items: center;
+            justify-content: flex-end;
+            pointer-events: auto;
         }
 
-        /* 大屏适配 */
-        @media (min-width: 1280px) {
-            .nav-wrapper {
-                padding-left: calc(640px - 25vw);
-            }
-        }
-
-        /* 按钮：扁长样式 */
         .nav-btn {
-            flex: 1;
-            padding: 8px 0;
+            flex: 0 0 clamp(80px, 10vw, 110px);
+            padding: 0.5em 0;
             background-color: #8a9fff;
             border: none;
             border-radius: 8px;
-            font-size: 21px;
+            font-size: clamp(13px, 1.2vw, 15px);
             cursor: pointer;
             transition: all 0.25s ease;
             color: #111;
@@ -95,29 +98,28 @@
             background-color: #6c85f0;
             transform: translateY(-2px);
         }
-
         .nav-btn.active {
             background-color: #5670e6;
             color: #fff;
         }
 
-        /* ====================== 修正后：白色内容区 ====================== */
+        /* ====================== 白色内容区 ====================== */
         .content-box {
-            position: fixed;       /* 固定定位，精准控制位置 */
-            top: 112px;            /* 顶部距离：和原margin-top一致 */
-            left: 80px;            /* 左边距：自由调整 */
-            right: 40px;           /* 右边距：自由调整 */
-            max-width: 1280px;     /* 保留最大宽度限制 */
-            bottom: 0;             /* 强制贴紧页面底部 */
+            position: fixed;
+            top: var(--content-top);
+            left: var(--content-left);
+            right: var(--content-right);
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            bottom: 15px;
             background: #ffffff;
             border-radius: 20px;
-            overflow-y: auto; 
-            padding: 15px 50px;
+            overflow-y: auto;
+            padding: 20px clamp(20px, 4vw, 50px);
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-            z-index: 2;            /* 中间层：在横幅之上、导航之下 */
+            z-index: 2;
         }
 
-        /* 滚动条美化 */
         .content-box::-webkit-scrollbar {
             width: 6px;
         }
@@ -126,120 +128,60 @@
             border-radius: 3px;
         }
 
-        /* 内容板块 */
+        /* ====================== 内容板块 ====================== */
         .content-panel {
             display: none;
             animation: fadeIn 0.3s ease;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .content-panel.active {
             display: block;
         }
 
-        /* 内容排版样式 */
+        /* ====================== 文字排版（使用相对单位） ====================== */
         .section-title {
-            font-size: 24px;
+            font-size: clamp(20px, 2.5vw, 24px);
             font-weight: bold;
             color: #0033AA;
             margin: 10px 0;
             text-align: center;
         }
         .section-text {
-            font-size: 16px;
+            font-size: clamp(14px, 1.4vw, 16px);
             line-height: 1.8;
             margin: 10px 0;
             text-indent: 2em;
         }
 
-        /* 馆史时间轴样式 */
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-            margin-top: 20px;
+        .timeline-year { font-size: clamp(16px, 1.8vw, 18px); font-weight: bold; margin-bottom: 5px; }
+        .honor-name { font-size: clamp(16px, 1.8vw, 18px); font-weight: bold; margin-bottom: 8px; color: #0033AA; }
+        .honor-desc { font-size: clamp(14px, 1.4vw, 16px); line-height: 1.8; text-indent: 2em; }
+        .news-title { font-size: clamp(16px, 1.8vw, 18px); font-weight: bold; margin-bottom: 8px; color: #0033AA; }
+        .news-date { font-size: clamp(12px, 1.2vw, 14px); color: #2277EE; margin-bottom: 8px; }
+
+        /* ====================== 图片自适应 ====================== */
+        img {
+            max-width: 100%;
+            height: auto;
         }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 8px;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: #6ba5ff;
-        }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 25px;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -30px;
-            top: 5px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background-color: #ffffff;
-            border: 2px solid #6ba5ff;
-        }
-        .timeline-year {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
+        .carousel-img1 {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
-        /* ========== 修改后：员工荣誉墙样式（与馆内新闻完全统一） ========== */
-        .honor-list {
-            margin-top: 20px;
-        }
-        .honor-card {
-            background-color: #e6f7ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .honor-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #0033AA;
-        }
-        .honor-desc {
-            font-size: 16px;
-            line-height: 1.8;
-            text-indent: 2em;
-        }
-        .honor-desc p {
-            margin-bottom: 8px;
-        }
-
-        /* 馆内新闻样式 */
-        .news-list {
-            margin-top: 20px;
-        }
-        .news-item {
-            background-color: #e6f7ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .news-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #0033AA;
-        }
-        .news-date {
-            font-size: 14px;
-            color: #2277EE;
-            margin-bottom: 8px;
-        }
+        /* ====================== 时间轴、卡片等原有样式保持不变 ====================== */
+        .timeline { position: relative; padding-left: 30px; margin-top: 20px; }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; height: 100%; width: 2px; background-color: #6ba5ff; }
+        .timeline-item { position: relative; margin-bottom: 25px; }
+        .timeline-item::before { content: ''; position: absolute; left: -30px; top: 5px; width: 18px; height: 18px; border-radius: 50%; background-color: #ffffff; border: 2px solid #6ba5ff; }
+        .honor-list { margin-top: 20px; }
+        .honor-card { background-color: #e6f7ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+        .news-list { margin-top: 20px; }
+        .news-item { background-color: #e6f7ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
     </style>
 </head>
 <body>
@@ -249,10 +191,12 @@
 
     <!-- 固定顶部区域：导航栏 -->
     <div class="top-fixed-container">
-        <!-- 导航按钮 -->
+        <!-- logo容器（如无logo可留空） -->
+        <div class="logo-container">
+            <!-- <img src="images/logo.png" class="logo-img" alt="logo"> -->
+        </div>
         <div class="nav-wrapper">
             <button class="nav-btn active" data-panel="home">首页</button>
-            <button class="nav-btn" data-panel="facility">馆内设施</button>
             <button class="nav-btn" data-panel="history">馆史</button>
             <button class="nav-btn" data-panel="honor">员工荣誉墙</button>
             <button class="nav-btn" data-panel="news">馆内新闻</button>
@@ -267,13 +211,11 @@
             <div class="section-text">
                 欢迎您来到XX海洋馆！这里是全国最早，建设最好的一批海洋馆，其中，白鲸，海豚，海狮，海豹等海洋精灵齐聚一堂，我们将为您展示人与自然和谐共处的盛景！
             </div>
-            <!-- 海洋馆建筑图片：完整显示，等比缩放，居中 -->
-            <div style="width: 60%; max-width: 600px; margin: 20px auto; 
-                        border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
-                <img src="images2/xin-guan.png" alt="海洋馆建筑" 
-                    style="width: 100%; height: auto; display: block;">
+            <!-- 海洋馆建筑图片 -->
+            <div style="width: 60%; max-width: 600px; margin: 20px auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                <img src="images2/xin-guan.png" alt="海洋馆建筑" style="width: 100%; height: auto; display: block;">
             </div>
-            
+
             <div class="section-text">
                 我们始终秉持“保护海洋生态，传播海洋文化”的核心使命，每年接待游客超200万人次，开展海洋科普讲座、公益研学活动超百场，是XX市科普教育基地、国家级4A级旅游景区。
             </div>
@@ -281,9 +223,8 @@
                 馆内拥有国内领先的海洋生物养护技术团队，致力于濒危海洋生物的救助与繁育，先后成功繁育白鲸、企鹅、水母等多种珍稀海洋生物，为海洋生态保护贡献力量。
             </div>
 
-            <!-- 轮播图1：海洋生物展示（等比例放大、居中、箭头贴边） -->
+            <!-- 轮播图1 -->
             <div style="width: 60%; max-width: 900px; margin: 30px auto;">
-                <!-- 图片容器：position: relative 用于定位箭头 -->
                 <div style="position: relative; width: 100%; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
                     <img src="images2/animal-1.jpg" class="carousel-img1" style="width:100%; height:auto; display:block;">
                     <img src="images2/animal-2.jpg" class="carousel-img1" style="width:100%; height:auto; display:none;">
@@ -292,56 +233,35 @@
                     <img src="images2/animal-5.jpg" class="carousel-img1" style="width:100%; height:auto; display:none;">
                     <img src="images2/animal-6.jpg" class="carousel-img1" style="width:100%; height:auto; display:none;">
 
-                    <!-- 左右箭头：绝对定位在图片容器内，垂直居中并贴边缘 -->
-                    <button onclick="prevSlide1()" 
-                            style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%);
+                    <button onclick="prevSlide1()" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%);
                                 background: rgba(255,255,255,0.7); border: none; width: 30px; height: 30px;
                                 border-radius: 50%; font-size: 16px; cursor: pointer;">←</button>
-                    <button onclick="nextSlide1()" 
-                            style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+                    <button onclick="nextSlide1()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
                                 background: rgba(255,255,255,0.7); border: none; width: 30px; height: 30px;
                                 border-radius: 50%; font-size: 16px; cursor: pointer;">→</button>
                 </div>
-
-                
             </div>
 
             <div class="section-text">馆内营业、演出时间表如下</div>
 
-            <!-- 海洋馆建筑图片：完整显示，等比缩放，居中 -->
-            <div style="width: 60%; max-width: 600px; margin: 20px auto; 
-                        border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
-                <img src="images/timetable.png" alt="海洋馆建筑" 
-                    style="width: 100%; height: auto; display: block;">
+            <!-- 时间表图片 -->
+            <div style="width: 60%; max-width: 600px; margin: 20px auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                <img src="images/timetable.png" alt="营业时间表" style="width: 100%; height: auto; display: block;">
             </div>
-
-            <div style="width: 60%; max-width: 600px; margin: 20px auto; 
-                        border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
-                <img src="images/showtime.png" alt="海洋馆建筑" 
-                    style="width: 100%; height: auto; display: block;">
+            <div style="width: 60%; max-width: 600px; margin: 20px auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                <img src="images/showtime.png" alt="演出时间表" style="width: 100%; height: auto; display: block;">
             </div>
-
-            
 
             <div class="section-text">
                 馆内设施：除展览厅外，海洋馆为参观者设有<a href="restaurant.html" target="_blank" style="color: #02bd37; font-weight: bold;">海葵妈妈家庭餐厅</a>，<a href="park.html" target="_blank" style="color: #bdb702; font-weight: bold;">小珊瑚儿童乐园</a>，<a href="cinema.html" target="_blank" style="color: #bd02a1; font-weight: bold;">海洋知识宣传影院</a>，以及流动贩卖车三辆，休息室两处，母婴室一处，卫生间三处。
                 我们还为参观者准备了<a href="souvenir.html" target="_blank" style="color: #bd0202; font-weight: bold;">纪念品商店</a>，欢迎大家在游览结束后进行商品选购。
             </div>
             <div class="section-text">
-                联系电话:0333-23332333   紧急电话：19919991999
+                联系电话:0333-23332333&nbsp;&nbsp;&nbsp;&nbsp;紧急电话：19919991999
             </div>
         </div>
 
-        <!-- 2. 馆内设施板块 -->
-        <div class="content-panel" id="facility">
-            <div class="section-title">馆内设施</div>
-            <div class="section-text">
-                除展览厅外，海洋馆为参观者设有<a href="restaurant.html" target="_blank" style="color: #02bd37; font-weight: bold;">海葵妈妈家庭餐厅</a>，<a href="park.html" target="_blank" style="color: #bdb702; font-weight: bold;">小珊瑚儿童乐园</a>，<a href="cinema.html" target="_blank" style="color: #bd02a1; font-weight: bold;">海洋知识宣传影院</a>，以及流动贩卖车三辆，休息室两处，母婴室一处，卫生间三处。
-                我们还为参观者准备了<a href="souvenir.html" target="_blank" style="color: #bd0202; font-weight: bold;">纪念品商店</a>，欢迎大家在游览结束后进行商品选购。
-            </div>
-        </div>
-
-        <!-- 3. 馆史板块 -->
+        <!-- 2. 馆史板块 -->
         <div class="content-panel" id="history">
             <div class="section-title">馆史沿革</div>
             <div class="timeline">
@@ -349,13 +269,11 @@
                     <div class="timeline-year">2003年</div>
                     <div class="section-text">泊然海洋馆最早于2003年由本地著名实业家，慈善家安伯然投资建成。建成之初就成为了省内著名休闲旅游地点，荣获国家4A级景区称号。</div>
                 </div>
-                <!-- 海洋馆建筑图片：完整显示，等比缩放，居中 -->
-                <div style="width: 60%; max-width: 600px; margin: 20px auto; 
-                            border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
-                    <img src="images2/jiu-guan.jpg" alt="海洋馆建筑" 
-                        style="width: 100%; height: auto; display: block;">
+                <!-- 旧馆图片 -->
+                <div style="width: 60%; max-width: 600px; margin: 20px auto; border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
+                    <img src="images2/jiu-guan.jpg" alt="旧馆照片" style="width: 100%; height: auto; display: block;">
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-year">2013年</div>
                     <div class="section-text">泊然海洋馆引进学习国外先进经验，创办海洋知识宣传影院，科教项目多次评为省内优秀青少年课外活动案例，受到表彰。</div>
@@ -371,7 +289,7 @@
             </div>
         </div>
 
-        <!-- 4. 员工荣誉墙板块 -->
+        <!-- 3. 员工荣誉墙板块 -->
         <div class="content-panel" id="honor">
             <div class="section-title">员工荣誉墙</div>
             <div class="section-text">
@@ -382,76 +300,67 @@
                     <div class="honor-name">驯养部——我们是动物伙伴</div>
                     <div class="honor-desc">
                         <p>海洋馆目前有30名驯养员。为了保证海洋生灵的健康，并让参观者观赏到海洋生物的可爱姿态，驯养员24小时待命，许多员工与海洋生物同吃同住，为大家展现动物们丰富的生活与各种姿态。</p>
-                        <p>“我从小就热爱动物，我认为动物和人没什么不同。和动物们相处，让我感觉到我和自然深深联结，我就好像他们的朋友一样。”—XX年XX月XX日入职的<strong>李挚圆</strong>这样说。她毕业于知名大学动物医学系，在大学时期被前馆长安永德先生的科学讲座吸引，义无反顾加入了海洋馆大家庭。她和同事们悉心照料着海洋馆最为壮观的巨型观景缸，为大家揭开海洋一角。</p>
-                        <p>“许多海洋哺乳动物的智力和感情与人类非常相像，我时常认为，动物就是人的镜子。爱护动物就是爱护人类。”-XX年XX月XX日入职的<strong>刘真</strong>这样说。他与海豚蓝蓝是最好的搭档和朋友，相伴多年，他们之间的默契令人惊叹。</p>
+                        <p>“我从小就热爱动物，我认为动物和人没什么不同。和动物们相处，让我感觉到我和自然深深联结，我就好像他们的朋友一样。”——驯养部的<strong>李挚圆</strong>这样说。她毕业于知名大学动物医学系，在大学时期被前馆长安永德先生的科学讲座吸引，义无反顾加入了海洋馆大家庭。她和同事们悉心照料着海洋馆最为壮观的巨型观景缸，为大家揭开海洋一角。</p>
+                        <p>“许多海洋哺乳动物的智力和感情与人类非常相像，我时常认为，动物就是人的镜子。爱护动物就是爱护人类。”——驯养部的<strong>刘真</strong>这样说。他与海豚蓝蓝是最好的搭档和朋友，相伴多年，他们之间的默契令人惊叹。</p>
                     </div>
                 </div>
                 <div class="honor-card">
                     <div class="honor-name">演职部——我们是海中精灵</div>
                     <div class="honor-desc">
                         <p>海洋馆的演艺项目繁多，包括美人鱼表演，科普宣传等。作为海洋馆的宣传主力，16名演职部员工各个秉承信念，为参观者贡献了异彩纷呈的出色表演。</p>
-                        <p>“当我潜入水下，仿佛就变成了真正的美人鱼，自在畅游，这不仅是一份我梦寐以求的表演工作，更能让我于动物们建立奇妙的链接！”-XX年XX月XX日入职的<strong>赵雨虹</strong>这样说。作为一名舞蹈学院的毕业生，她的专业和热忱很快让她成为了演职部的明星员工，每天00:00，观看她美人鱼表演的参观者络绎不绝……”
-                        <p>“将海洋生物的知识传播出去，让更多人喜爱，了解海洋，是我的使命！”-XX年XX月XX日入职的<strong>张智</strong>这样说。他专业能力过硬，对海洋生物的讲解幽默而易于理解，是小朋友眼中的“智慧哥哥”。</p>
+                        <p>“当我潜入水下，仿佛就变成了真正的美人鱼，自在畅游，这不仅是一份我梦寐以求的表演工作，更能让我于动物们建立奇妙的链接！”——演职部的<strong>赵雨虹</strong>这样说。作为一名舞蹈学院的毕业生，她的专业和热忱很快让她成为了演职部的明星员工，每天00:00，观看她美人鱼表演的参观者络绎不绝……</p>
+                        <p>“将海洋生物的知识传播出去，让更多人喜爱，了解海洋，是我的使命！”——演职部的<strong>张智</strong>这样说。他专业能力过硬，对海洋生物的讲解幽默而易于理解，是小朋友眼中的“智慧哥哥”。</p>
                     </div>
                 </div>
                 <div class="honor-card">
                     <div class="honor-name">管理部——我们来规划指挥</div>
-                    <div class="honor-desc">海洋馆的管理人员分工明确，相处融洽，共同为海洋馆的未来绘制专业蓝图。安保，招聘，宣传，销售等人员各司其职，让美丽的海洋世界顺利运行。
-                        <p>“海洋馆的经营离不开优秀人才们的共同努力，也离不开广大参观者的信赖和喜爱。”-XX年XX月XX日入职的<strong>邓仁</strong>这样说。他虽然是派遣员工，但负责馆内的人力资源工作，引入最新的管理理念，不止是专业的上级，更是值得员工们信任的朋友。在他的管理下，海洋馆持续吸纳人才，为市民提供优质服务。
-                        
+                    <div class="honor-desc">
+                        <p>海洋馆的管理人员分工明确，相处融洽，共同为海洋馆的未来绘制专业蓝图。安保，招聘，宣传，销售等人员各司其职，让美丽的海洋世界顺利运行。</p>
+                        <p>“海洋馆的经营离不开优秀人才们的共同努力，也离不开广大参观者的信赖和喜爱。”——人事经理<strong>邓仁</strong>这样说。他虽然是派遣员工，但负责馆内的人力资源工作，引入最新的管理理念，不止是专业的上级，更是值得员工们信任的朋友。在他的管理下，海洋馆持续吸纳人才，为市民提供优质服务。</p>
                     </div>
                 </div>
                 <div class="honor-card">
                     <div class="honor-name">后勤部——我们来维护美丽</div>
-                    <div class="honor-desc">后勤部与本省著名劳务派遣多年合作，为残障人士提供工作岗位。海洋馆的清洁，烹饪，修缮工作都由这些自强不息的可爱人们负责。虽然默默无闻，但他们的工作不可或缺。
-                        
+                    <div class="honor-desc">
+                        <p>后勤部与本省著名劳务派遣公司合作，为残障人士提供工作岗位。海洋馆的清洁，烹饪，修缮，安保工作都由这些自强不息的可爱人们负责。虽然默默无闻，但他们的工作不可或缺。</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 5. 馆内新闻板块 -->
+        <!-- 4. 馆内新闻板块 -->
         <div class="content-panel" id="news">
             <div class="section-title">馆内新闻</div>
             <div class="news-list">
                 <div class="news-item">
                     <div class="news-title">无限期停业通知——尊敬的游客朋友：</div>
-                    <div class="news-date">发布时间：2026-03-15</div>
+                    <div class="news-date">发布时间：2025-07-20</div>
                     <div class="section-text">
                         <p>感谢您一直以来对泊然海洋馆的关注与支持。</p>
-
-                        <p>因本馆自2025年3月以来连续发生多起安全事故，目前正积极配合相关部门的全面调查与安全整改。为确保游客安全及配合调查工作需要，本馆决定即日起，实行无限期停业。</p>
-
+                        <p>因本馆自2025年3月以来连续发生多起安全事故，目前正积极配合相关部门的全面调查与安全整改。虽然之前已有暂时歇业通知，但为确保游客安全及配合调查工作需要，本馆决定即日起，实行无限期停业。</p>
                         <p>已购买预售门票或年卡的游客，可凭有效凭证通过官方渠道办理全额退款。具体退票流程请致电客服热线：400-XXXX-XXXX（工作日9:00-17:00）。</p>
-
                         <p>恢复营业时间将另行通知。给您带来的不便，我们深表歉意。</p>
-
-                        <!-- 落款部分：右对齐，取消首行缩进，上方留白 -->
                         <p style="margin-top:24px;text-align:right;text-indent:0;">泊然海洋馆运营管理团队</p>
-                        <p style="text-align:right;text-indent:0;">2025年4月2日</p>
+                        <p style="text-align:right;text-indent:0;">2025年7月20日</p>
                     </div>
-
                 </div>
 
                 <div class="news-item">
                     <div class="news-title">泊然海洋馆致全体市民的公开道歉信</div>
-                    <div class="news-date">发布时间：2026-01-02</div>
+                    <div class="news-date">发布时间：2025-04-02</div>
                     <div class="section-text">
                         <a href="B-daily-1.html" target="_blank" style="color:#cc0047; text-decoration:none;"><strong>泊然海洋馆致全体市民的公开道歉信</strong></a>
-
                     </div>
                 </div>
 
                 <div class="news-item">
                     <div class="news-title">纪念品更新：纪念品商店新品上市——限时八折</div>
-                    <div class="news-date">发布时间：2025-06-30</div>
+                    <div class="news-date">发布时间：2025-03-10</div>
                     <div class="section-text">
                         <p>为回馈广大游客，海洋馆纪念品商店新到一批进口玩偶！包括白鲸、海豚、海狮、企鹅、小丑鱼等十余种海洋动物造型，做工精致，柔软亲肤，适合各年龄段游客选购。</p>
-
-                        <p>新品限时优惠八折，活动时间：即日起至2025年7月31日。</p>
-
+                        <p>新品限时优惠八折，活动时间：即日起至2025年3月31日。</p>
                         <p>位置：海洋馆出口大厅右侧（近海葵妈妈餐厅）</p>
-                        <p>咨询电话：1998-1991998</p>
+                        <p>咨询电话：XXXX-XXXXXXX</p>
                     </div>
                 </div>
                 <div class="news-item">
@@ -464,15 +373,13 @@
                         <p>给您带来的不便，敬请谅解。</p>
                         <p style="margin-top:24px;text-align:right;text-indent:0;">2025年2月3日</p>
                     </div>
-
                 </div>
-                
             </div>
         </div>
     </div>
 
     <script>
-        // 导航切换功能
+        // 导航切换功能（保持不变）
         const navButtons = document.querySelectorAll('.nav-btn');
         const contentPanels = document.querySelectorAll('.content-panel');
 
@@ -486,27 +393,27 @@
             });
         });
 
-        // 轮播图1 交互逻辑
+        // 轮播图1 交互逻辑（保持不变）
         let currentIndex1 = 0;
         const imgs1 = document.querySelectorAll('.carousel-img1');
-        const desc1 = [
-            "1",
-            "2",
-            "3",
-            "4"
-        ];
+        const desc1 = ["1", "2", "3", "4"];
         function showSlide1(index) {
             if (index >= imgs1.length) currentIndex1 = 0;
             else if (index < 0) currentIndex1 = imgs1.length - 1;
             else currentIndex1 = index;
             imgs1.forEach(img => img.style.display = "none");
             imgs1[currentIndex1].style.display = "block";
-            document.getElementById("carousel-desc1").innerText = desc1[currentIndex1];
+            const descElement = document.getElementById("carousel-desc1");
+            if (descElement && desc1[currentIndex1] !== undefined) {
+                descElement.innerText = desc1[currentIndex1];
+            }
         }
-        function prevSlide1() { showSlide1(currentIndex1 - 1); }
-        function nextSlide1() { showSlide1(currentIndex1 + 1); }
-
-       
+        function prevSlide1() {
+            showSlide1(currentIndex1 - 1);
+        }
+        function nextSlide1() {
+            showSlide1(currentIndex1 + 1);
+        }
     </script>
 </body>
 </html>

@@ -61,7 +61,20 @@
             font-size: 14px;
             margin-top: 20px;
         }
-        /* 返回按钮样式 */
+
+        /* ===== 图片尺寸控制区 ===== */
+        /* 您只需修改下方 width 的数值（例如 70%、500px）即可调整图片大小 */
+        .restaurant-img {
+            width: 90%;               /* ← 修改这里：图片宽度占父容器比例，可改为具体像素如 400px */
+            max-width: 500px;         /* 可选：限制最大宽度，防止过大 */
+            height: auto;             /* 保持图片比例 */
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;           /* 居中显示 */
+        }
+
+        /* 返回按钮样式（备用） */
         .back-btn {
             display: block;
             width: 120px;
@@ -83,9 +96,14 @@
 
     <div class="restaurant-page">
         <h2 class="title">🌊 海葵妈妈家庭餐厅 · 详细介绍</h2>
-        
+
+        <!-- 餐厅实景图片：使用 class="restaurant-img"，通过修改CSS中的width即可调整大小 -->
+        <div class="img-container" style="text-align: center; margin: 20px 0;">
+            <img src="./images2/canting.jpg" alt="家庭餐厅" class="restaurant-img">
+        </div>
+
         <div class="info">
-            <p><strong>📍 餐厅位置：</strong>海洋馆一层东侧（紧邻海洋知识宣传影院）</p>
+            <p><strong>📍 餐厅位置：</strong>海洋馆一层东侧</p>
             <p><strong>⏰ 开放时间：</strong>每日 10:00 - 17:00（闭馆前30分钟停止点餐）</p>
             <p><strong>🍽 服务特色：</strong>海洋馆官方亲子友好餐厅，无烟环境、干净卫生，专为家庭游客打造</p>
             <p><strong>🎁 贴心服务：</strong>免费提供儿童餐具、宝宝座椅、温白开水、婴儿辅食加热</p>
@@ -107,8 +125,8 @@
 
         <p class="tips">💖 海葵妈妈家庭餐厅，用温暖的餐食陪伴每一位游客的海洋之旅</p>
 
-        <!-- 返回上一页按钮 -->
-        <a href="javascript:history.back()" class="back-btn">← 返回</a>
+        <!-- 可选返回按钮 -->
+        <!-- <a href="index.html" class="back-btn">返回首页</a> -->
     </div>
 
 </body>

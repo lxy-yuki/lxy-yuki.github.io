@@ -86,11 +86,16 @@
             background-color: #FFB6B9;
             padding: 24px 16px;
             display: flex;
+            flex-direction: column;      /* 新增：垂直排列子元素 */
             align-items: center;
             justify-content: center;
-            color: #555;
+            color: #ffffff;              /* 修改：文字颜色改为白色 */
             line-height: 1.6;
             text-align: center;
+            gap: 8px;                    /* 可选：增加上下间距 */
+        }
+        .intro-content p {
+            margin: 0;
         }
         .main-page {
             flex: 1;
@@ -482,7 +487,8 @@
 
         <div class="intro-wrap">
             <div class="intro-content">
-                一枚圆子
+                <p>女/2000年</p>
+                <p>为你祈祷为你烦恼</p>
             </div>
         </div>
     </div>
@@ -492,7 +498,7 @@
         <div id="home" class="content active">
             <div class="content-area">
                 <div class="content-section">
-                    <div class="content-title">我的动态</div>
+                    <div class="content-title">一枚圆子的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
                         <!-- 帖子-16 -->
@@ -507,7 +513,7 @@
                                 <p>我还记得为什么要选择这个工作。我现在也觉得，这是一份能带来爱和快乐的工作。
                                     但是带我进入这个行业的人和给予我最多快乐的人都已经不在了。</p>
                                 <p>有些同事问我要不要和他们一起等一等，再关注一下海洋馆里动物们要被如何处置，我答应了。</p>
-                                <p>即使我知道已经不可能了，但是我也许还在期待能和她一起浸泡在大大的海缸里嬉笑的日子能够回来。</p>
+                                <p>即使我知道已经不可能了，但是我也许还在期待，那些和她一起嬉笑的日子能够回来。</p>
                                 <div class="post-time">2025.7.18</div>
                             </div>
                         </div>
@@ -556,7 +562,7 @@
                             </div>
                             <div class="post-content">
                                 如果我今天上班就好了。
-                                <p>晚安，我的小美人鱼，愿你在那边不必再担惊受怕。</p>
+                                
                                 <div class="post-time">2025.3.29</div>
                             </div>
                         </div>
@@ -673,6 +679,28 @@
                                 可恶，她最近好像瘦了一点。
                                 <p>我明天带点吃的给她吧。 (´･ω･`)</p>
                                 <div class="post-time">2024.10.10</div>
+                                <div class="comment-section">
+                                <div class="comment-list">
+                                    <div class="comment-item">
+                                        <div class="comment-avatar comment-avatar-img" style="background-image: url('images2/zhaoyuhong-0.jpg');" onclick="openAvatarModal('images2/zhaoyuhong-0.jpg')" title="点击查看完整头像"></div>
+                                        <div class="comment-body">
+                                            <div class="comment-name">雨后彩虹rainbow</div>
+                                            <div class="comment-text">谢谢圆子关心呀~</div>
+                                            <div class="comment-time">2024-10-10</div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-item">
+                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/yuanzi-0.jpg')" title="点击查看完整头像"></div>
+                                        <div class="comment-body">
+                                            <div class="comment-name">一枚圆子</div>
+                                            <div class="comment-text">
+                                                回复<span class="reply-name">雨后彩虹rainbow</span>：没事没事~我们是真正的朋友，永远都是好朋友！
+                                            </div>
+                                            <div class="comment-time">2024-10-10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
 

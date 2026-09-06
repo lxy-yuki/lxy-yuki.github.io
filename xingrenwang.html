@@ -34,8 +34,8 @@
         .img-container {
             height: 200px;
             position: absolute;
-            top: 0%;
-            left: 120px;
+            top: 5%;
+            left: 80px;
             width: calc(100% - 16%);
         }
 
@@ -81,7 +81,7 @@
             right: -45px;
             top: 50%;
             transform: translateY(-50%);
-            width: 80px;
+            width: 120px;
             height: auto;
             pointer-events: none;
         }
@@ -97,12 +97,17 @@
             gap: 20px;
         }
 
+        /* ===== 修改：关注列表标题字号调小三分之一，字间距适当增大，高度保持不变 ===== */
         .sidebar-title {
             color: #ffffff;
-            font-size: 32px;
+            font-size: 21px;                /* 原32px缩小三分之一，约21.33px，取整21px */
             font-weight: 500;
-            letter-spacing: 2px;
+            letter-spacing: 7px;            /* 原2px增大到4px，字间距更宽松 */
             flex-shrink: 0;
+            height: 40px;                   /* 固定高度，保持原来标题所在位置高度不变 */
+            line-height: 40px;              /* 行高与高度一致，文字垂直居中 */
+            text-align: center;             /* 文字水平居中 */
+            width: 100%;                    /* 占满宽度，便于居中 */
         }
 
         /* 搜索记录列表容器 */
@@ -192,7 +197,7 @@
 
         <div class="search-bar">
             <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索...">
-            <img class="search-side-img" src="images/xingren6.png" alt="右侧自定义图片">
+            <img class="search-side-img" src="images2/mirror4.png" alt="右侧自定义图片">
         </div>
     </div>
 
