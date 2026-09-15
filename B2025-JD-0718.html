@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B市公安局 绝密调查报告 · B2025-JD-0718</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    body {
+        background: #232323;
+        background-image:
+            radial-gradient(circle at 20% 10%, rgba(255,255,255,0.03) 0%, transparent 50%),
+            radial-gradient(circle at 80% 90%, rgba(255,255,255,0.02) 0%, transparent 50%);
+        font-family: "FangSong", "仿宋", "STFangsong", "Songti SC", "SimSun", serif;
+        color: #1b1b1b;
+        padding: 40px 16px 80px;
+        display: flex;
+        justify-content: center;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .paper {
+        position: relative;
+        width: 100%;
+        max-width: 900px;
+        background: #fbfaf5;
+        background-image:
+            linear-gradient(rgba(0,0,0,0.014) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.010) 1px, transparent 1px);
+        background-size: 100% 28px, 28px 100%;
+        box-shadow:
+            0 0 0 1px rgba(0,0,0,0.35),
+            0 18px 50px rgba(0,0,0,0.65),
+            0 2px 8px rgba(0,0,0,0.4);
+        padding: 54px 62px 46px;
+        overflow: hidden;
+    }
+
+    .paper::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(180deg, transparent 49.6%, rgba(0,0,0,0.045) 50%, transparent 50.4%),
+            linear-gradient(90deg, transparent 49.7%, rgba(0,0,0,0.03) 50%, transparent 50.3%);
+    }
+
+    .watermark {
+        position: absolute;
+        inset: -10%;
+        pointer-events: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        gap: 34px 40px;
+        transform: rotate(-27deg) scale(1.15);
+        opacity: 0.055;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .watermark span {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 30px;
+        letter-spacing: 6px;
+        color: #1a1a1a;
+        white-space: nowrap;
+    }
+
+    .content { position: relative; z-index: 2; }
+
+    /* ===== 眉首 ===== */
+    .masthead {
+        border-bottom: 3px double #8c1616;
+        padding-bottom: 14px;
+        margin-bottom: 6px;
+    }
+
+    .dept-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: #55524c;
+        margin-bottom: 16px;
+    }
+    .dept-line .doc-no { letter-spacing: 2px; }
+
+    h1 {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 30px;
+        letter-spacing: 14px;
+        text-align: center;
+        color: #0f0f0f;
+        font-weight: 700;
+        text-indent: 14px;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        text-align: center;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 17px;
+        letter-spacing: 8px;
+        color: #333;
+        text-indent: 8px;
+        margin-bottom: 16px;
+    }
+
+    .classify-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #8c1616;
+        padding-top: 10px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 13px;
+    }
+    .classify {
+        color: #8c1616;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        border: 2px solid #8c1616;
+        padding: 2px 10px 2px 16px;
+        line-height: 1.3;
+    }
+    .classify-bar .serial { color: #5c5a55; letter-spacing: 1.5px; }
+
+    /* ===== 通用区块标题 ===== */
+    .sec-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 34px 0 14px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 15px;
+        letter-spacing: 3px;
+        color: #8c1616;
+    }
+    .sec-title::before {
+        content: "";
+        width: 4px;
+        height: 16px;
+        background: #8c1616;
+        flex: none;
+    }
+    .sec-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, #b9b3a8, transparent);
+    }
+
+    /* ===== 信息表 ===== */
+    table.meta {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    table.meta th, table.meta td {
+        border: 1px solid #b3ada2;
+        padding: 7px 12px;
+        vertical-align: top;
+        text-align: left;
+    }
+    table.meta th {
+        width: 108px;
+        background: rgba(140,22,22,0.045);
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-weight: 400;
+        font-size: 13.5px;
+        letter-spacing: 1.5px;
+        color: #4a4740;
+        white-space: nowrap;
+    }
+    table.meta td { letter-spacing: 0.5px; }
+    .key { font-family: "SimHei", "Heiti SC", sans-serif; letter-spacing: 1px; }
+    .status-closed {
+        color: #8c1616;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        letter-spacing: 2px;
+    }
+
+    /* ===== 访问凭证 ===== */
+    .auth-box {
+        margin-top: 16px;
+        border: 1px dashed #8f887c;
+        background: rgba(140,22,22,0.028);
+        padding: 12px 18px;
+        font-size: 13.5px;
+        line-height: 1.9;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 34px;
+        font-family: "Consolas", "Courier New", monospace;
+        color: #3d3a35;
+    }
+    .auth-box .lbl { color: #7d786e; }
+    .auth-box .ok { color: #2f6b3a; letter-spacing: 1px; }
+
+    /* ===== 正文段落 ===== */
+    .body-text {
+        font-size: 15.5px;
+        line-height: 2.0;
+        text-align: justify;
+        text-indent: 2em;
+        letter-spacing: 0.6px;
+        color: #1f1e1b;
+    }
+    .body-text + .body-text { margin-top: 10px; }
+
+    /* ===== 遗书 ===== */
+    .letter-frame {
+        position: relative;
+        border: 1px solid #a9a294;
+        background:
+            repeating-linear-gradient(180deg,
+                rgba(0,0,0,0.012) 0px,
+                rgba(0,0,0,0.012) 1px,
+                transparent 1px,
+                transparent 29px);
+        padding: 26px 30px 28px;
+        margin-top: 4px;
+    }
+    .letter-frame::before {
+        content: "手写遗书 · 原件影印转录";
+        position: absolute;
+        top: -9px;
+        left: 22px;
+        background: #fbfaf5;
+        padding: 0 10px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 11.5px;
+        letter-spacing: 2px;
+        color: #7c766b;
+    }
+    .letter-note {
+        font-size: 12.5px;
+        color: #6c665c;
+        line-height: 1.9;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px dotted #b8b1a4;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        letter-spacing: 0.5px;
+    }
+    .letter p {
+        font-size: 16px;
+        line-height: 2.15;
+        text-indent: 2em;
+        text-align: justify;
+        letter-spacing: 0.8px;
+        color: #16150f;
+    }
+    .letter p + p { margin-top: 4px; }
+
+    /* ===== 加密区 · 锁定面板 ===== */
+    .lock-panel {
+        position: relative;
+        margin-top: 8px;
+        border: 1px dashed #8f887c;
+        background:
+            repeating-linear-gradient(135deg, rgba(140,22,22,0.035) 0 10px, transparent 10px 20px),
+            rgba(140,22,22,0.02);
+        padding: 44px 30px 40px;
+        text-align: center;
+    }
+    .lock-panel::before {
+        content: "ENCRYPTED ／ 加密";
+        position: absolute;
+        top: -9px;
+        left: 22px;
+        background: #fbfaf5;
+        padding: 0 10px;
+        font-family: "Consolas", monospace;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: #8c1616;
+    }
+    .lock-icon svg {
+        width: 42px;
+        height: 42px;
+        stroke: #8c1616;
+        fill: none;
+        stroke-width: 1.6;
+    }
+    .lock-title {
+        margin-top: 14px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 16px;
+        letter-spacing: 7px;
+        text-indent: 7px;
+        color: #8c1616;
+    }
+    .lock-desc {
+        margin-top: 12px;
+        font-size: 13.5px;
+        line-height: 2;
+        color: #6c665c;
+        letter-spacing: 1px;
+    }
+    .btn-unlock {
+        margin-top: 22px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 14px;
+        letter-spacing: 4px;
+        text-indent: 4px;
+        padding: 11px 34px;
+        border: none;
+        cursor: pointer;
+        background: #8c1616;
+        color: #fbfaf5;
+        box-shadow: 0 2px 0 rgba(0,0,0,0.22);
+        transition: background .18s;
+    }
+    .btn-unlock:hover { background: #6d1010; }
+
+    /* ===== 解密后的小工具条 ===== */
+    .secret-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 26px;
+        padding-top: 10px;
+        border-top: 1px dotted #c3bcaf;
+    }
+    .btn-relock {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 11.5px;
+        letter-spacing: 2px;
+        color: #7d786e;
+        background: transparent;
+        border: 1px solid #b3ada2;
+        padding: 5px 14px;
+        cursor: pointer;
+        transition: .18s;
+    }
+    .btn-relock:hover { color: #8c1616; border-color: #8c1616; }
+
+    /* ===== 落款 ===== */
+    .sign-block {
+        margin-top: 40px;
+        padding-top: 18px;
+        border-top: 1px solid #b3ada2;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 60px;
+        font-size: 14px;
+        line-height: 2.1;
+        letter-spacing: 1px;
+    }
+    .sign-block .item { min-width: 180px; }
+    .sign-block .item .k {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        color: #4a4740;
+        font-size: 13.5px;
+        letter-spacing: 2px;
+        margin-right: 10px;
+    }
+    .sign-block .item .v {
+        border-bottom: 1px solid #6d675c;
+        padding: 0 14px 2px;
+        font-family: "Kaiti SC", "楷体", serif;
+        font-size: 16px;
+        color: #23211c;
+    }
+
+    /* ===== 页脚 ===== */
+    .footer {
+        margin-top: 40px;
+        border-top: 3px double #8c1616;
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 11.5px;
+        letter-spacing: 1.5px;
+        color: #6a655c;
+    }
+    .footer .pgnum { letter-spacing: 2px; }
+
+    /* ===== 边栏索引条 ===== */
+    .file-tab {
+        position: absolute;
+        top: 130px;
+        right: -1px;
+        writing-mode: vertical-rl;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 11px;
+        letter-spacing: 5px;
+        color: #8c1616;
+        border: 1px solid #8c1616;
+        border-right: none;
+        padding: 12px 4px;
+        background: rgba(140,22,22,0.05);
+        z-index: 3;
+    }
+
+    /* ===== 密码弹窗 ===== */
+    .modal-mask {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(22,20,17,0.62);
+        backdrop-filter: blur(2px);
+    }
+    .modal-mask.show { display: flex; }
+
+    .modal {
+        width: 100%;
+        max-width: 430px;
+        background: #fbfaf5;
+        border: 1px solid #8c1616;
+        box-shadow: 0 22px 55px rgba(0,0,0,0.55);
+        font-family: "FangSong", "仿宋", "Songti SC", serif;
+        animation: modalIn .18s ease-out;
+    }
+    @keyframes modalIn {
+        from { opacity: 0; transform: translateY(-10px) scale(.985); }
+        to { opacity: 1; transform: none; }
+    }
+
+    .modal-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #8c1616;
+        color: #fbfaf5;
+        padding: 11px 18px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 13.5px;
+        letter-spacing: 3px;
+    }
+    .modal-head .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #fbfaf5;
+        flex: none;
+        opacity: .85;
+    }
+
+    .modal-body { padding: 24px 22px 20px; }
+
+    .modal-tip {
+        font-size: 13.5px;
+        line-height: 1.95;
+        color: #57534a;
+        letter-spacing: 0.5px;
+        margin-bottom: 18px;
+    }
+    .modal-tip strong {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-weight: 400;
+        color: #8c1616;
+        letter-spacing: 1px;
+    }
+
+    .input-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid #a9a294;
+        background: #ffffff;
+        padding: 0 14px;
+    }
+    .input-row .prefix {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 12.5px;
+        letter-spacing: 2px;
+        color: #7c766b;
+        flex: none;
+        border-right: 1px dotted #c3bcaf;
+        padding-right: 10px;
+    }
+    .input-row input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 16px;
+        letter-spacing: 2px;
+        padding: 12px 0;
+        color: #1b1b1b;
+    }
+    .input-row input::placeholder { color: #b9b3a8; letter-spacing: 1px; font-size: 14px; }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-6px); }
+        40% { transform: translateX(6px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+    }
+    .input-row.shake { animation: shake .35s ease; }
+
+    .err {
+        display: none;
+        margin-top: 12px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 12.5px;
+        letter-spacing: 1px;
+        color: #8c1616;
+        line-height: 1.8;
+    }
+    .err.show { display: block; }
+
+    .modal-foot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 0 22px 22px;
+    }
+    .btn {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 13px;
+        letter-spacing: 2px;
+        padding: 9px 22px;
+        cursor: pointer;
+        border: 1px solid #8c1616;
+        background: transparent;
+        color: #8c1616;
+        transition: .18s;
+    }
+    .btn.primary { background: #8c1616; color: #fbfaf5; }
+    .btn.primary:hover { background: #6d1010; }
+    .btn.ghost:hover { background: rgba(140,22,22,0.07); }
+
+    @media (max-width: 720px) {
+        .paper { padding: 34px 22px 32px; }
+        h1 { font-size: 21px; letter-spacing: 7px; text-indent: 7px; }
+        .subtitle { font-size: 13.5px; letter-spacing: 4px; }
+        .letter-frame { padding: 22px 16px; }
+        .letter p { font-size: 15px; line-height: 2.0; }
+        .body-text { font-size: 14.5px; }
+        .file-tab { display: none; }
+        .lock-panel { padding: 34px 18px 30px; }
+        .dept-line { flex-direction: column; align-items: flex-start; gap: 4px; }
+    }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .paper { box-shadow: none; max-width: 100%; }
+        .watermark { opacity: 0.04; }
+    }
+</style>
+</head>
+<body>
+
+<div class="paper">
+
+    <div class="watermark" aria-hidden="true">
+        <span>B市公安局</span><span>绝密</span><span>B市公安局</span><span>绝密</span>
+        <span>B市公安局</span><span>绝密</span><span>B市公安局</span><span>绝密</span>
+        <span>B市公安局</span><span>绝密</span><span>B市公安局</span><span>绝密</span>
+        <span>B市公安局</span><span>绝密</span><span>B市公安局</span><span>绝密</span>
+        <span>B市公安局</span><span>绝密</span><span>B市公安局</span><span>绝密</span>
+    </div>
+
+    <div class="file-tab">档案留存件</div>
+
+    <div class="content">
+
+        <!-- 眉首 -->
+        <div class="masthead">
+            <div class="dept-line">
+                <span class="doc-no">卷宗号：B／刑侦／2025／JD／0718</span>
+                <span>密级：绝密　·　保密期限：长期</span>
+            </div>
+
+            <h1>B市公安局</h1>
+            <div class="subtitle">绝密调查报告</div>
+
+            <div class="classify-bar">
+                <span class="classify">绝密</span>
+                <span class="serial">份号：0001 ／ 副本编号：AYD-06168110</span>
+            </div>
+        </div>
+
+        <!-- 一、案件基本信息（公开部分） -->
+        <div class="sec-title">一、案件基本信息</div>
+        <table class="meta">
+            <tr>
+                <th>案件编号</th>
+                <td class="key">B2025-JD-0718</td>
+                <th>案件类型</th>
+                <td>非正常死亡（自杀）</td>
+            </tr>
+            <tr>
+                <th>死者姓名</th>
+                <td>安永德</td>
+                <th>性别</th>
+                <td>男　</td>
+            </tr>
+            <tr>
+                <th>生前职务</th>
+                <td colspan="3">泊然海洋馆　副馆长</td>
+            </tr>
+            <tr>
+                <th>死亡时间</th>
+                <td>2025年7月18日　</td>
+                <th>发现时间</th>
+                <td>2025年7月18日　</td>
+            </tr>
+            <tr>
+                <th>死亡地点</th>
+                <td colspan="3">泊然海洋馆馆长办公室</td>
+            </tr>
+            <tr>
+                <th>承办单位</th>
+                <td>B市公安局刑事侦查支队　重案二组</td>
+                <th>报告状态</th>
+                <td><span class="status-closed">已结案</span></td>
+            </tr>
+            <tr>
+                <th>访问权限</th>
+                <td colspan="3">基本案情可径行查阅；结案报告摘要及遗书证据留存部分已加密，须验证案件密码后查阅。</td>
+            </tr>
+        </table>
+
+        <div class="auth-box">
+            
+            <span><span class="lbl">LEVEL：</span>TOP-SECRET / READ-ONLY</span>
+            <span><span class="lbl">LOG：</span>调阅行为已记录</span>
+        </div>
+
+        <!-- ===== 加密区：锁定状态 ===== -->
+        <div id="lockedZone">
+            <div class="sec-title">二、结案报告摘要　／　三、遗书证据留存</div>
+
+            <div class="lock-panel">
+                <div class="lock-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="10.5" width="16" height="10.5" rx="1.6"></rect>
+                        <path d="M8 10.5V7.2a4 4 0 0 1 8 0v3.3"></path>
+                        <circle cx="12" cy="15.6" r="1.3"></circle>
+                        <path d="M12 16.9v2.1"></path>
+                    </svg>
+                </div>
+                <div class="lock-title">绝密内容已加密</div>
+                <div class="lock-desc">
+                    “结案报告摘要”与“遗书证据留存”属绝密级案件材料，<br>
+                    须验证案件密码后方可查阅。未经授权访问将被记录并追责。
+                </div>
+                <button class="btn-unlock" id="btnUnlock" type="button">输入案件密码</button>
+            </div>
+        </div>
+
+        <!-- ===== 加密区：解密后内容 ===== -->
+        <div id="secretZone" hidden>
+
+            <div class="sec-title">二、结案报告摘要</div>
+
+            <p class="body-text">
+                2025年7月18日上午8时，泊然海洋馆保洁人员发现馆长办公室反锁，多次呼叫无人应答，
+                遂报请馆内安保并强行破门。破门后见安永德悬挂于办公室吊扇挂钩上，已无生命体征，
+                现场即行封锁并报我局。
+            </p>
+
+            <p class="body-text">
+                经现场勘验：办公室门窗完好，内部门锁处于反锁状态，无外力侵入痕迹；
+                室内物品摆放基本整齐，无明显打斗、翻动痕迹；吊扇挂钩承重结构完好，
+                下方地面遗留倾倒座椅一把，椅面提取到死者鞋底印痕。现场提取绳具一条，
+                经检验与死者颈部索沟形态吻合。
+            </p>
+
+            <p class="body-text">
+                办公桌上发现一封手写遗书，信封注明“寄公检法机关”，封口未封。
+                遗书内容涉及贾剑明团伙洗钱、非法处理人员及清洁工死亡（案件编号 B2025-JD-0717）等多起案件线索。
+                经笔迹鉴定，确认该遗书系安永德本人书写，无伪造、摹仿迹象；
+                纸张、墨迹经检验与办公室内同类文具一致。
+            </p>
+
+            <p class="body-text">
+                <strong>调查结论：</strong>安永德系自杀身亡，死亡原因系颈部压迫导致窒息，
+                死亡方式为缢死。排除他杀可能。遗书内容经笔迹鉴定确认为安永德本人所写。
+                遗书中提及其他案件线索已移交专案组并案侦办。
+            </p>
+
+            <div class="sec-title">三、遗书证据留存（原件影印转录）</div>
+
+            <div class="letter-frame">
+                <div class="letter-note">
+                    载体：A4 信纸三页，双面书写，黑色中性笔　｜　提取位置：馆长办公室办公桌面正中<br>
+                    信封：牛皮纸信封一枚，正面手书“寄公检法机关”　｜　提取编号：物证 2025-JD-0718-07<br>
+                    以下为全文转录，标点、分段依原件，未作删改。
+                </div>
+
+                <div class="letter">
+                    <p>我错了，错得太离谱了，我推了她，是我推的她吗？我不记得了但是当时只有我们两个然后她掉下去了，我眼睁睁看着她，所以是我推的不是我推的没有区别，是我把她害死了，我明明知道她是个可怜人还有个可怜的女儿要养我简直畜生不如，从认识贾剑明开始我就已经畜生不如了。</p>
+
+                    <p>我对不起爸爸，对不起叔叔，对不起所有人，也对不起动物。我明明可以在有机会的时候把一切都安置好，让泊然海洋馆和泊然集团清清白白的，但是到头来因为我的执念，我的不甘心，我把所有人都害惨了。</p>
+
+                    <p>贾剑明，他给我的合同我没有仔细看，我发现他在做什么的时候太晚了，而等我得到证据时那个姑娘已经死了。从那时候开始，一切就已经无法回头了。</p>
+
+                    <p>我的海洋馆，这应当是储存梦想和美好的地方，现在已经变成了修罗地狱，我撑不住了，是我自己毁灭了我自己的理想和追求，那个女人，她来找我的时候我满脑子还在想怎么留住海洋馆，我还在想着自己的私欲，她没法说话的，打字那么慢我也不愿意等等她，当时她抓住我了，我不想再跟她耗时间，总觉得什么事情都还需要我，但是连员工都不管不顾，还有什么比员工更重要爸爸不是教过我吗。我挣开了她，她很快就掉下去了。水里黑洞洞的。我居然在那时候还在想海洋馆的事。我真该死。我那时候居然还在想不能再让外面知道海洋馆出事了。</p>
+
+                    <p>其实我早就意识到了贾剑明在干什么了我只是假装我不知道，海洋馆一年要用多少电这么多年我难道不清楚吗？要进出多少货物我难道不清楚吗？贾剑明不让我看难道我就能真的看不见吗？还有邓仁，他拿来那些合同让我签的时候，我看了吗。我没有看。我签了。一批一批签进来，我假装他们不是我的员工，假装他们是贾剑明的员工。他们进来干活，打扫，拖地，擦玻璃。不止保洁，还有安保那些人，他们不怎么说话，我就当他们不存在。</p>
+
+                    <p>我得赎罪了。我知道我自己看得见，我的爸爸和叔叔也看得见。我得赎罪。而且，还有，还有那个孩子，她看见了。她看见了，我一转头她就在那，在我身后，穿着那件救生衣看着她妈妈沉下去，然后她也不见了。我找不到她。她会怎么样？我真的看到她了吗？我不知道，我不知道，我不知道。</p>
+
+                    <p>我把我知道的都写了吗？我还有什么能写的呢？我这一生把一切我想守住的东西都亲手葬送了，也许我本身就不是值得写的人。但我的罪孽是不得不写出来的。这一切都是因为我。</p>
+
+                    <p>写完之后，我会报警。贾剑明这么多年在海洋馆走的账我都偷偷备份了，放在泊然集团老厂房的地砖底下，你们去找。不要放过邓仁，他知道很多事。把那些人都抓了吧。我欠的我自己还。</p>
+                </div>
+            </div>
+
+            <div class="secret-bar">
+                <button class="btn-relock" id="btnRelock" type="button">重新锁定本部分内容</button>
+            </div>
+        </div>
+
+        <!-- 落款 -->
+        <div class="sign-block">
+            <div class="item"><span class="k">承办人</span><span class="v">［签　名］</span></div>
+            <div class="item"><span class="k">审核人</span><span class="v">［签　名］</span></div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <span>B市公安局刑事侦查支队　·　重案二组</span>
+            <span>本件属绝密级国家秘密载体，严禁复制、摘抄、外传</span>
+            <span class="pgnum">B2025-JD-0718</span>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== 密码弹窗 ===== -->
+<div class="modal-mask" id="modalMask" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-head">
+            <span class="dot"></span>
+            <span id="modalTitle">绝密内容访问验证</span>
+        </div>
+        <div class="modal-body">
+            <p class="modal-tip">
+                即将查阅 <strong>结案报告摘要</strong> 与 <strong>遗书证据留存</strong>。<br>
+                请输入案件密码以完成身份校验。
+            </p>
+            <div class="input-row" id="inputRow">
+                <span class="prefix">密码</span>
+                <input type="password" id="pwdInput" placeholder="请输入案件密码"
+                       autocomplete="off" spellcheck="false" maxlength="32">
+            </div>
+            <p class="err" id="errMsg">密码错误，访问被拒绝。本次尝试已记入调阅日志。</p>
+        </div>
+        <div class="modal-foot">
+            <button class="btn ghost" id="btnCancel" type="button">取消</button>
+            <button class="btn primary" id="btnOk" type="button">验证并访问</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+
+    var PWD = 'AYD-06168110';
+
+    var mask    = document.getElementById('modalMask');
+    var input   = document.getElementById('pwdInput');
+    var inputRow= document.getElementById('inputRow');
+    var errMsg  = document.getElementById('errMsg');
+    var locked  = document.getElementById('lockedZone');
+    var secret  = document.getElementById('secretZone');
+
+    function openModal() {
+        mask.classList.add('show');
+        mask.setAttribute('aria-hidden', 'false');
+        errMsg.classList.remove('show');
+        input.value = '';
+        setTimeout(function () { input.focus(); }, 60);
+    }
+
+    function closeModal() {
+        mask.classList.remove('show');
+        mask.setAttribute('aria-hidden', 'true');
+        errMsg.classList.remove('show');
+        input.value = '';
+    }
+
+    function shake() {
+        inputRow.classList.remove('shake');
+        void inputRow.offsetWidth;
+        inputRow.classList.add('shake');
+    }
+
+    function tryUnlock() {
+        var v = (input.value || '').trim().toUpperCase();
+        if (v === PWD) {
+            locked.hidden = true;
+            secret.hidden = false;
+            closeModal();
+            secret.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            errMsg.classList.add('show');
+            input.value = '';
+            input.focus();
+            shake();
+        }
+    }
+
+    document.getElementById('btnUnlock').addEventListener('click', openModal);
+    document.getElementById('btnCancel').addEventListener('click', closeModal);
+    document.getElementById('btnOk').addEventListener('click', tryUnlock);
+
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); tryUnlock(); }
+    });
+
+    mask.addEventListener('click', function (e) {
+        if (e.target === mask) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mask.classList.contains('show')) closeModal();
+    });
+
+    document.getElementById('btnRelock').addEventListener('click', function () {
+        secret.hidden = true;
+        locked.hidden = false;
+        locked.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+})();
+</script>
+
+</body>
+</html>

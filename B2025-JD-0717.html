@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安全警告</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-family: "FangSong", "仿宋", "STFangsong", "Songti SC", "SimSun", serif;
+        -webkit-font-smoothing: antialiased;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    /* 暗角：把视觉全部压向中央的弹窗 */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center,
+                    rgba(0,0,0,0) 22%,
+                    rgba(0,0,0,0.55) 62%,
+                    rgba(0,0,0,0.94) 100%);
+    }
+
+    /* 极细扫描线，制造监控屏幕的质感 */
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background: repeating-linear-gradient(180deg,
+                    rgba(255,255,255,0.020) 0 1px,
+                    transparent 1px 3px);
+        mix-blend-mode: screen;
+    }
+
+    /* ================= 弹窗 ================= */
+    .modal {
+        position: relative;
+        z-index: 5;
+        width: 100%;
+        max-width: 452px;
+        background: #fbfaf5;
+        border: 1px solid #8c1616;
+        box-shadow:
+            0 0 0 1px rgba(140,22,22,0.55),
+            0 0 26px rgba(140,22,22,0.55),
+            0 0 70px rgba(140,22,22,0.30),
+            0 30px 70px rgba(0,0,0,0.92);
+        animation: modalIn .62s cubic-bezier(.16,.86,.28,1.06) both,
+                   flicker 3.4s steps(1, end) .62s infinite;
+    }
+
+    @keyframes modalIn {
+        0%   { opacity: 0; transform: scale(1.14) translateY(-6px); filter: blur(3px); }
+        38%  { opacity: 1; transform: scale(0.985); filter: blur(0); }
+        52%  { opacity: 0.62; transform: scale(1); }
+        60%  { opacity: 1; }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 极轻微、不规律的忽明忽暗，像接触不良的警示灯 */
+    @keyframes flicker {
+        0%, 88%, 100% { box-shadow: 0 0 0 1px rgba(140,22,22,0.55), 0 0 26px rgba(140,22,22,0.55), 0 0 70px rgba(140,22,22,0.30), 0 30px 70px rgba(0,0,0,0.92); }
+        90%           { box-shadow: 0 0 0 1px rgba(140,22,22,0.35), 0 0 14px rgba(140,22,22,0.30), 0 0 36px rgba(140,22,22,0.16), 0 30px 70px rgba(0,0,0,0.92); }
+        92%           { box-shadow: 0 0 0 1px rgba(140,22,22,0.75), 0 0 34px rgba(140,22,22,0.70), 0 0 88px rgba(140,22,22,0.40), 0 30px 70px rgba(0,0,0,0.92); }
+        94%           { box-shadow: 0 0 0 1px rgba(140,22,22,0.55), 0 0 26px rgba(140,22,22,0.55), 0 0 70px rgba(140,22,22,0.30), 0 30px 70px rgba(0,0,0,0.92); }
+    }
+
+    /* ---- 弹窗标题栏（与密码弹窗同款） ---- */
+    .modal-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #8c1616;
+        color: #fbfaf5;
+        padding: 11px 18px;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 13.5px;
+        letter-spacing: 3px;
+    }
+    .modal-head .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #fbfaf5;
+        flex: none;
+        opacity: .88;
+        animation: dotPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+        0%, 100% { opacity: .88; }
+        50%      { opacity: .28; }
+    }
+
+    /* ---- 弹窗主体 ---- */
+    .modal-body {
+        padding: 34px 26px 12px;
+        text-align: center;
+    }
+
+    .warn-icon {
+        width: 46px;
+        height: 46px;
+        margin: 0 auto 18px;
+        display: block;
+    }
+    .warn-icon svg {
+        width: 100%;
+        height: 100%;
+        stroke: #8c1616;
+        fill: none;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .warn-text {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        line-height: 1.75;
+        color: #8c1616;
+        text-indent: 3px;
+        animation: textPulse 2.6s ease-in-out infinite;
+    }
+    @keyframes textPulse {
+        0%, 100% { opacity: 1; }
+        50%      { opacity: .72; }
+    }
+
+    .warn-sub {
+        margin-top: 16px;
+        font-size: 12.5px;
+        line-height: 2;
+        letter-spacing: 1.2px;
+        color: #6c665c;
+        font-family: "SimHei", "Heiti SC", sans-serif;
+    }
+
+    /* ---- 弹窗底部按钮（居中） ---- */
+    .modal-foot {
+        display: flex;
+        justify-content: center;
+        padding: 26px 22px 28px;
+    }
+
+    .btn {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 13.5px;
+        letter-spacing: 4px;
+        text-indent: 4px;
+        padding: 11px 46px;
+        cursor: pointer;
+        border: 1px solid #8c1616;
+        background: #8c1616;
+        color: #fbfaf5;
+        transition: background .18s, box-shadow .18s;
+        box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+    }
+    .btn:hover {
+        background: #6d1010;
+        box-shadow: 0 0 18px rgba(140,22,22,0.55);
+    }
+    .btn:active { transform: translateY(1px); }
+
+    /* 点按后短暂状态 */
+    .btn.closing {
+        background: #3a3a3a;
+        border-color: #3a3a3a;
+        cursor: default;
+    }
+
+    @media (max-width: 460px) {
+        .modal-body { padding: 28px 18px 8px; }
+        .warn-text { font-size: 16.5px; letter-spacing: 2px; }
+        .warn-sub { font-size: 12px; letter-spacing: 0.8px; }
+        .btn { padding: 10px 34px; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="modal" id="modal" role="alertdialog" aria-modal="true" aria-labelledby="warnTitle">
+
+        <div class="modal-head">
+            <span class="dot"></span>
+            <span>安全警告</span>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="warn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 3.2 1.9 20.4h20.2L12 3.2z"></path>
+                    <path d="M12 9.4v4.6"></path>
+                    <circle cx="12" cy="17.1" r="0.9"></circle>
+                </svg>
+            </div>
+
+            <div class="warn-text" id="warnTitle">警告，未知IP重复访问！</div>
+
+            <div class="warn-sub">
+                本次访问已记入调阅日志，情节严重者将追究责任。
+            </div>
+
+        </div>
+
+        <div class="modal-foot">
+            <button class="btn" id="btnKnown" type="button">我已知晓</button>
+        </div>
+
+    </div>
+
+<script>
+(function () {
+    'use strict';
+
+    /* ---------- 弹窗不可关闭：屏蔽 Esc / 右键 / 各类关闭尝试 ---------- */
+
+    // 屏蔽 Esc
+    window.addEventListener('keydown', function (e) {
+        var k = e.key;
+        if (k === 'Escape' || k === 'Esc') {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }, true);
+
+    // 屏蔽右键菜单
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+
+    // 屏蔽点击弹窗外区域（本页面弹窗居中外均为黑底，点击不做任何事）
+    document.addEventListener('mousedown', function (e) {
+        if (!document.getElementById('modal').contains(e.target)) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }, true);
+
+    // 拖动或选中造成的内容位移也一并阻止
+    document.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    document.addEventListener('selectstart', function (e) { e.preventDefault(); });
+
+    /* ---------- “我已知晓”：关闭本页面 ---------- */
+    var btn = document.getElementById('btnKnown');
+    var closing = false;
+
+    function forceClosePage() {
+        try { window.open('', '_self'); } catch (err) {}
+        try { window.close(); } catch (err) {}
+
+        // 若浏览器策略阻止脚本关闭窗口，则清空页面内容，呈现纯黑空白
+        setTimeout(function () {
+            try {
+                document.title = '';
+                document.documentElement.style.background = '#000';
+                document.body.innerHTML = '';
+                document.body.style.background = '#000';
+            } catch (err) {}
+        }, 220);
+    }
+
+    btn.addEventListener('click', function () {
+        if (closing) return;
+        closing = true;
+        btn.classList.add('closing');
+        btn.textContent = '正在关闭…';
+        btn.disabled = true;
+        forceClosePage();
+    });
+
+})();
+</script>
+
+</body>
+</html>

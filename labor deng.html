@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>员工工作台 - 劳而得劳务派遣有限公司</title>
+<style>
+    :root{
+        --blue:#1a5fb4;
+        --blue2:#2c7be5;
+        --gold:#ffd700;
+        --ink:#33415c;
+        --muted:#8894a8;
+        --line:#e6ecf5;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+        font-family:"Microsoft YaHei","微软雅黑",sans-serif;
+        background:#f0f3f8;color:#333;line-height:1.6;
+        -webkit-font-smoothing:antialiased;
+        padding-bottom:40px;
+    }
+
+    /* ---------- 顶栏 ---------- */
+    .topbar{
+        background:#1a5fb4;color:#fff;position:sticky;top:0;z-index:50;
+        box-shadow:0 2px 12px rgba(26,95,180,.28);
+    }
+    .topbar-inner{
+        max-width:1180px;margin:0 auto;padding:0 20px;height:64px;
+        display:flex;align-items:center;justify-content:space-between;
+    }
+    .brand{font-size:18px;font-weight:700;letter-spacing:1px;}
+    .brand span{color:#ffd700;}
+    .topbar-right{display:flex;align-items:center;gap:16px;font-size:13.5px;}
+    .who{opacity:.92;}
+    .btn-ghost{
+        background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;
+        padding:6px 14px;border-radius:5px;cursor:pointer;font-size:13px;
+        font-family:inherit;transition:.25s;
+    }
+    .btn-ghost:hover{background:rgba(255,255,255,.16);}
+
+    /* ---------- 主体 ---------- */
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px;}
+
+    .welcome{
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        border-radius:14px;color:#fff;padding:26px 30px;
+        display:flex;align-items:center;justify-content:space-between;gap:20px;
+        box-shadow:0 8px 22px rgba(26,95,180,.22);
+    }
+    .welcome h1{font-size:24px;margin-bottom:6px;font-weight:700;}
+    .welcome p{font-size:13.5px;opacity:.9;}
+    .welcome-badge{
+        background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.42);
+        padding:7px 18px;border-radius:999px;font-size:13px;white-space:nowrap;
+    }
+
+    /* ---------- 网格：白框等高 ---------- */
+    .grid{
+        display:grid;grid-template-columns:300px 1fr;gap:20px;
+        margin-top:20px;align-items:stretch;
+    }
+
+    .card{
+        background:#fff;border-radius:14px;padding:22px 24px;
+        box-shadow:0 2px 14px rgba(30,60,110,.07);
+        display:flex;flex-direction:column;
+    }
+    .card-title{
+        font-size:16px;color:var(--blue);font-weight:700;
+        padding-left:12px;border-left:4px solid var(--gold);
+        margin-bottom:18px;
+    }
+
+    /* ---------- 个人信息 ---------- */
+    .profile-head{
+        display:flex;align-items:center;gap:14px;
+        padding-bottom:16px;border-bottom:1px dashed var(--line);
+        margin-bottom:14px;
+    }
+    .avatar{
+        width:56px;height:56px;border-radius:50%;flex-shrink:0;
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        color:#fff;display:flex;align-items:center;justify-content:center;
+        font-size:22px;font-weight:700;
+        box-shadow:0 4px 12px rgba(26,95,180,.28);
+    }
+    .p-name{font-size:19px;font-weight:700;color:var(--ink);}
+    .p-id{font-size:12.5px;color:var(--muted);letter-spacing:.5px;display:none;}
+    .info-list{list-style:none;}
+    .info-list li{
+        display:flex;justify-content:space-between;gap:12px;
+        padding:9px 0;border-bottom:1px dashed #eef2f8;font-size:13.5px;
+    }
+    .info-list li:last-child{border-bottom:none;}
+    .info-list span{color:var(--muted);flex-shrink:0;}
+    .info-list b{font-weight:600;color:var(--ink);text-align:right;}
+
+    /* ---------- 工作面板 ---------- */
+    .panel-wrap{position:relative;border-radius:10px;flex:1;display:flex;flex-direction:column;}
+    .panel-body{transition:filter .4s ease;height:100%;display:flex;flex-direction:column;}
+    .panel-body.locked{filter:blur(7px);pointer-events:none;user-select:none;}
+
+    .lock-overlay{
+        position:absolute;inset:0;border-radius:10px;
+        background:rgba(244,248,253,.78);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:6px;cursor:pointer;z-index:5;
+        transition:opacity .4s ease,background .25s;
+        backdrop-filter:blur(1.5px);
+    }
+    .lock-overlay:hover{background:rgba(238,245,255,.93);}
+    .lock-overlay.hide{opacity:0;pointer-events:none;}
+    .lock-icon{font-size:38px;filter:drop-shadow(0 4px 8px rgba(26,95,180,.28));}
+    .lock-overlay p{font-size:16px;font-weight:700;color:var(--blue);}
+    .lock-overlay small{font-size:12.5px;color:var(--muted);}
+
+    /* ---------- 统计条 ---------- */
+    .stat-bar{
+        display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+        margin-bottom:16px;
+    }
+    .stat-item{
+        background:#f5f9ff;border:1px solid #e2ecfa;border-radius:10px;
+        padding:12px 14px;
+    }
+    .stat-item .k{font-size:12px;color:var(--muted);}
+    .stat-item .v{font-size:19px;font-weight:700;color:var(--blue);margin-top:2px;}
+    .stat-item .v small{font-size:12px;font-weight:400;color:var(--muted);}
+
+    /* ---------- 员工清单表格 ---------- */
+    .table-wrap{
+        overflow-x:auto;border-radius:10px;
+        border:1px solid var(--line);
+        flex:1;
+    }
+    .staff-table{
+        width:100%;border-collapse:collapse;font-size:13px;min-width:920px;
+    }
+    .staff-table thead th{
+        background:#eef4fd;color:var(--blue);font-weight:700;
+        padding:11px 12px;text-align:left;white-space:nowrap;
+        border-bottom:1px solid #dbe6f5;position:sticky;top:0;z-index:2;
+    }
+    .staff-table td{
+        padding:9px 12px;border-bottom:1px dashed #eef2f8;
+        color:var(--ink);white-space:nowrap;
+    }
+    .staff-table tbody tr:hover{background:#f8fbff;}
+    .staff-table tbody tr:last-child td{border-bottom:none;}
+
+    .cat-row td{
+        background:#eef4fd;color:var(--blue);font-weight:700;
+        font-size:12.5px;padding:8px 12px;letter-spacing:.5px;
+        border-bottom:1px solid #dbe6f5;
+    }
+    .cat-row .cat-count{font-weight:400;color:var(--muted);margin-left:6px;font-size:12px;}
+
+    .idx{color:var(--muted);font-size:12.5px;}
+    .money{font-family:Consolas,"Courier New",monospace;color:var(--ink);}
+    .card-num{
+        font-family:Consolas,"Courier New",monospace;
+        color:#9aa7bb;letter-spacing:1.5px;
+    }
+    .badge{
+        display:inline-block;padding:2px 10px;border-radius:999px;
+        font-size:12px;font-weight:600;
+    }
+    .badge.ok{background:#e9f9ef;color:#1f8a3b;}
+    .badge.wait{background:#fff3e0;color:#c77700;}
+    .role-tag{
+        display:inline-block;padding:1px 8px;border-radius:5px;
+        font-size:11.5px;background:#f0f4fa;color:#5a6a82;margin-left:4px;
+    }
+
+    /* ---------- 解锁弹窗 ---------- */
+    .modal-overlay{
+        position:fixed;inset:0;background:rgba(20,35,60,.45);
+        display:none;align-items:center;justify-content:center;z-index:1000;
+        backdrop-filter:blur(2px);
+    }
+    .modal-overlay.active{display:flex;}
+    .modal-box{
+        background:#fff;border-radius:14px;padding:32px 30px 26px;width:340px;
+        position:relative;box-shadow:0 18px 48px rgba(15,35,70,.3);
+        animation:modalIn .28s ease;
+    }
+    @keyframes modalIn{
+        from{opacity:0;transform:translateY(-16px) scale(.97);}
+        to{opacity:1;transform:translateY(0) scale(1);}
+    }
+    .modal-box.shake{animation:shake .42s;}
+    @keyframes shake{
+        0%,100%{transform:translateX(0);}
+        20%{transform:translateX(-8px);}
+        40%{transform:translateX(8px);}
+        60%{transform:translateX(-5px);}
+        80%{transform:translateX(5px);}
+    }
+    .modal-close{
+        position:absolute;top:12px;right:16px;border:none;background:none;
+        font-size:24px;color:#b0b9c8;cursor:pointer;line-height:1;
+    }
+    .modal-close:hover{color:var(--ink);}
+    .modal-lock{font-size:32px;text-align:center;margin-bottom:8px;}
+    .modal-box h3{text-align:center;font-size:18px;color:var(--blue);margin-bottom:6px;}
+    .modal-sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:18px;}
+    .modal-box input{
+        width:100%;padding:11px 14px;border:1px solid #dde5ef;border-radius:8px;
+        font-size:15px;outline:none;font-family:inherit;
+        transition:border-color .25s,box-shadow .25s;
+    }
+    .modal-box input:focus{
+        border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,95,180,.12);
+    }
+    .modal-box .err{
+        color:#d64545;font-size:12.5px;min-height:18px;
+        margin-top:6px;text-align:center;
+    }
+    .modal-btn{
+        width:100%;margin-top:8px;padding:11px;border:none;border-radius:8px;
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);color:#fff;
+        font-size:15px;font-family:inherit;cursor:pointer;
+        transition:filter .25s,transform .15s;
+    }
+    .modal-btn:hover{filter:brightness(1.08);}
+    .modal-btn:active{transform:scale(.99);}
+
+    /* ---------- 错误页 ---------- */
+    .error-page{
+        min-height:100vh;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;gap:14px;
+        background:#f0f3f8;padding:20px;text-align:center;
+    }
+    .error-page .ico{font-size:56px;}
+    .error-page h2{font-size:22px;color:var(--blue);}
+    .error-page p{font-size:14px;color:var(--muted);}
+    .error-page a{
+        margin-top:8px;background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        color:#fff;text-decoration:none;padding:10px 24px;border-radius:8px;
+        font-size:14px;
+    }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width:900px){
+        .grid{grid-template-columns:1fr;}
+        .welcome{flex-direction:column;align-items:flex-start;}
+        .stat-bar{grid-template-columns:repeat(2,1fr);}
+    }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">劳而得<span>劳务派遣</span> · 员工工作台</div>
+        <div class="topbar-right">
+            <span class="who" id="whoText"></span>
+            <button class="btn-ghost" id="closePageBtn">关闭页面</button>
+        </div>
+    </div>
+</header>
+
+<main class="wrap">
+    <section class="welcome">
+        <div>
+            <h1 id="welcomeName"></h1>
+            <p id="todayText"></p>
+        </div>
+        <div class="welcome-badge">● 在岗中</div>
+    </section>
+
+    <div class="grid">
+        <!-- 职业个人信息 -->
+        <aside class="card">
+            <h2 class="card-title">职业个人信息</h2>
+            <div class="profile-head">
+                <div class="avatar" id="avatarEl"></div>
+                <div>
+                    <div class="p-name" id="pName"></div>
+                    <div class="p-id" id="pId"></div>
+                </div>
+            </div>
+            <ul class="info-list" id="infoList"></ul>
+        </aside>
+
+        <!-- 工作面板 -->
+        <section class="card">
+            <h2 class="card-title">工作面板 · 后勤部员工管理</h2>
+            <div class="panel-wrap">
+                <div class="panel-body locked" id="panelBody">
+
+                    <!-- 统计条 -->
+                    <div class="stat-bar">
+                        <div class="stat-item">
+                            <div class="k">在岗人数</div>
+                            <div class="v" id="statTotal">29 <small>人</small></div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="k">本月应发工资合计</div>
+                            <div class="v" id="statGross">142,100 <small>元</small></div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="k">已发放</div>
+                            <div class="v" id="statPaid">25 <small>人</small></div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="k">待发放</div>
+                            <div class="v" id="statWait">4 <small>人</small></div>
+                        </div>
+                    </div>
+
+                    <!-- 员工清单表格 -->
+                    <div class="table-wrap">
+                        <table class="staff-table">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>工号</th>
+                                    <th>职务</th>
+                                    <th>出勤（天）</th>
+                                    <th>工资（元）</th>
+                                    <th>发放状态</th>
+                                    <th>银行卡号</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="lock-overlay" id="lockOverlay">
+                    <div class="lock-icon">🔒</div>
+                    <p>工作面板已锁定</p>
+                    <small>点击此处，输入工号解锁</small>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- 解锁弹窗 -->
+<div class="modal-overlay" id="unlockModal">
+    <div class="modal-box" id="unlockBox">
+        <button class="modal-close" id="unlockClose">&times;</button>
+        <div class="modal-lock">🔐</div>
+        <h3>工作面板解锁</h3>
+        <p class="modal-sub">请输入您的工号以验证身份</p>
+        <input type="text" id="unlockInput" placeholder="请输入工号" autocomplete="off">
+        <div class="err" id="unlockErr"></div>
+        <button class="modal-btn" id="unlockBtn">确认解锁</button>
+    </div>
+</div>
+
+<script>
+/* =========================================================
+   员工数据
+   ========================================================= */
+var STAFF = {
+    "邓仁": {
+        name: "邓仁",
+        id: "LD2023017",
+        unit: "泊然海洋馆",
+        position: "人事经理",
+        dept: "管理部",
+        contact: "贾馆长",
+        insurance: "已缴纳（五险）",
+        phone: "XXX****XXXX",
+
+        /* 后勤部员工清单（分为清洁、修缮、烹饪、安保四类） */
+        roster: {
+            month: "2026年3月",
+            categories: [
+                {
+                    name: "清洁",
+                    staff: [
+                        { name: "陈树",   id: "LD2025012", role: "保洁员",   days: 0, gross: 4200,  status: "wait",   card: "**** **** **** ****" },
+                        { name: "王秀兰", id: "LD2024015", role: "保洁员",   days: 24, gross: 3960,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "李桂芳", id: "LD2024018", role: "保洁员",   days: 25, gross: 4080, status: "ok",   card: "**** **** **** ****" },
+                        { name: "张爱民", id: "LD2024021", role: "保洁员",   days: 23, gross: 3840,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "刘红梅", id: "LD2024026", role: "保洁员",   days: 26, gross: 4200,  status: "wait", card: "**** **** **** ****" },
+                        { name: "孙小燕", id: "LD2024033", role: "保洁员",   days: 25, gross: 4050,  status: "ok",   card: "**** **** **** ****" }
+                    ]
+                },
+                {
+                    name: "修缮",
+                    staff: [
+                        { name: "吴建军", id: "LD2022101", role: "维修工",   days: 26, gross: 5600,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "郑海涛", id: "LD2022105", role: "电工",     days: 25, gross: 5800,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "冯志强", id: "LD2022110", role: "水暖工",   days: 24, gross: 5400,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "何明远", id: "LD2022114", role: "木工",     days: 26, gross: 5500,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "徐立新", id: "LD2022118", role: "焊工",     days: 23, gross: 5900,  status: "wait", card: "**** **** **** ****" },
+                        { name: "高文斌", id: "LD2022122", role: "维修工",   days: 25, gross: 5450,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "罗大伟", id: "LD2022126", role: "电工",     days: 26, gross: 5750,  status: "ok",   card: "**** **** **** ****" }
+                    ]
+                },
+                {
+                    name: "烹饪",
+                    staff: [
+                        { name: "黄丽华", id: "LD2023151", role: "厨师长",   days: 26, gross: 6800, status: "ok",   card: "**** **** **** ****" },
+                        { name: "周建军", id: "LD2023155", role: "炒锅厨师", days: 25, gross: 5900,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "杨秀英", id: "LD2023158", role: "面点师",   days: 26, gross: 5600, status: "ok",   card: "**** **** **** ****" },
+                        { name: "朱国平", id: "LD2023162", role: "配菜员",   days: 24, gross: 4600,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "马晓东", id: "LD2023166", role: "炒锅厨师", days: 25, gross: 5800,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "林淑芬", id: "LD2023170", role: "洗碗工",   days: 26, gross: 4200,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "谢文强", id: "LD2023174", role: "配菜员",   days: 23, gross: 4400,  status: "wait", card: "**** **** **** ****" }
+                    ]
+                },
+                {
+                    name: "安保",
+                    staff: [
+                        { name: "周伟",   id: "LD2024001", role: "夜班安保员", days: 26, gross: 4800, status: "ok",   card: "**** **** **** ****" },
+                        { name: "王大勇", id: "LD2024005", role: "白班安保员", days: 25, gross: 4600,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "李铁柱", id: "LD2024008", role: "夜班安保员", days: 26, gross: 4850,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "张卫东", id: "LD2024011", role: "巡逻安保员", days: 24, gross: 4550,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "刘志强", id: "LD2024014", role: "监控员",     days: 25, gross: 4700,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "陈立军", id: "LD2024017", role: "夜班安保员", days: 26, gross: 4800,  status: "ok",   card: "**** **** **** ****" },
+                        { name: "赵勇敢", id: "LD2024020", role: "白班安保员", days: 23, gross: 4400,  status: "wait", card: "**** **** **** ****" },
+                        { name: "孙铁军", id: "LD2024023", role: "巡逻安保员", days: 25, gross: 4650,  status: "ok",   card: "**** **** **** ****" }
+                    ]
+                }
+            ]
+        }
+    }
+};
+
+/* =========================================================
+   从 URL 参数读取员工姓名
+   ========================================================= */
+(function () {
+    var doc = document;
+    function $(id) { return doc.getElementById(id); }
+
+    var params = new URLSearchParams(window.location.search);
+    var key = (params.get('name') || '').trim();
+    var DATA = STAFF[key];
+
+    /* 未匹配到员工，显示错误页 */
+    if (!DATA) {
+        doc.body.innerHTML =
+            '<div class="error-page">' +
+            '  <div class="ico">🔍</div>' +
+            '  <h2>未找到该员工信息</h2>' +
+            '  <p>请返回首页重新查询，或联系劳而得管理员核对姓名。</p>' +
+            '  <a href="index.html">返回首页</a>' +
+            '</div>';
+        return;
+    }
+
+    doc.title = DATA.name + ' 的工作台 · 劳而得劳务派遣有限公司';
+
+    /* ---------- 基础信息（隐藏工号） ---------- */
+    $('whoText').textContent = DATA.name;
+    $('welcomeName').textContent = '你好，' + DATA.name + ' 👋';
+    $('avatarEl').textContent = DATA.name.charAt(0);
+    $('pName').textContent = DATA.name;
+    $('pId').style.display = 'none';
+
+    $('todayText').textContent = '请按排班时间到岗。';
+
+    /* ---------- 个人信息 ---------- */
+    var infos = [
+        ['派遣单位', DATA.unit],
+        ['用工岗位', DATA.position],
+        ['所属部门', DATA.dept],
+        ['用工单位联系人', DATA.contact],
+        ['社会保险', DATA.insurance],
+        ['联系电话', DATA.phone]
+    ];
+    $('infoList').innerHTML = infos.map(function (it) {
+        return '<li><span>' + it[0] + '</span><b>' + it[1] + '</b></li>';
+    }).join('');
+
+    /* ---------- 员工清单表格 ---------- */
+    (function renderRoster() {
+        var roster = DATA.roster;
+        var cats = roster.categories;
+
+        /* 表头月份提示 */
+        var cardTitle = doc.querySelector('.card-title');
+        if (cardTitle) {
+            cardTitle.textContent = '工作面板 · 后勤部员工管理（' + roster.month + '）';
+        }
+
+        var html = '';
+        var idx = 0;
+        var totalGross = 0, paid = 0, wait = 0;
+
+        cats.forEach(function (cat) {
+            html += '<tr class="cat-row"><td colspan="8">' +
+                    cat.name + '类' +
+                    '<span class="cat-count">（共 ' + cat.staff.length + ' 人）</span>' +
+                    '</td></tr>';
+
+            cat.staff.forEach(function (s) {
+                idx++;
+                totalGross += s.gross;
+                if (s.status === 'ok') { paid++; } else { wait++; }
+
+                var badge = s.status === 'ok'
+                    ? '<span class="badge ok">已发放</span>'
+                    : '<span class="badge wait">待发放</span>';
+
+                html += '<tr>' +
+                    '<td class="idx">' + idx + '</td>' +
+                    '<td><b>' + s.name + '</b></td>' +
+                    '<td class="idx">' + s.id + '</td>' +
+                    '<td>' + s.role + '</td>' +
+                    '<td class="money">' + s.days + '</td>' +
+                    '<td class="money">' + s.gross.toLocaleString() + '</td>' +
+                    
+                    '<td>' + badge + '</td>' +
+                    '<td class="card-num">' + s.card + '</td>' +
+                    '</tr>';
+            });
+        });
+
+        $('tableBody').innerHTML = html;
+
+        /* 统计条更新 */
+        $('statTotal').innerHTML = idx + ' <small>人</small>';
+        $('statGross').innerHTML = totalGross.toLocaleString() + ' <small>元</small>';
+        $('statPaid').innerHTML = paid + ' <small>人</small>';
+        $('statWait').innerHTML = wait + ' <small>人</small>';
+    })();
+
+    /* ---------- 工作面板解锁 ---------- */
+    var overlay = $('lockOverlay');
+    var panelBody = $('panelBody');
+    var modal = $('unlockModal');
+
+    overlay.addEventListener('click', function () {
+        $('unlockInput').value = '';
+        $('unlockErr').textContent = '';
+        modal.classList.add('active');
+        setTimeout(function () { $('unlockInput').focus(); }, 130);
+    });
+
+    $('unlockClose').addEventListener('click', function () {
+        modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('active');
+    });
+
+    function doUnlock() {
+        var v = ($('unlockInput').value || '').trim().toUpperCase();
+
+        if (!v) {
+            $('unlockErr').textContent = '请输入工号';
+            return;
+        }
+
+        if (v !== DATA.id.toUpperCase()) {
+            $('unlockErr').textContent = '工号不正确，请重新输入';
+            $('unlockBox').classList.add('shake');
+            setTimeout(function () { $('unlockBox').classList.remove('shake'); }, 450);
+            return;
+        }
+
+        modal.classList.remove('active');
+        overlay.classList.add('hide');
+        panelBody.classList.remove('locked');
+    }
+
+    $('unlockBtn').addEventListener('click', doUnlock);
+    $('unlockInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') doUnlock();
+    });
+
+    /* ---------- 关闭页面 ---------- */
+    $('closePageBtn').addEventListener('click', function () {
+        window.close();
+    });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>员工工作台 - 劳而得劳务派遣有限公司</title>
+<style>
+    :root{
+        --blue:#1a5fb4;
+        --blue2:#2c7be5;
+        --gold:#ffd700;
+        --ink:#33415c;
+        --muted:#8894a8;
+        --line:#e6ecf5;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+        font-family:"Microsoft YaHei","微软雅黑",sans-serif;
+        background:#f0f3f8;color:#333;line-height:1.6;
+        -webkit-font-smoothing:antialiased;
+        padding-bottom:40px;
+    }
+
+    /* ---------- 顶栏 ---------- */
+    .topbar{
+        background:#1a5fb4;color:#fff;position:sticky;top:0;z-index:50;
+        box-shadow:0 2px 12px rgba(26,95,180,.28);
+    }
+    .topbar-inner{
+        max-width:1180px;margin:0 auto;padding:0 20px;height:64px;
+        display:flex;align-items:center;justify-content:space-between;
+    }
+    .brand{font-size:18px;font-weight:700;letter-spacing:1px;}
+    .brand span{color:#ffd700;}
+    .topbar-right{display:flex;align-items:center;gap:16px;font-size:13.5px;}
+    .who{opacity:.92;}
+    .btn-ghost{
+        background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;
+        padding:6px 14px;border-radius:5px;cursor:pointer;font-size:13px;
+        font-family:inherit;transition:.25s;
+    }
+    .btn-ghost:hover{background:rgba(255,255,255,.16);}
+
+    /* ---------- 主体 ---------- */
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px;}
+
+    .welcome{
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        border-radius:14px;color:#fff;padding:26px 30px;
+        display:flex;align-items:center;justify-content:space-between;gap:20px;
+        box-shadow:0 8px 22px rgba(26,95,180,.22);
+    }
+    .welcome h1{font-size:24px;margin-bottom:6px;font-weight:700;}
+    .welcome p{font-size:13.5px;opacity:.9;}
+    .welcome-badge{
+        background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.42);
+        padding:7px 18px;border-radius:999px;font-size:13px;white-space:nowrap;
+    }
+
+    /* ---------- 网格：白框等高 ---------- */
+    .grid{
+        display:grid;grid-template-columns:320px 1fr;gap:20px;
+        margin-top:20px;align-items:stretch;   /* 使左右卡片纵向等高 */
+    }
+
+    .card{
+        background:#fff;border-radius:14px;padding:22px 24px;
+        box-shadow:0 2px 14px rgba(30,60,110,.07);
+        display:flex;flex-direction:column;    /* 配合等高，内容纵向布局 */
+    }
+    .card-title{
+        font-size:16px;color:var(--blue);font-weight:700;
+        padding-left:12px;border-left:4px solid var(--gold);
+        margin-bottom:18px;
+    }
+
+    /* ---------- 个人信息 ---------- */
+    .profile-head{
+        display:flex;align-items:center;gap:14px;
+        padding-bottom:16px;border-bottom:1px dashed var(--line);
+        margin-bottom:14px;
+    }
+    .avatar{
+        width:56px;height:56px;border-radius:50%;flex-shrink:0;
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        color:#fff;display:flex;align-items:center;justify-content:center;
+        font-size:22px;font-weight:700;
+        box-shadow:0 4px 12px rgba(26,95,180,.28);
+    }
+    .p-name{font-size:19px;font-weight:700;color:var(--ink);}
+    .p-id{font-size:12.5px;color:var(--muted);letter-spacing:.5px;display:none;}
+    .info-list{list-style:none;}
+    .info-list li{
+        display:flex;justify-content:space-between;gap:12px;
+        padding:9px 0;border-bottom:1px dashed #eef2f8;font-size:13.5px;
+    }
+    .info-list li:last-child{border-bottom:none;}
+    .info-list span{color:var(--muted);flex-shrink:0;}
+    .info-list b{font-weight:600;color:var(--ink);text-align:right;}
+
+    /* ---------- 工作面板 ---------- */
+    .panel-wrap{position:relative;border-radius:10px;flex:1;}
+    .panel-body{transition:filter .4s ease;height:100%;}
+    .panel-body.locked{filter:blur(7px);pointer-events:none;user-select:none;}
+
+    .lock-overlay{
+        position:absolute;inset:0;border-radius:10px;
+        background:rgba(244,248,253,.78);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:6px;cursor:pointer;z-index:5;
+        transition:opacity .4s ease,background .25s;
+        backdrop-filter:blur(1.5px);
+    }
+    .lock-overlay:hover{background:rgba(238,245,255,.93);}
+    .lock-overlay.hide{opacity:0;pointer-events:none;}
+    .lock-icon{font-size:38px;filter:drop-shadow(0 4px 8px rgba(26,95,180,.28));}
+    .lock-overlay p{font-size:16px;font-weight:700;color:var(--blue);}
+    .lock-overlay small{font-size:12.5px;color:var(--muted);}
+
+    .task-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .task-col h4{
+        font-size:14px;color:var(--ink);margin-bottom:12px;
+        display:flex;align-items:center;gap:7px;font-weight:700;
+    }
+    .task-col h4 em{font-style:normal;color:var(--muted);font-weight:400;font-size:12.5px;}
+    .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+    .dot.todo{background:#f0a020;}
+    .dot.done{background:#2fb344;}
+
+    .task{
+        display:flex;gap:10px;padding:10px 12px;border-radius:9px;
+        background:#f7f9fd;margin-bottom:9px;border-left:3px solid #f0a020;
+        transition:transform .2s,box-shadow .2s;
+    }
+    .task:hover{transform:translateX(2px);box-shadow:0 2px 8px rgba(30,60,110,.07);}
+    .task.done{background:#f3fbf6;border-left-color:#2fb344;}
+    .t-flag{
+        width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:3px;
+        border:1.5px dashed #f0a020;
+        display:flex;align-items:center;justify-content:center;
+        font-size:10px;color:#fff;line-height:1;
+    }
+    .task.done .t-flag{background:#2fb344;border:1.5px solid #2fb344;}
+    .t-text{font-size:13.5px;color:var(--ink);}
+    .task.done .t-text{color:#8b98ab;text-decoration:line-through;}
+    .t-time{font-size:11.5px;color:#9aa7bb;margin-top:2px;}
+    .empty{font-size:13px;color:#a8b3c4;padding:10px 0;}
+
+    /* ---------- 聊天 ---------- */
+    .chat-fab{
+        position:fixed;right:26px;bottom:26px;z-index:900;
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        color:#fff;border:none;border-radius:999px;
+        padding:13px 22px;font-size:15px;cursor:pointer;
+        font-family:inherit;
+        box-shadow:0 8px 24px rgba(26,95,180,.38);
+        display:flex;align-items:center;gap:8px;
+        transition:transform .25s,box-shadow .25s;
+    }
+    .chat-fab:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(26,95,180,.46);}
+
+    .chat-window{
+        position:fixed;right:26px;bottom:92px;width:342px;height:462px;
+        background:#fff;border-radius:14px;z-index:901;
+        box-shadow:0 18px 48px rgba(20,45,90,.26);
+        display:flex;flex-direction:column;overflow:hidden;
+        opacity:0;transform:translateY(16px) scale(.97);pointer-events:none;
+        transition:opacity .25s ease,transform .25s ease;
+    }
+    .chat-window.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+
+    .chat-head{
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px;
+    }
+    .chat-avatar{
+        width:36px;height:36px;border-radius:50%;flex-shrink:0;
+        background:rgba(255,255,255,.22);
+        display:flex;align-items:center;justify-content:center;
+        font-weight:700;font-size:15px;
+    }
+    .chat-name{font-size:14px;font-weight:700;line-height:1.3;}
+    .chat-status{font-size:11px;opacity:.85;}
+    .chat-close{
+        margin-left:auto;background:none;border:none;color:#fff;
+        font-size:22px;cursor:pointer;line-height:1;opacity:.85;padding:0 4px;
+    }
+    .chat-close:hover{opacity:1;}
+
+    .chat-body{
+        flex:1;overflow-y:auto;padding:14px;background:#f6f8fc;
+        display:flex;flex-direction:column;gap:10px;
+    }
+    .chat-body::-webkit-scrollbar{width:6px;}
+    .chat-body::-webkit-scrollbar-thumb{background:#d3dced;border-radius:3px;}
+
+    .chat-tip{
+        align-self:center;font-size:12px;color:#9aa7bb;
+        background:#eef2f9;padding:6px 12px;border-radius:8px;
+        text-align:center;max-width:90%;
+    }
+
+    .bubble-row{display:flex;}
+    .bubble-row.me{justify-content:flex-end;}
+    .bubble{
+        max-width:78%;padding:9px 13px;border-radius:12px;
+        font-size:13.5px;line-height:1.5;word-break:break-word;
+        animation:bubbleIn .26s ease;
+    }
+    .bubble-row.them .bubble{
+        background:#fff;color:var(--ink);border:1px solid var(--line);
+        border-top-left-radius:3px;box-shadow:0 1px 3px rgba(30,60,110,.05);
+    }
+    .bubble-row.me .bubble{
+        background:#1a5fb4;color:#fff;border-top-right-radius:3px;
+    }
+    @keyframes bubbleIn{
+        from{opacity:0;transform:translateY(6px);}
+        to{opacity:1;transform:translateY(0);}
+    }
+
+    .bubble.typing{display:flex;align-items:center;gap:4px;padding:12px 14px;}
+    .bubble.typing i{
+        width:6px;height:6px;border-radius:50%;background:#a8b3c4;
+        display:inline-block;animation:blink 1.2s infinite;
+    }
+    .bubble.typing i:nth-child(2){animation-delay:.2s;}
+    .bubble.typing i:nth-child(3){animation-delay:.4s;}
+    @keyframes blink{
+        0%,60%,100%{opacity:.28;transform:translateY(0);}
+        30%{opacity:1;transform:translateY(-2px);}
+    }
+
+    .chat-input{
+        border-top:1px solid var(--line);padding:12px 14px;background:#fff;
+        cursor:pointer;display:flex;align-items:center;gap:8px;
+        transition:background .2s;
+    }
+    .chat-input:hover{background:#fbfcfe;}
+    .chat-input .placeholder{
+        flex:1;font-size:13px;color:#a8b3c4;
+        background:#f4f7fb;border-radius:999px;padding:9px 15px;
+    }
+    .chat-input.disabled{cursor:default;opacity:.75;}
+
+    /* ---------- 解锁弹窗 ---------- */
+    .modal-overlay{
+        position:fixed;inset:0;background:rgba(20,35,60,.45);
+        display:none;align-items:center;justify-content:center;z-index:1000;
+        backdrop-filter:blur(2px);
+    }
+    .modal-overlay.active{display:flex;}
+    .modal-box{
+        background:#fff;border-radius:14px;padding:32px 30px 26px;width:340px;
+        position:relative;box-shadow:0 18px 48px rgba(15,35,70,.3);
+        animation:modalIn .28s ease;
+    }
+    @keyframes modalIn{
+        from{opacity:0;transform:translateY(-16px) scale(.97);}
+        to{opacity:1;transform:translateY(0) scale(1);}
+    }
+    .modal-box.shake{animation:shake .42s;}
+    @keyframes shake{
+        0%,100%{transform:translateX(0);}
+        20%{transform:translateX(-8px);}
+        40%{transform:translateX(8px);}
+        60%{transform:translateX(-5px);}
+        80%{transform:translateX(5px);}
+    }
+    .modal-close{
+        position:absolute;top:12px;right:16px;border:none;background:none;
+        font-size:24px;color:#b0b9c8;cursor:pointer;line-height:1;
+    }
+    .modal-close:hover{color:var(--ink);}
+    .modal-lock{font-size:32px;text-align:center;margin-bottom:8px;}
+    .modal-box h3{text-align:center;font-size:18px;color:var(--blue);margin-bottom:6px;}
+    .modal-sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:18px;}
+    .modal-box input{
+        width:100%;padding:11px 14px;border:1px solid #dde5ef;border-radius:8px;
+        font-size:15px;outline:none;font-family:inherit;
+        transition:border-color .25s,box-shadow .25s;
+    }
+    .modal-box input:focus{
+        border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,95,180,.12);
+    }
+    .modal-box .err{
+        color:#d64545;font-size:12.5px;min-height:18px;
+        margin-top:6px;text-align:center;
+    }
+    .modal-btn{
+        width:100%;margin-top:8px;padding:11px;border:none;border-radius:8px;
+        background:linear-gradient(135deg,#1a5fb4,#2c7be5);color:#fff;
+        font-size:15px;font-family:inherit;cursor:pointer;
+        transition:filter .25s,transform .15s;
+    }
+    .modal-btn:hover{filter:brightness(1.08);}
+    .modal-btn:active{transform:scale(.99);}
+
+    /* ---------- 错误页 ---------- */
+    .error-page{
+        min-height:100vh;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;gap:14px;
+        background:#f0f3f8;padding:20px;text-align:center;
+    }
+    .error-page .ico{font-size:56px;}
+    .error-page h2{font-size:22px;color:var(--blue);}
+    .error-page p{font-size:14px;color:var(--muted);}
+    .error-page a{
+        margin-top:8px;background:linear-gradient(135deg,#1a5fb4,#2c7be5);
+        color:#fff;text-decoration:none;padding:10px 24px;border-radius:8px;
+        font-size:14px;
+    }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width:900px){
+        .grid{grid-template-columns:1fr;}
+        .task-cols{grid-template-columns:1fr;}
+        .welcome{flex-direction:column;align-items:flex-start;}
+        .chat-window{right:12px;left:12px;width:auto;bottom:84px;height:60vh;}
+        .chat-fab{right:14px;bottom:14px;}
+    }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">劳而得<span>劳务派遣</span> · 员工工作台</div>
+        <div class="topbar-right">
+            <span class="who" id="whoText"></span>
+            <button class="btn-ghost" id="closePageBtn">关闭页面</button>
+        </div>
+    </div>
+</header>
+
+<main class="wrap">
+    <section class="welcome">
+        <div>
+            <h1 id="welcomeName"></h1>
+            <p id="todayText"></p>
+        </div>
+        <div class="welcome-badge">● 在岗中</div>
+    </section>
+
+    <div class="grid">
+        <!-- 职业个人信息 -->
+        <aside class="card">
+            <h2 class="card-title">职业个人信息</h2>
+            <div class="profile-head">
+                <div class="avatar" id="avatarEl"></div>
+                <div>
+                    <div class="p-name" id="pName"></div>
+                    <div class="p-id" id="pId"></div>
+                </div>
+            </div>
+            <ul class="info-list" id="infoList"></ul>
+        </aside>
+
+        <!-- 工作面板 -->
+        <section class="card">
+            <h2 class="card-title">工作面板</h2>
+            <div class="panel-wrap">
+                <div class="panel-body locked" id="panelBody">
+
+                    <div class="task-cols">
+                        <div class="task-col">
+                            <h4><i class="dot todo"></i>未完成的工作 <em id="todoCount"></em></h4>
+                            <div id="todoList"></div>
+                        </div>
+                        <div class="task-col">
+                            <h4><i class="dot done"></i>已完成的工作 <em id="doneCount"></em></h4>
+                            <div id="doneList"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="lock-overlay" id="lockOverlay">
+                    <div class="lock-icon">🔒</div>
+                    <p>工作面板已锁定</p>
+                    <small>点击此处，输入工号解锁</small>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- 聊天按钮 -->
+<button class="chat-fab" id="chatFab">💬 聊天</button>
+
+<!-- 聊天窗口 -->
+<div class="chat-window" id="chatWindow">
+    <div class="chat-head">
+        <div class="chat-avatar" id="chatAvatar"></div>
+        <div>
+            <div class="chat-name" id="chatName"></div>
+            <div class="chat-status">● 在线</div>
+        </div>
+        <button class="chat-close" id="chatClose">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="chat-tip" id="chatTip">点击下方输入栏，开始对话</div>
+    </div>
+    <div class="chat-input" id="chatInputBar">
+        <span class="placeholder" id="chatPlaceholder">点击此处继续对话…</span>
+    </div>
+</div>
+
+<!-- 解锁弹窗 -->
+<div class="modal-overlay" id="unlockModal">
+    <div class="modal-box" id="unlockBox">
+        <button class="modal-close" id="unlockClose">&times;</button>
+        <div class="modal-lock">🔐</div>
+        <h3>工作面板解锁</h3>
+        <p class="modal-sub">请输入您的工号以验证身份</p>
+        <input type="text" id="unlockInput" placeholder="请输入工号" autocomplete="off">
+        <div class="err" id="unlockErr"></div>
+        <button class="modal-btn" id="unlockBtn">确认解锁</button>
+    </div>
+</div>
+
+<script>
+/* =========================================================
+   员工数据
+   ========================================================= */
+var STAFF = {
+    "周伟": {
+        name: "周伟",
+        id: "LD2024001",
+        unit: "泊然海洋馆",
+        position: "夜班安保员",
+        dept: "后勤部-安保",
+        contact: "邓仁",
+        
+        insurance: "已缴纳（五险）",
+        phone: "XXX****XXXX",
+        tasks: {
+            todo: [
+                { t: "闭馆后展厅外围巡更打点（A—E区）", time: "今日 22:30 前", tag: "每班任务" },
+                { t: "海洋生物维生设备间夜巡记录", time: "今日 01:00 前", tag: "每班任务" },
+                { t: "后勤仓库与员工通道门锁检查", time: "今日 03:30 前", tag: "每班任务" },
+                { t: "消防通道应急照明巡检", time: "本周五前", tag: "周任务" }
+            ],
+            done: [
+                { t: "接班交接班记录填写与物资清点", time: "今日 20:10 完成", tag: "每班任务" },
+                { t: "备用发电机与配电间巡检", time: "今日 20:40 完成", tag: "每班任务" },
+                { t: "后台走廊地面安全巡查", time: "今日 21:30 完成", tag: "每班任务" },
+                { t: "闭馆清场与展区安全确认", time: "昨日 21:50 完成", tag: "每班任务" }
+            ]
+        },
+        chat: [
+            ["周伟你好，我是劳而得后勤管理部的陈主管。", "陈主管好！我这刚接完班，您说。"],
+            ["海洋馆反馈，你上周夜巡记录填得很规范，尤其是维生设备间的巡检，做得不错。", "谢谢主管，那边设备关系到海洋生物，我一直都是重点看的。"],
+            ["最近有游客反映闭馆后偶尔能听到展厅有异响，你巡更的时候留意一下。", "好的，我今晚就重点查一下C区和D区的展缸，有情况马上报。"],
+            ["还有，下周三凌晨那班会有新来的邓师傅跟你搭班，你带他熟悉下巡更路线。", "没问题，我把几个容易漏的打点位给他标一下。"],
+            ["好，夜班辛苦，注意自身安全。", "好的，谢谢主管关心！"]
+        ]
+    },
+    
+};
+
+/* =========================================================
+   从 URL 参数读取员工姓名
+   ========================================================= */
+(function () {
+    var doc = document;
+    function $(id) { return doc.getElementById(id); }
+
+    var params = new URLSearchParams(window.location.search);
+    var key = (params.get('name') || '').trim();
+    var DATA = STAFF[key];
+
+    /* 未匹配到员工，显示错误页 */
+    if (!DATA) {
+        doc.body.innerHTML =
+            '<div class="error-page">' +
+            '  <div class="ico">🔍</div>' +
+            '  <h2>未找到该员工信息</h2>' +
+            '  <p>请返回首页重新查询，或联系劳而得管理员核对姓名。</p>' +
+            '  <a href="index.html">返回首页</a>' +
+            '</div>';
+        return;
+    }
+
+    doc.title = DATA.name + ' 的工作台 · 劳而得劳务派遣有限公司';
+
+    /* ---------- 基础信息（隐藏工号） ---------- */
+    $('whoText').textContent = DATA.name;
+    $('welcomeName').textContent = '你好，' + DATA.name + ' 👋';
+    $('avatarEl').textContent = DATA.name.charAt(0);
+    $('pName').textContent = DATA.name;
+    $('pId').style.display = 'none';
+    $('chatAvatar').textContent = DATA.name.charAt(0);
+    $('chatName').textContent = DATA.name;
+
+   
+    $('todayText').textContent =
+        '请按排班时间到岗。';
+
+    /* ---------- 个人信息（已删除「入职日期」与「合同期限」） ---------- */
+    var infos = [
+        ['派遣单位', DATA.unit],
+        ['用工岗位', DATA.position],
+        ['所属部门', DATA.dept],
+        ['用工单位联系人', DATA.contact],
+        ['社会保险', DATA.insurance],
+        ['联系电话', DATA.phone]
+    ];
+    $('infoList').innerHTML = infos.map(function (it) {
+        return '<li><span>' + it[0] + '</span><b>' + it[1] + '</b></li>';
+    }).join('');
+
+    /* ---------- 工作任务 ---------- */
+    function taskHtml(t, done) {
+        return '<div class="task' + (done ? ' done' : '') + '">' +
+            '<span class="t-flag">' + (done ? '✓' : '') + '</span>' +
+            '<div class="t-main">' +
+            '<div class="t-text">' + t.t + '</div>' +
+            '<div class="t-time">' + t.time + (t.tag ? ' · ' + t.tag : '') + '</div>' +
+            '</div></div>';
+    }
+
+    $('todoList').innerHTML = DATA.tasks.todo.map(function (t) { return taskHtml(t, false); }).join('')
+        || '<div class="empty">暂无待办任务</div>';
+    $('doneList').innerHTML = DATA.tasks.done.map(function (t) { return taskHtml(t, true); }).join('')
+        || '<div class="empty">暂无已完成任务</div>';
+    $('todoCount').textContent = '(' + DATA.tasks.todo.length + ')';
+    $('doneCount').textContent = '(' + DATA.tasks.done.length + ')';
+
+    /* ---------- 工作面板解锁 ---------- */
+    var overlay = $('lockOverlay');
+    var panelBody = $('panelBody');
+    var modal = $('unlockModal');
+
+    overlay.addEventListener('click', function () {
+        $('unlockInput').value = '';
+        $('unlockErr').textContent = '';
+        modal.classList.add('active');
+        setTimeout(function () { $('unlockInput').focus(); }, 130);
+    });
+
+    $('unlockClose').addEventListener('click', function () {
+        modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('active');
+    });
+
+    function doUnlock() {
+        var v = ($('unlockInput').value || '').trim().toUpperCase();
+
+        if (!v) {
+            $('unlockErr').textContent = '请输入工号';
+            return;
+        }
+
+        if (v !== DATA.id.toUpperCase()) {
+            $('unlockErr').textContent = '工号不正确，请重新输入';
+            $('unlockBox').classList.add('shake');
+            setTimeout(function () { $('unlockBox').classList.remove('shake'); }, 450);
+            return;
+        }
+
+        modal.classList.remove('active');
+        overlay.classList.add('hide');
+        panelBody.classList.remove('locked');
+    }
+
+    $('unlockBtn').addEventListener('click', doUnlock);
+    $('unlockInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') doUnlock();
+    });
+
+    /* ---------- 聊天功能 ---------- */
+    var chatIdx = 0;
+    var chatBusy = false;
+    var chatFinished = false;
+    var chatWin = $('chatWindow');
+    var chatBody = $('chatBody');
+    var chatBar = $('chatInputBar');
+
+    $('chatFab').addEventListener('click', function () {
+        chatWin.classList.toggle('open');
+        if (chatWin.classList.contains('open')) {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    });
+
+    $('chatClose').addEventListener('click', function () {
+        chatWin.classList.remove('open');
+    });
+
+    function addBubble(text, side) {
+        var row = doc.createElement('div');
+        row.className = 'bubble-row ' + side;
+        var b = doc.createElement('div');
+        b.className = 'bubble';
+        b.textContent = text;
+        row.appendChild(b);
+        chatBody.appendChild(row);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function typing(on) {
+        var el = doc.getElementById('typingRow');
+        if (on) {
+            if (el) return;
+            el = doc.createElement('div');
+            el.id = 'typingRow';
+            el.className = 'bubble-row them';
+            el.innerHTML = '<div class="bubble typing"><i></i><i></i><i></i></div>';
+            chatBody.appendChild(el);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        } else if (el) {
+            el.parentNode.removeChild(el);
+        }
+    }
+
+    chatBar.addEventListener('click', function () {
+        if (chatBusy || chatFinished) return;
+        if (chatIdx >= DATA.chat.length) return;
+
+        var tip = doc.getElementById('chatTip');
+        if (tip) tip.parentNode.removeChild(tip);
+
+        var pair = DATA.chat[chatIdx++];
+        chatBusy = true;
+
+        /* 己方的话先出现 */
+        addBubble(pair[0], 'me');
+
+        /* 短暂延迟后显示"正在输入" */
+        setTimeout(function () { typing(true); }, 200);
+
+        /* 一秒后对方的话出现 */
+        setTimeout(function () {
+            typing(false);
+            addBubble(pair[1], 'them');
+            chatBusy = false;
+
+            if (chatIdx >= DATA.chat.length) {
+                chatFinished = true;
+                $('chatPlaceholder').textContent = '本次对话已结束';
+                chatBar.classList.add('disabled');
+            }
+        }, 1000);
+    });
+
+    /* ---------- 关闭页面 ---------- */
+    $('closePageBtn').addEventListener('click', function () {
+        window.close();
+    });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>不害怕的点进来，闭馆了，终于能说了，我感觉 BR 海洋馆里有…… - B市老城论坛</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: #eef1f5;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .top-nav {
+            background: #2c3e50;
+            height: 38px;
+            line-height: 38px;
+            color: #bdc3c7;
+            font-size: 13px;
+        }
+
+        .top-nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-nav a {
+            color: #bdc3c7;
+            text-decoration: none;
+            margin-right: 18px;
+        }
+
+        .top-nav a:hover {
+            color: #fff;
+        }
+
+        .forum-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            padding: 25px 20px;
+        }
+
+        .forum-header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .forum-logo {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .forum-info h1 {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .forum-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .forum-stats {
+            margin-left: auto;
+            font-size: 13px;
+            text-align: right;
+        }
+
+        .forum-stats span {
+            margin-left: 20px;
+        }
+
+        .forum-stats strong {
+            font-size: 16px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 15px auto 0;
+            padding: 0 20px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+            color: #999;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 15px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 18px;
+        }
+
+        .content-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-title-bar {
+            background: #fff;
+            padding: 18px 22px;
+            border-radius: 4px 4px 0 0;
+            border-bottom: 1px solid #e5e8ed;
+        }
+
+        .post-title-bar h2 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 6px;
+        }
+
+        .post-subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .post-meta .author {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .main-post {
+            background: #fff;
+            padding: 20px 22px;
+            border-bottom: 1px solid #eef0f3;
+            background: #fbfcfe;
+        }
+
+        .page-block {
+            display: none;
+        }
+
+        .page-block.active {
+            display: block;
+        }
+
+        .reply-floor {
+            background: #fff;
+        }
+
+        .floor {
+            padding: 18px 22px;
+            border-bottom: 1px solid #f0f2f5;
+            position: relative;
+        }
+
+        .floor:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        .floor:hover {
+            background: #f7f9fc;
+        }
+
+        .floor-head {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .floor-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .username {
+            color: #2980b9;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .username:hover {
+            text-decoration: underline;
+        }
+
+        .lz-tag {
+            background: #e74c3c;
+            color: #fff;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 2px;
+        }
+
+        .floor-num {
+            color: #95a5a6;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+
+        .floor-content {
+            font-size: 14.5px;
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        .floor-content p {
+            margin-bottom: 6px;
+        }
+
+        .reply-quote {
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .reply-quote::before {
+            content: "【回复";
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .reply-quote::after {
+            content: "】";
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .admin-notice {
+            background: #fff3cd;
+            padding: 10px 22px;
+            color: #856404;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f2f5;
+            border-left: 3px solid #ffc107;
+            font-weight: 500;
+        }
+
+        .pagination {
+            background: #fff;
+            padding: 15px 22px;
+            text-align: center;
+            border-top: 1px solid #eef0f3;
+            font-size: 13px;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 4px 11px;
+            margin: 0 3px;
+            border: 1px solid #dcdfe6;
+            border-radius: 3px;
+            color: #606266;
+            text-decoration: none;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .pagination .current {
+            background: #3498db;
+            color: #fff;
+            border-color: #3498db;
+        }
+
+        .pagination a:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .reply-box {
+            background: #fff;
+            margin-top: 15px;
+            padding: 20px 22px;
+            border-radius: 4px;
+            border: 1px solid #e5e8ed;
+        }
+
+        .reply-box h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: #333;
+            border-left: 3px solid #3498db;
+            padding-left: 10px;
+        }
+
+        .reply-box textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #dcdfe6;
+            border-radius: 3px;
+            padding: 10px;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .reply-box textarea:focus {
+            border-color: #3498db;
+        }
+
+        .reply-actions {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reply-tools {
+            display: flex;
+            gap: 15px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .reply-tools span {
+            cursor: pointer;
+        }
+
+        .reply-tools span:hover {
+            color: #3498db;
+        }
+
+        .submit-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 7px 26px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-card {
+            background: #fff;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid #e5e8ed;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #f5f7fa;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e5e8ed;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .card-body {
+            padding: 12px 15px;
+            font-size: 13px;
+        }
+
+        .board-info p {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .board-info strong {
+            color: #333;
+        }
+
+        .hot-posts li {
+            list-style: none;
+            padding: 7px 0;
+            border-bottom: 1px dashed #f0f0f0;
+            line-height: 1.5;
+        }
+
+        .hot-posts li:last-child {
+            border-bottom: none;
+        }
+
+        .hot-posts a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .hot-posts a:hover {
+            color: #2980b9;
+        }
+
+        .hot-rank {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            background: #bdc3c7;
+            color: #fff;
+            font-size: 11px;
+            border-radius: 2px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .hot-rank.top3 {
+            background: #e74c3c;
+        }
+
+        .board-notice {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .board-notice p {
+            margin-bottom: 4px;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: #95a5a6;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #95a5a6;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 960px) {
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <div class="top-nav">
+        <div class="top-nav-inner">
+            <div class="nav-left">
+                <a href="javascript:void(0)">论坛首页</a>
+                <a href="javascript:void(0)">板块列表</a>
+                <a href="javascript:void(0)">精华区</a>
+                <a href="javascript:void(0)">同城活动</a>
+                <a href="javascript:void(0)">便民信息</a>
+            </div>
+            <div class="nav-right">
+                <a href="javascript:void(0)">登录</a>
+                <a href="javascript:void(0)">注册</a>
+                <a href="javascript:void(0)">消息</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 论坛头部 -->
+    <div class="forum-header">
+        <div class="forum-header-inner">
+            <div class="forum-logo">老城</div>
+            <div class="forum-info">
+                <h1>B市老城论坛</h1>
+                <p>本地人自己的网上家园 · 聊市井 · 忆往事 · 说闲话</p>
+            </div>
+            <div class="forum-stats">
+                <span>会员 <strong>18.6万</strong></span>
+                <span>帖子 <strong>62万</strong></span>
+                <span>今日 <strong>1247</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 面包屑 -->
+    <div class="breadcrumb">
+        <a href="javascript:void(0)">首页</a><span>›</span>
+        <a href="javascript:void(0)">市井八卦</a><span>›</span>
+        <span>不害怕的点进来，闭馆了，终于能说了，我感觉 BR 海洋馆里有……</span>
+    </div>
+
+    <!-- 主体 -->
+    <div class="main-container">
+        <!-- 左侧内容 -->
+        <div class="content-area">
+            <!-- 帖子标题 -->
+            <div class="post-title-bar">
+                <h2>不害怕的点进来，闭馆了，终于能说了，我感觉 BR 海洋馆里有……</h2>
+                <div class="post-subtitle">BR海洋馆闭馆之后，我看到的那些怪事</div>
+                <div class="post-meta">
+                    <span class="author">楼主：深海恐惧症慎入</span>
+                    <span>&nbsp;&nbsp;发表于 2025-08-15 23:47:12</span>
+                    <span>&nbsp;&nbsp;浏览 9863 次</span>
+                </div>
+            </div>
+
+            <!-- 主楼 -->
+            <div class="main-post">
+                <div class="floor-content">
+                    <p><strong>先说背景，我住滨海路那条老巷子，从我家阳台能看到泊然海洋馆的顶楼侧面。走路过去也就七八分钟。闭馆之后，每次路过我都不敢抬头往楼上看，但还是架不住一些怪事频频发生……</strong></p>
+                    <p><strong>怪事1：灯。</strong></p>
+                    <p>海洋馆彻底关门之后了，按说里面不可能有人了。</p>
+                    <p>但我连续几天凌晨看见<strong>里边的灯亮着</strong>，而且我不可能看错，蓝灰色的玻璃里面有暖黄色的光源特别显眼，每次亮大概十几二十分钟，然后灭了。</p>
+                    <p>我知道可能有人会质疑，说海洋馆里还有巡逻的保安之类，但我问过了，巡逻的保安是拿手电筒，即使亮光也是动的光，不可能只有一个房间亮并且亮二十分钟。</p>
+                    <p>那亮灯的是谁？</p>
+                    <p><strong>怪事2：侧门。</strong></p>
+                    <p>前几天晚上遛狗，走到海洋馆侧门那边，狗不走了，夹着尾巴朝门缝低吼。我拉不动狗，只能大着胆子看了一眼，发现<strong>侧门没关严</strong>，铁栅栏门留了一条缝。仔细闻能闻到一股味道，像鱼市场那种很久没换水的腥气。</p>
+                    <p>我拍了照片发出去，有人说可能是门锁生锈之类。但首先，我记得很清楚，那门锁很新，海洋馆翻新没几年，所有东西都是新的，没有那么快就坏的道理。并且我敢肯定是有人进去过，因为当时我留意到地上有两道水痕还有湿脚印，很像有车被人拉进去送过货。</p>
+                    <p><strong>我认为，是有人往里面带东西。</strong></p>
+                    <p>我有证据。8月初开始，我偶尔会在凌晨一两点听见侧门那边有动静，<strong>那种小推车滚过地砖的骨碌声</strong>。如果有人不相信，私聊我，给你发录音和视频。</p>
+                    <p><strong>怪事3：水声。</strong></p>
+                    <p>还是遛狗路过，这次是一大早。我家的狗只认那条经常带他跑的路，没办法，即使害怕我也得一天两次的去。然后我听见了<strong>水声</strong>。</p>
+                    <p>不是管子滴水滴滴答答那种动静，是那种<strong>一大片水被搅动的动静</strong>，闷闷的，像有什么东西在水池里扑腾，又像很多鱼同时浮到水面换气，“啪嗒啪嗒”的。持续了几分钟，然后停了。大家都知道不管白天晚上那一片都没什么人的，我的狗在那里大叫，我特别害怕，生拽着狗赶快走了。那之后无论狗怎么闹我，我都带他换了一条路线。</p>
+                    <p>我后来上网查了一下，得知还有很多动物留在馆里，也有临时工在维持基本的功能和简单喂食。但我想，如果那水声是动物的话，怎么平时路过听不到，就那一次听到了？</p>
+                    <p><strong>如果不是动物，那又能是什么？</strong></p>
+                    <p><strong>我现在把这些写下来，不是想吓人。反而我是想找人告诉我实际上没什么，让我安心点……</strong></p>
+                </div>
+            </div>
+
+            <!-- ========== 第1页：1~25楼 ========== -->
+            <div class="reply-floor page-block active" data-page="1">
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">1楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-15 23:52:18</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>前排。楼主你说有人拿东西进去这条，我可能能解释，我之前在海洋馆还营业的时候看见过侧门进货，就是用那种平板拖车放了很多箱子往里拉的。我感觉就是现在海洋馆里还需要的物资晚上进货。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">2楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-15 23:54:07</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>海洋馆本身有维生设施吧，是不是又开始运转了所以有水声？</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">3楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-15 23:56:22</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我支持阴谋论。贾家都清算了，谁买物资？谁付电费？我感觉这里面有东西。谁都知道贾家杀人越货，谁知道里面是不是有什么东西阴魂不散……</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">4楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-15 23:58:44</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">1楼</p>
+                        <p>我是馆里以前的兼职员工，我证实，楼主说的那个侧门，以前确实有员工用那条路进出后场送货。驯养员带私货进来偶尔也走那边。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">深海恐惧症植入</a>
+                            <span class="floor-num">5楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:01:03</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">4楼</p>
+                        <p>感谢感谢，那就说明有人送货是正常的吧。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">6楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:03:28</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">5楼</p>
+                        <p>这可不一定哦，之前送货也有半夜送的吗？楼主可不要想得太简单了。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">7楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:05:41</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>偷偷送东西的人会不会是以前的驯养员？我听说海洋馆有些老员工一直没放弃那些动物，闭馆之后还在到处联系动物保护组织，想让它们被接收。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">8楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:07:52</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">7楼</p>
+                        <p>那也有问题，是谁给他开的门？他们走了之后可就没有权限再进去了，我看，肯定不简单。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">9楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:10:18</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>你们可别吓楼主了，我感觉就是还有好心人偷偷在供养动物罢了，不要过度发挥吧……</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">10楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:12:35</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>海洋馆里的动物不是全被带走了吗？我听说贾剑明被抓之前，有人把值钱的动物已经转移了。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">11楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:15:01</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">10楼</p>
+                        <p>值钱的小型观赏鱼可能被转移了，但白鲸和海豚那种大家伙怎么转？那是需要大型运输设备和专业团队的。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">12楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:17:28</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我有朋友以前在泊然海洋馆做过安全员。他说闭馆之后整个馆的安保是移交给了清算管理人的，但清算管理人那边根本没派人驻场，真正在看门的还是以前那批老保安里的一个——就是说，还是劳而得的那批人。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">13楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:19:53</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">12楼</p>
+                        <p>蛙趣，不是说劳而得和贾家捆绑很深吗……这下越来越可怕了。</p>
+                    </div>
+                </div>
+                <!-- 14楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">14楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:45:51</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我查了一下泊然海洋馆闭馆后的情况。官方只说“资产待处置”，没有公布动物处置方案。如果那些大型海洋哺乳动物还在馆里，那它们没人能带走，也没有人权处理。好可怜。</p>
+                    </div>
+                </div>
+                <!-- 15楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">15楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:48:13</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>所以可能水声也就是大型动物的声音吧。平时听不见可能就是已经有点因为没人照顾半死不活了。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">16楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:50:47</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>楼主，我之前看见过一个中年男人在那附近徘徊，长得像一个干了很久的驯养员。要是送东西的人是他的话可能不用那么阴谋论，那个驯养员好像跟保安很熟。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">17楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:54:02</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>有没有人知道那个保安叫什么名字？或者工号？如果他知道闭馆之后谁在进出，那他就是唯一能说清楚里面情况的人。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">18楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 00:55:49</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">17楼</p>
+                        <p>如果知道名字应该在劳而得官网上能查到这个员工的。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">19楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:09:48</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>楼主……你有没有考虑过报警？说那边有人非法占用废弃建筑？</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">20楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:11:23</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">19楼</p>
+                        <p>报警说什么？“有人非法喂鱼”？警察来了发现里面真有动物，那直接变成动物处置问题了，搞不好那些海豚白鲸会被强制安乐死。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">21楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:15:59</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>话说有人见过那个保安吗？我搜到一个海洋馆保安拾金不昧的报道。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">22楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:18:22</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">21楼</p>
+                        <p>我搜到了，看着很眼熟，可能是吧。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">深海恐惧症慎入</a>
+                            <span class="lz-tag">楼主</span>
+                            <span class="floor-num">23楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:20:47</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我不行了有没有人救救我……刚才又大着胆子想给不相信的网友拍点素材，结果灯又亮了，这次有人影……看上去是个小孩……</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">24楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:21:04</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>？？？</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">25楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:21:10</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>？！窝趣！！</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== 第2页：26~39楼 ========== -->
+            <div class="reply-floor page-block" data-page="2">
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">26楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:21:18</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>不是吧不是吧我真吓到了。。。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">27楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:22:30</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>怎么真的诡异起来了这下真在现场了。</p>
+                    </div>
+                </div>
+                <!-- 28楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">28楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:25:16</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我私信楼主了，他给我发视频了。是真的有一个小孩的影子。好像穿的是红的还是橙色的衣服。</p>
+                    </div>
+                </div>
+                <!-- 29楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">29楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:32:13</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>不会是那种橙白色的小号救生衣吧，我弟弟参加过海洋馆的假期研学，那时候所有小孩都穿那个橙色的衣服……我不行了好恐怖。</p>
+                    </div>
+                </div>
+                <!-- 30楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">30楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:35:42</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">29楼</p>
+                        <p>这条回复让这个帖上升到了一个更加恐怖的地步。</p>
+                    </div>
+                </div>
+                <!-- 31楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">31楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:38:11</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">28楼</p>
+                        <p>以前有员工带孩子来上班的，偶尔能在后台看到。但闭馆之后……我不好说。</p>
+                    </div>
+                </div>
+                <!-- 32楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">32楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:40:55</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我记得，我之前在那打工，听有同事说有个姓陈的保洁员孩子挺小的没人帮衬很可怜。可能是没地方去还在那住吧。</p>
+                    </div>
+                </div>
+                <!-- 33楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">33楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:43:17</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">32楼</p>
+                        <p>你们越说越离谱了。海洋馆里现在什么情况，都是臭水了，哪有家长会让孩子天天在这种环境里呆着的？估计是看错了吧，比如就只是把救生衣挂在那之类的。</p>
+                    </div>
+                </div>
+                <!-- 34楼：原文件有 ## 标记，加粗 -->
+                <div class="floor">
+                    <div class="floor-head" style="font-weight:bold;">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">深海恐惧症慎入</a>
+                            <span class="lz-tag">楼主</span>
+                            <span class="floor-num">34楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:45:38</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">33楼</p>
+                        <p>那东西在动。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">35楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:48:03</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>我真害怕了。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">36楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:50:29</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>有没有人去查查那个人说的姓陈的保洁啊。万一真是她的小孩呢，是不是故意遗弃？这估计是刑事案件了吧。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">37楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:52:12</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>额……我真的没有吓唬你们的意思。但是有传闻说，前一段时间海洋馆溺死过一个保洁。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">38楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:53:19</span>
+                    </div>
+                    <div class="floor-content">
+                        <p class="reply-quote">37楼</p>
+                        <p>不会吧。</p>
+                    </div>
+                </div>
+                <div class="floor">
+                    <div class="floor-head">
+                        <div class="floor-user">
+                            <a href="javascript:void(0)" class="username">匿名用户</a>
+                            <span class="floor-num">39楼</span>
+                        </div>
+                        <span style="color:#999;font-size:12px;">2025-08-16 01:58:34</span>
+                    </div>
+                    <div class="floor-content">
+                        <p>有没有胆子大的跟我去一探究竟。</p>
+                    </div>
+                </div>
+
+                <!-- 管理员锁定提示 -->
+                <div class="admin-notice">
+                    ⚠ 此帖于2025年8月16日02:18被管理员锁定，原因：涉及未经证实信息及涉嫌引导线下行为，违反版规
+                </div>
+            </div>
+
+            <!-- 分页控件 -->
+            <div class="pagination">
+                <a data-page="1" class="current">1</a>
+                <a data-page="2">2</a>
+                <a data-page="next">下一页 ›</a>
+                <span style="margin-left:10px;color:#999;">共 39 条回复</span>
+            </div>
+
+            <!-- 回复框 -->
+            <div class="reply-box">
+                <h3>发表回复</h3>
+                <textarea placeholder="请输入回复内容，文明发言，理性讨论..."></textarea>
+                <div class="reply-actions">
+                    <div class="reply-tools">
+                        <span>🖼 图片</span>
+                        <span>😊 表情</span>
+                        <span>🔗 链接</span>
+                        <span>💬 引用</span>
+                    </div>
+                    <button class="submit-btn">发布回复</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <div class="card-header">板块信息</div>
+                <div class="card-body board-info">
+                    <p>板块：<strong>市井八卦</strong></p>
+                    <p>版主：<a href="javascript:void(0)" style="color:#2980b9;text-decoration:none;">老城管理员</a></p>
+                    <p>帖数：<strong>29.6万</strong></p>
+                    <p>在线：<strong>326人</strong></p>
+                </div>
+            </div>
+            <div class="sidebar-card">
+                <div class="card-header">今日热帖</div>
+                <div class="card-body">
+                    <ul class="hot-posts">
+                        <li><span class="hot-rank top3">1</span><a href="javascript:void(0)">MT集团贾剑明被正式批捕，涉案金额惊人</a></li>
+                        <li><span class="hot-rank top3">2</span><a href="javascript:void(0)">泊然海洋馆突然停业整顿，官方未说明原因</a></li>
+                        <li><span class="hot-rank top3">3</span><a href="javascript:void(0)">蔚蓝传媒公子失踪半年，家属悬赏百万寻人</a></li>
+                        <li><span class="hot-rank">4</span><a href="javascript:void(0)">老汽车站拆迁补偿方案出来了，大家看看合理吗</a></li>
+                        <li><span class="hot-rank">5</span><a href="javascript:void(0)">有人知道当年的红楼事件吗？来聊聊</a></li>
+                        <li><span class="hot-rank">6</span><a href="javascript:void(0)">B市新一届领导班子亮相，有几个新面孔</a></li>
+                        <li><span class="hot-rank">7</span><a href="javascript:void(0)">港口扩建工程中标单位公布了</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar-card">
+                <div class="card-header">板块公告</div>
+                <div class="card-body board-notice">
+                    <p>1. 严禁发布违法违规内容</p>
+                    <p>2. 禁止人身攻击、恶意造谣</p>
+                    <p>3. 爆料请附证据，谢绝道听途说</p>
+                    <p>4. 禁止重复发帖、恶意刷屏</p>
+                    <p>5. 违规账号将永久封禁</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <div>
+            <a href="javascript:void(0)">关于我们</a>|
+            <a href="javascript:void(0)">用户协议</a>|
+            <a href="javascript:void(0)">隐私条款</a>|
+            <a href="javascript:void(0)">版主申请</a>|
+            <a href="javascript:void(0)">意见反馈</a>|
+            <a href="javascript:void(0)">联系我们</a>
+        </div>
+        <div style="margin-top:8px;">
+            © 2003-2025 B市老城论坛 卡ICP备XXXXXXXX号 网络文化经营许可证
+        </div>
+    </div>
+
+    <script>
+        // 分页切换逻辑
+        let currentPage = 1;
+        const totalPage = 2;
+        const pageBlocks = document.querySelectorAll('.page-block');
+        const pageBtns = document.querySelectorAll('.pagination a');
+
+        function switchPage(pageNum) {
+            // 更新当前页码
+            currentPage = pageNum;
+            // 隐藏所有页面
+            pageBlocks.forEach(block => block.classList.remove('active'));
+            // 显示目标页面
+            const targetBlock = document.querySelector(`.page-block[data-page="${pageNum}"]`);
+            if (targetBlock) {
+                targetBlock.classList.add('active');
+            }
+            // 更新分页按钮高亮
+            pageBtns.forEach(btn => {
+                btn.classList.remove('current');
+                const p = btn.dataset.page;
+                if (p == pageNum) {
+                    btn.classList.add('current');
+                }
+            });
+            // 滚动到帖子顶部
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
+        // 绑定点击事件
+        pageBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.dataset.page;
+                if (target === 'next') {
+                    let next = currentPage + 1;
+                    if (next > totalPage) next = totalPage;
+                    switchPage(next);
+                } else {
+                    const p = parseInt(target);
+                    if (!isNaN(p)) {
+                        switchPage(p);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
