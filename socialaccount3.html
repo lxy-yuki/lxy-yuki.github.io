@@ -684,7 +684,7 @@
                                 爽玩结束。上班去了。
                             </div>
                             <img src="./images2/blueoffice.jpg" alt="" class="post-img">
-                            <div class="post-footer">宽敞工位</div>
+                            
                             <div class="post-time">2024.6.30</div>
                         </div>
                         
@@ -902,6 +902,10 @@
                 <div id="file-main" class="file-section active">
                     <h3 style="color: #FF7F84; margin-bottom:20px;">📁 我的文件总览</h3>
                     <div class="file-grid">
+                        <div class="folder-card folder-secret" onclick="openPwdModal('investigation')">
+                            <div class="folder-key">🗝</div>
+                            <div class="folder-name">调查贾剑明<br>(最后一次约见)</div>
+                        </div>
                         <!-- 1：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('album')">
                             <div class="folder-name">萍萍成长相册</div>
@@ -932,6 +936,18 @@
                         <div class="folder-card folder-normal" onclick="switchFileSection('game')">
                             <div class="folder-name">萍萍爱玩的游戏</div>
                         </div>
+                    </div>
+                </div>
+
+                <div id="file-investigation" class="file-section">
+                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
+                    <h3 style="color: #FF7F84;">🗝 调查备份　最后保存：2025.1.3 22:06</h3>
+                    <div class="doc-item" style="margin-top:20px;line-height:1.9;">
+                        <p>我签过一份编号 <strong>BR-CG-241127</strong> 的合同：泊然海洋馆向 B 市蓝鲸贸易有限公司采购“低温饵料配送及后场设备维保”，总价 <strong>¥1,860,000</strong>。合同要求每批附冷链车入馆记录和称重单。乙方联系人空着，验收章却先盖好了。</p>
+                        <p>财务对账邮件里的三张付款回单：<strong>11.28 ¥780,000</strong>、<strong>12.05 ¥460,000</strong>、<strong>12.16 ¥620,000</strong>。付款户尾号 3186，收款户尾号 7429；回单尾号依次是 0831、2194、6047。</p>
+                        <p>蓝鲸发来的对账附件另列三笔“品牌渠道服务费”：11.29 ¥742,000、12.06 ¥437,000、12.17 ¥589,000，收款方都是明通文旅管理有限公司，户尾号 1062。我拿不到它的银行原始回单，只能确认这份对账附件确实由蓝鲸发来。</p>
+                        <p>三次所谓验收的日期，后场登记里都没有对应的冷链车辆或过磅重量。我不知道他们到底把什么送进来，或者根本没有送。</p>
+                        <p>今晚我还在海洋馆办公室等贾签终止文件。他说再等十分钟。如果有人看到这里，请去<strong>麦英基金会搜索引擎搜“蓝鲸贸易”</strong>，把付款方、收款方、金额和合同编号逐项对上。</p>
                     </div>
                 </div>
 
@@ -1041,6 +1057,7 @@
     <script>
         // 加密文件夹密码配置
         const pwdConfig = {
+            investigation: "20250103",
             medical: "juyuan999",
             contract: "nnksaigao"
         };
