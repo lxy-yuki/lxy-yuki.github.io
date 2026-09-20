@@ -180,56 +180,59 @@
     </div>
 
     <script>
-        // 搜索框回车触发：在新标签页打开搜索结果，并携带 keyword 参数
+        // ========== 关键词规范化 ==========
+        // 去除所有空白字符（空格、Tab、换行等）及所有标点符号，并统一转为小写
+        // 若还想忽略数学符号等，可将 \p{P} 改为 [\p{P}\p{S}]
+        function normalizeKeyword(str) {
+            return String(str)
+                .toLowerCase()
+                .replace(/[\s\p{P}]/gu, '');
+        }
+
+        // ========== 关键词 → 页面 映射表 ==========
+        // 键由 normalizeKeyword 生成，因此天然支持"忽略空格与标点（且忽略大小写）"
+        const keywordMap = {
+            [normalizeKeyword("泊然海洋馆")]: "mid/middle-Aquarium.html",
+            [normalizeKeyword("泊然海洋馆官方网站")]: "mid/middle-Aquarium.html",
+            [normalizeKeyword("MT集团")]: "mid/middle-MT.html",
+            [normalizeKeyword("海洋馆溺亡美人鱼案")]: "mid/middle-die.html",
+            [normalizeKeyword("溺亡美人鱼案")]: "mid/middle-die.html",
+            [normalizeKeyword("安伯然")]: "mid/middle-boran.html",
+            [normalizeKeyword("泊然集团")]: "mid/middle-brcpny.html",
+            [normalizeKeyword("安仲斌")]: "mid/middle-azb.html",
+            [normalizeKeyword("安永德")]: "mid/middle-ayd.html",
+            [normalizeKeyword("贾剑明")]: "mid/middle-jjm.html",
+            [normalizeKeyword("明通集团")]: "mid/middle-mtjt.html",
+            [normalizeKeyword("杏仁网")]: "mid/middle-xingren.html",
+            [normalizeKeyword("蔚蓝传媒")]: "mid/middle-bluemedia.html",
+            [normalizeKeyword("蔚蓝集团")]: "mid/middle-bluemedia.html",
+            [normalizeKeyword("蔚蓝文化传媒有限公司")]: "mid/middle-bluemedia.html",
+            [normalizeKeyword("钱宏达")]: "mid/middle-qhd.html",
+            [normalizeKeyword("蓝鲸贸易")]: "mid/middle-bluewhale.html",
+            [normalizeKeyword("劳而得")]: "mid/middle-labor.html",
+            [normalizeKeyword("劳务派遣公司劳而得")]: "mid/middle-labor.html",
+            [normalizeKeyword("劳而得劳务派遣公司")]: "mid/middle-labor.html",
+            [normalizeKeyword("劳务公司劳而得")]: "mid/middle-labor.html",
+            [normalizeKeyword("劳而得劳务公司")]: "mid/middle-labor.html",
+            [normalizeKeyword("海洋馆保安拾金不昧")]: "mid/middle-jinqi.html",
+            [normalizeKeyword("海洋馆保安拾金不昧的报道")]: "mid/middle-jinqi.html",
+            [normalizeKeyword("B2025-JD-0718")]: "mid/middle-juanzong1.html",
+            [normalizeKeyword("B2025-JD-0717")]: "mid/middle-warning.html",
+            [normalizeKeyword("临时工溺亡")]: "mid/middle-linshi.html"
+        };
+
+        // ========== 搜索框回车触发 ==========
         const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('keydown', function(e) {
+        searchInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                const keyword = this.value.trim();
-                // 对所有关键词统一处理：新窗口打开对应页面，并带上 keyword 参数
-                let targetPage = "";
-                if (keyword === "泊然海洋馆") {
-                    targetPage = "mid/middle-Aquarium.html";
-                } else if (keyword === "陈树1999") {
-                    targetPage = "mid/middle-chenshu.html";
-                } else if (keyword === "MT集团") {
-                    targetPage = "mid/middle-MT.html";
-                } else if (keyword === "海洋馆溺亡美人鱼案") {
-                    targetPage = "mid/middle-die.html";
-                } else if (keyword === "安伯然") {
-                    targetPage = "mid/middle-boran.html";
-                } else if (keyword === "泊然集团") {
-                    targetPage = "mid/middle-brcpny.html";
-                } else if (keyword === "安仲斌") {
-                    targetPage = "mid/middle-azb.html";
-                } else if (keyword === "安永德") {
-                    targetPage = "mid/middle-ayd.html";
-                } else if (keyword === "贾剑明") {
-                    targetPage = "mid/middle-jjm.html";
-                } else if (keyword === "明通集团") {
-                    targetPage = "mid/middle-mtjt.html";
-                } else if (keyword === "杏仁网") {
-                    targetPage = "mid/middle-xingren.html";
-                } else if (keyword === "蔚蓝传媒") {
-                    targetPage = "mid/middle-bluemedia.html";
-                } else if (keyword === "钱宏达") {
-                    targetPage = "mid/middle-qhd.html";
-                } else if (keyword === "蓝鲸贸易") {
-                    targetPage = "mid/middle-bluewhale.html";
-                } else if (keyword === "劳而得") {
-                    targetPage = "mid/middle-labor.html";
-                } else if (keyword === "海洋馆保安拾金不昧") {
-                    targetPage = "mid/middle-jinqi.html";
-                } else if (keyword === "B2025-JD-0718") {
-                    targetPage = "mid/middle-juanzong1.html";
-                } else if (keyword === "B2025-JD-0717") {
-                    targetPage = "mid/middle-warning.html";
-                } else if (keyword === "临时工溺亡") {
-                    targetPage = "mid/middle-linshi.html";
-                } else {
-                    targetPage = "mid/middle404.html";
-                }
-                // 使用 window.open 在新标签页打开，并在 URL 后附带 keyword 参数
-                window.open(targetPage + "?keyword=" + encodeURIComponent(keyword), "_blank");
+                const rawKeyword = this.value.trim();                 // 原始输入（用于 URL 参数）
+                const normalizedKeyword = normalizeKeyword(rawKeyword); // 规范化后（用于匹配）
+
+                // 查表匹配，未命中则跳转 404
+                const targetPage = keywordMap[normalizedKeyword] || "mid/middle404.html";
+
+                // 在新标签页打开，并附带原始 keyword 参数
+                window.open(targetPage + "?keyword=" + encodeURIComponent(rawKeyword), "_blank");
             }
         });
 

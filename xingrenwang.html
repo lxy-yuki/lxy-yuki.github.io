@@ -97,17 +97,17 @@
             gap: 20px;
         }
 
-        /* ===== 修改：关注列表标题字号调小三分之一，字间距适当增大，高度保持不变 ===== */
+        /* ===== 关注列表标题 ===== */
         .sidebar-title {
             color: #ffffff;
-            font-size: 21px;                /* 原32px缩小三分之一，约21.33px，取整21px */
+            font-size: 21px;
             font-weight: 500;
-            letter-spacing: 7px;            /* 原2px增大到4px，字间距更宽松 */
+            letter-spacing: 7px;
             flex-shrink: 0;
-            height: 40px;                   /* 固定高度，保持原来标题所在位置高度不变 */
-            line-height: 40px;              /* 行高与高度一致，文字垂直居中 */
-            text-align: center;             /* 文字水平居中 */
-            width: 100%;                    /* 占满宽度，便于居中 */
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            width: 100%;
         }
 
         /* 搜索记录列表容器 */
@@ -186,6 +186,70 @@
             background-color: #E8C694;
             border-radius: 2px;
         }
+
+        /* ========== 首次打开提示弹窗（麦英基金会配色） ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(80, 50, 0, 0.38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        /* 隐藏状态 */
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-box {
+            width: 540px;
+            max-width: 84vw;
+            background: linear-gradient(to bottom, #ffeac5, #ffd49b);
+            border: 3px solid #ff9900;
+            border-radius: 28px;
+            padding: 48px 46px 34px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 36px;
+            box-shadow: 0 14px 44px rgba(160, 100, 10, 0.4);
+            animation: modalPop 0.28s ease-out;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        .modal-text {
+            font-size: 19px;
+            line-height: 1.95;
+            color: #8B5A00;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .modal-btn {
+            padding: 13px 56px;
+            background-color: #ff9900;
+            color: #ffffff;
+            border: none;
+            border-radius: 32px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: #e88a00;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.97);
+        }
     </style>
 </head>
 <body>
@@ -196,7 +260,7 @@
         </div>
 
         <div class="search-bar">
-            <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索...">
+            <input type="text" class="search-input" id="searchInput" placeholder="输入用户名搜索...">
             <img class="search-side-img" src="images2/mirror4.png" alt="右侧自定义图片">
         </div>
     </div>
@@ -210,40 +274,93 @@
         <button class="clear-btn" id="clearBtn">清空历史记录</button>
     </div>
 
+    <!-- ========== 首次打开提示弹窗 ========== -->
+    <div class="modal-overlay hidden" id="modalOverlay">
+        <div class="modal-box">
+            <p class="modal-text">麦英基金会提醒您，您已进入内部社交软件，搜索过的人会自动关注并出现在右侧列表</p>
+            <button class="modal-btn" id="modalBtn">我已知晓</button>
+        </div>
+    </div>
+
     <script>
+        // ========== 0. 关键词规范化 ==========
+        // 去除所有空白字符（空格、Tab、换行等）及所有标点符号，并统一转为小写
+        // 若还想忽略数学符号等，可将 \p{P} 改为 [\p{P}\p{S}]
+        function normalizeKeyword(str) {
+            return String(str)
+                .toLowerCase()
+                .replace(/[\s\p{P}]/gu, '');
+        }
+
         // ========== 1. 自定义关键词映射表 ==========
+        // 键统一由 normalizeKeyword 生成，因此天然忽略空格、标点及大小写差异
         const keywordMap = {
-            "陈树": {
+            [normalizeKeyword("陈树")]: {
                 name: "陈树",
                 desc: "苹果树",
                 url: "socialaccount1.html"
             },
-            "李挚圆": {
+            [normalizeKeyword("苹果树")]: {
+                name: "陈树",
+                desc: "苹果树",
+                url: "socialaccount1.html"
+            },
+            [normalizeKeyword("李挚圆")]: {
                 name: "李挚圆",
                 desc: "一枚圆子",
                 url: "socialaccount-yuan.html"
             },
-            "刘真": {
+            [normalizeKeyword("一枚圆子")]: {
+                name: "李挚圆",
+                desc: "一枚圆子",
+                url: "socialaccount-yuan.html"
+            },
+            [normalizeKeyword("刘真")]: {
                 name: "刘真",
                 desc: "最爱海豚",
                 url: "socialaccount-lz.html"
             },
-            "赵雨虹": {
+            [normalizeKeyword("最爱海豚")]: {
+                name: "刘真",
+                desc: "最爱海豚",
+                url: "socialaccount-lz.html"
+            },
+            [normalizeKeyword("赵雨虹")]: {
                 name: "赵雨虹",
                 desc: "雨后彩虹rainbow",
                 url: "socialaccount2.html"
             },
-            "张智": {
+            [normalizeKeyword("雨后彩虹rainbow")]: {
+                name: "赵雨虹",
+                desc: "雨后彩虹rainbow",
+                url: "socialaccount2.html"
+            },
+            [normalizeKeyword("张智")]: {
                 name: "张智",
                 desc: "海洋知识智慧哥哥",
                 url: "socialaccount-zhangz.html"
             },
-            "钱蔚东": {
+            [normalizeKeyword("海洋知识智慧哥哥")]: {
+                name: "张智",
+                desc: "海洋知识智慧哥哥",
+                url: "socialaccount-zhangz.html"
+            },
+            [normalizeKeyword("钱蔚东")]: {
                 name: "钱蔚东",
                 desc: "IM a changed man.",
                 url: "socialaccount3.html"
             },
-            "有需要，找小周": {
+            [normalizeKeyword("IM a changed man.")]: {
+                name: "钱蔚东",
+                desc: "IM a changed man.",
+                url: "socialaccount3.html"
+            },
+            [normalizeKeyword("有需要，找小周")]: {
+                name: "周伟",
+                desc: "有需要，找小周.",
+                url: "socialaccount-zw.html"
+            },
+            [normalizeKeyword("周伟")]: {
                 name: "周伟",
                 desc: "有需要，找小周.",
                 url: "socialaccount-zw.html"
@@ -284,20 +401,18 @@
             const keyword = searchInput.value.trim();
             if (!keyword) return;
 
-            const keywordLower = keyword.toLowerCase();
-            let matchedItem = null;
+            // 规范化用户输入：忽略空格、标点、大小写
+            const normalizedKeyword = normalizeKeyword(keyword);
 
-            for (const key in keywordMap) {
-                if (key.toLowerCase() === keywordLower) {
-                    matchedItem = { ...keywordMap[key] };
-                    break;
-                }
-            }
+            // 直接以规范化后的字符串作为键查表
+            const matched = keywordMap[normalizedKeyword];
 
-            if (!matchedItem) {
+            if (!matched) {
                 alert('未找到对应内容，请输入正确的关键词');
                 return;
             }
+
+            const matchedItem = { ...matched };
 
             // 去重后插入到最前面
             historyList = historyList.filter(item => item.url !== matchedItem.url);
@@ -328,6 +443,37 @@
 
         // ========== 6. 页面初始化 ==========
         renderHistoryList();
+
+        // ========== 7. 首次打开提示弹窗 ==========
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalBtn = document.getElementById('modalBtn');
+
+        // 读取 / 写入"是否已提示过"的标记（用 try-catch 防止部分环境禁用 localStorage 时报错）
+        function hasShownNotice() {
+            try {
+                return localStorage.getItem('maiyingNoticeShown') === '1';
+            } catch (e) {
+                return false;
+            }
+        }
+        function markNoticeShown() {
+            try {
+                localStorage.setItem('maiyingNoticeShown', '1');
+            } catch (e) {
+                /* 忽略写入失败 */
+            }
+        }
+
+        // 如果之前没有提示过，则显示弹窗
+        if (!hasShownNotice()) {
+            modalOverlay.classList.remove('hidden');
+        }
+
+        // 点击"我已知晓"按钮关闭弹窗，并记录已提示
+        modalBtn.addEventListener('click', function() {
+            modalOverlay.classList.add('hidden');
+            markNoticeShown();
+        });
     </script>
 </body>
 </html>

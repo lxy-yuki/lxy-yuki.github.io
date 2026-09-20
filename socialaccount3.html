@@ -215,7 +215,7 @@
             background-color: #FF7F84;
         }
 
-        /* ========== 新增：评论区样式 ========== */
+        /* ========== 评论区样式 ========== */
         .comment-section {
             margin-top: 20px;
             padding-top: 15px;
@@ -299,10 +299,10 @@
         .file-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            /* 自动生成行，每行最小高度和前两行一致，不会缩小 */
-            grid-auto-rows: minmax(220px, auto); 
+            /* 卡片纵向长度固定为250px */
+            grid-auto-rows: 250px;
             gap: 25px;
-            min-height: 480px; /* 用最小高度替代固定高度，兼容多行 */
+            /* 只有两个卡片，一行即可，去掉最小高度限制 */
         }
         .folder-card {
             border-radius: 20px;
@@ -353,7 +353,7 @@
             background-color: #FF7F84;
         }
 
-        /* 相册样式 */
+        /* 相册样式（保留但可能不再使用） */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -397,16 +397,16 @@
         }
         /* 文档标题样式（黑色加粗+大字号） */
         .doc-title {
-        font-size: 16px;
-        font-weight: bold;
-        color: #000000;
-        margin-bottom: 10px; /* 标题和内容的间距 */
+            font-size: 16px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 10px;
         }
         /* 文档详情内容样式（小字号+常规） */
         .doc-detail {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.6;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
         }
 
         /* ========== 密码弹窗样式（优化双按钮布局） ========== */
@@ -435,6 +435,19 @@
             color: #FF7F84;
             font-weight: bold;
             margin-bottom: 20px;
+        }
+        /* 新增：每个加密文件夹各自不同的谜题提示 */
+        .modal-hint {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.7;
+            text-align: left;
+            background-color: #FFF5F6;
+            border-left: 4px solid #FFB6B9;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            white-space: pre-line;
         }
         .modal-input {
             width: 100%;
@@ -474,7 +487,7 @@
             opacity: 0.9;
         }
 
-        /* ========== 头像预览模态框新增样式 ========== */
+        /* ========== 头像预览模态框样式 ========== */
         #avatarModal {
             cursor: pointer; /* 点击遮罩关闭 */
         }
@@ -489,6 +502,55 @@
         }
         #avatarModal img:hover {
             transform: scale(1.02);
+        }
+
+        /* ===== 存档文件夹：并排图片 ===== */
+        .archive-images {
+            display: flex;
+            gap: 20px;              /* 两张图片之间的间距，可调 */
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;        /* 屏幕太窄时自动换行；想强制并排可删掉这行 */
+        }
+
+        .archive-img {
+            flex: 1 1 0;            /* 两张图等宽并排 */
+            max-width: 320px;       /* 单张图片最大宽度，可调 */
+            height: 300px;          /* 纵向长度，可调 */
+            object-fit: contain;    /* 完整显示不裁剪 */
+            border-radius: 12px;
+            border: 1px solid #FFE0E2;
+            cursor: pointer;
+            transition: 0.2s;
+            background-color: #fff;
+        }
+
+        .archive-img:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        /* ===== 图片放大预览（可上下拖动） ===== */
+        #imageViewerModal {
+            cursor: pointer;              /* 点遮罩可关闭 */
+        }
+
+        .image-viewer-scroll {
+            width: 90%;                   /* 放大容器宽度，可调 */
+            max-width: 900px;             /* 放大容器最大宽度，可调 */
+            height: 90vh;                 /* 容器高度，超出即可上下滚动 */
+            overflow-y: auto;             /* 关键：允许上下拖动 */
+            overflow-x: hidden;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            cursor: default;              /* 在容器内点击不关闭 */
+        }
+
+        .image-viewer-scroll img {
+            display: block;
+            width: 100%;                  /* 关键：铺满容器宽度，等比放大 */
+            height: auto;                 /* 保持原始比例，纵向自然变长 */
+            border-radius: 16px;
         }
     </style>
 </head>
@@ -517,13 +579,10 @@
 
     <!-- 右侧内容区域 -->
     <div class="main-page">
-        <!-- 我的主页空间：集成你的成长记录动态 -->
+        <!-- 我的主页空间 -->
         <div id="home" class="content active">
-            <!-- 中间内容区 -->
             <div class="content-area">
-                <!-- 1. 我的动态（成长帖子） -->
                 <div class="content-section">
-                    
                     <div class="content-title">IM a changed man.的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
@@ -537,7 +596,7 @@
                                 如果我解决掉所有事，你会回头吗？
                             </div>
                             <img src="./images2/cp1.jpg" alt="" class="post-img">
-                            <div class="post-footer">曾经的美好</div>
+                            
                             <div class="post-time">2025.1.1</div>
                         </div>
                         
@@ -564,7 +623,6 @@
                                         </div>
                                     </div>
                                     <div class="comment-item">
-                                        <!-- 特定用户头像：添加 img 类及点击事件 -->
                                         <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/laoqian-0.jpg')" title="点击查看完整头像"></div>
                                         <div class="comment-body">
                                             <div class="comment-name">IM a changed man</div>
@@ -719,7 +777,7 @@
                                 <div class="post-header-name">IM a changed man.</div>
                             </div>
                             <div class="post-content">
-                                <p>近日蔚蓝集团和泊然海洋馆进行合作，详情请点击<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">https://ikari.eco.cn</a>
+                                <p>近日蔚蓝集团和泊然海洋馆进行合作，详情请点击<a href="javascript:void(0);" onclick="return false;" style="color: #02bd37; font-weight: bold;">《蔚蓝集团与泊然海洋馆成功达成合作协议》</a>
 </p>
                                 <div class="post-time">2023.10.10</div>
                             </div>
@@ -898,149 +956,58 @@
         <!-- 我的文件 -->
         <div id="file" class="content">
             <div class="file-content-container">
-                <!-- 文件主界面 -->
+                <!-- 文件主界面：只保留两个文件卡 -->
                 <div id="file-main" class="file-section active">
                     <h3 style="color: #FF7F84; margin-bottom:20px;">📁 我的文件总览</h3>
                     <div class="file-grid">
+                        <!-- 卡片1：加密，调查贾剑明 -->
                         <div class="folder-card folder-secret" onclick="openPwdModal('investigation')">
                             <div class="folder-key">🗝</div>
-                            <div class="folder-name">调查贾剑明<br>(最后一次约见)</div>
+                            <div class="folder-name">收拾行囊</div>
                         </div>
-                        <!-- 1：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('album')">
-                            <div class="folder-name">萍萍成长相册</div>
-                        </div>
-                        <!-- 2：加密文件夹（病历） -->
-                        <div class="folder-card folder-secret" onclick="openPwdModal('medical')">
+                        <!-- 卡片2：加密，我看到的（内含两张图片） -->
+                        <div class="folder-card folder-secret" onclick="openPwdModal('seen')">
                             <div class="folder-key">🗝</div>
-                            <div class="folder-name">病历档案<br>(私密)</div>
-                        </div>
-                        <!-- 3：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('daily')">
-                            <div class="folder-name">日常随笔文档</div>
-                        </div>
-                        <!-- 4：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('rehab')">
-                            <div class="folder-name">康复训练记录</div>
-                        </div>
-                        <!-- 5：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('note')">
-                            <div class="folder-name">生活心情笔记</div>
-                        </div>
-                        <!-- 6：加密文件夹（合同） -->
-                        <div class="folder-card folder-secret" onclick="openPwdModal('contract')">
-                            <div class="folder-key">🗝</div>
-                            <div class="folder-name">合同文件<br>(私密)</div>
-                        </div>
-                        <!-- 7：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('game')">
-                            <div class="folder-name">萍萍爱玩的游戏</div>
+                            <div class="folder-name">一路货色</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- 调查贾剑明子页面 -->
                 <div id="file-investigation" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🗝 调查备份　最后保存：2025.1.3 22:06</h3>
+                    <h3 style="color: #8e7fff;">【调查备份｜钱蔚东｜最后保存：2025.1.3 22:06】</h3>
                     <div class="doc-item" style="margin-top:20px;line-height:1.9;">
-                        <p>我签过一份编号 <strong>BR-CG-241127</strong> 的合同：泊然海洋馆向 B 市蓝鲸贸易有限公司采购“低温饵料配送及后场设备维保”，总价 <strong>¥1,860,000</strong>。合同要求每批附冷链车入馆记录和称重单。乙方联系人空着，验收章却先盖好了。</p>
-                        <p>财务对账邮件里的三张付款回单：<strong>11.28 ¥780,000</strong>、<strong>12.05 ¥460,000</strong>、<strong>12.16 ¥620,000</strong>。付款户尾号 3186，收款户尾号 7429；回单尾号依次是 0831、2194、6047。</p>
-                        <p>蓝鲸发来的对账附件另列三笔“品牌渠道服务费”：11.29 ¥742,000、12.06 ¥437,000、12.17 ¥589,000，收款方都是明通文旅管理有限公司，户尾号 1062。我拿不到它的银行原始回单，只能确认这份对账附件确实由蓝鲸发来。</p>
-                        <p>三次所谓验收的日期，后场登记里都没有对应的冷链车辆或过磅重量。我不知道他们到底把什么送进来，或者根本没有送。</p>
-                        <p>今晚我还在海洋馆办公室等贾签终止文件。他说再等十分钟。如果有人看到这里，请去<strong>麦英基金会搜索引擎搜“蓝鲸贸易”</strong>，把付款方、收款方、金额和合同编号逐项对上。</p>
+                        <p>我交友不慎，帮替贾剑明签合作文件，以为只是绕开正常采购流程。12月14日看见对账邮件后，才知道自己签下的东西在帮助犯罪。这件事和我父亲以及蔚蓝集团没有任何关系，完全系个人行为。我本人经手的合同、海洋馆财务邮件和后场登记中留出的副本保留在蔚蓝集团办公室电脑内，包含贾剑明利用皮包公司洗钱的多笔合同及付款回单。</p>
+                        <p>12月20日我告诉贾不再替他签字；1月2日，他坚持让我来海洋馆当面拿合作终止文件。我有种不好的预感。我约了发小第二天见面。如果我发生什么事，他会第一时间记得。</p>
+                        
                     </div>
                 </div>
 
-                <!-- 子页面1：相册 -->
-                <div id="file-album" class="file-section">
+                <!-- 我看到的子页面：包含两张并排图片，点击放大可拖动 -->
+                <div id="file-seen" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🖼️ 萍萍的成长相册</h3>
-                    <p style="margin-top: 10px;">记录萍萍成长的珍贵瞬间</p>
-                    <div class="image-grid">
-                        <div class="image-item">
-                            <img src="https://picsum.photos/id/1025/300/200" alt="小鱼">
-                            <div class="image-caption">第一次主动画画，画的是海洋馆的蓝吊鱼</div>
-                        </div>
-                        <div class="image-item">
-                            <img src="https://picsum.photos/id/237/300/200" alt="小手">
-                            <div class="image-caption">第一次说妈妈再见，小手紧紧抓着我</div>
-                        </div>
-                        <div class="image-item">
-                            <img src="https://picsum.photos/id/188/300/200" alt="月亮">
-                            <div class="image-caption">元宵节画的月亮，里面有我和她</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 子页面2：病历档案 -->
-                <div id="file-medical" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🗝 萍萍病历档案（私密）</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 2026-01-05 萍萍自闭症确诊病历</div>
-                        <div class="doc-item">📄 2026-02-10 康复训练诊断报告</div>
-                        <div class="doc-item">📄 2026-03-15 语言能力评估表</div>
-                    </div>
-                </div>
-
-                <!-- 子页面3：日常随笔 -->
-                <div id="file-daily" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">📝 日常随笔文档</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">
-                            <div class="doc-title">📄 海洋馆工作日常记录</div>
-                            <div class="doc-detail">
-                                今天也是辛勤工作的一天呢！
-                            </div>
-                        </div>
-                        <div class="doc-item">📄 给萍萍的每日小日记</div>
-                    </div>
-                </div>
-
-                <!-- 子页面4：康复记录 -->
-                <div id="file-rehab" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">💪 萍萍康复训练记录</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 每周康复训练计划表</div>
-                        <div class="doc-item">📄 语言康复进步日志</div>
-                    </div>
-                </div>
-
-                <!-- 子页面5：生活笔记 -->
-                <div id="file-note" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">❤️ 生活心情笔记</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 单亲妈妈的心里话</div>
-                        <div class="doc-item">📄 萍萍成长的暖心瞬间合集</div>
-                    </div>
-                </div>
-
-                <!-- 子页面6：合同文件 -->
-                <div id="file-contract" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🗝 个人合同文件（私密）</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 海洋馆劳务合同</div>
-                        <div class="doc-item">📄 特教机构缴费协议</div>
-                    </div>
-                </div>
-                <!-- 子页面7：试验加页 -->
-                <div id="file-game" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">❤️ 游戏收录</h3>
+                    <h3 style="color: #8e7fff;">低山臭水握手言欢</h3>
                     
+                    <!-- 两张并排图片 -->
+                    <div class="archive-images">
+                        <img src="images2/jia-deng.jpg"
+                            alt="存档图片1"
+                            class="archive-img"
+                            onclick="openImageViewer('images2/jia-deng.jpg')">
+
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========== 密码弹窗HTML（双按钮） ========== -->
+    <!-- ========== 密码弹窗HTML（带提示词） ========== -->
     <div class="modal-overlay" id="pwdModal">
         <div class="modal-box">
-            <div class="modal-title">此处存在谜题</div>
+            <div class="modal-title" id="pwdTitle">此处存在谜题</div>
+            <div class="modal-hint" id="pwdHint"></div>
             <input type="text" class="modal-input" id="pwdInput" placeholder="请输入密码">
             <div class="modal-btn-group">
                 <button class="modal-btn modal-btn-back" onclick="closePwdModal()">返回</button>
@@ -1049,18 +1016,47 @@
         </div>
     </div>
 
-    <!-- ========== 头像预览模态框（新增） ========== -->
+    <!-- ========== 头像预览模态框 ========== -->
     <div class="modal-overlay" id="avatarModal" onclick="closeAvatarModal()">
         <img src="images2/laoqian-0.jpg" alt="完整头像" onclick="event.stopPropagation()">
     </div>
 
+    <!-- ========== 图片放大预览模态框（可上下拖动） ========== -->
+    <div class="modal-overlay" id="imageViewerModal" onclick="closeImageViewer()">
+        <div class="image-viewer-scroll" onclick="event.stopPropagation()">
+            <img src="" alt="放大图片" id="imageViewerImg">
+        </div>
+    </div>
+
     <script>
-        // 加密文件夹密码配置
+        /* ============================================================
+           加密文件夹配置（可自由增删 / 修改）
+           key 需与 openPwdModal('key') 以及 switchFileSection 的
+           目标（file-xxx）保持一致。
+           ------------------------------------------------------------
+           title       : 弹窗标题
+           hint        : 谜题提示词（支持换行，用 \n）
+           placeholder : 输入框占位文字
+           pwd         : 正确密码
+           errorMsg    : 输错时的提示（可选，不写则用默认）
+           ============================================================ */
         const pwdConfig = {
-            investigation: "20250103",
-            medical: "juyuan999",
-            contract: "nnksaigao"
+            investigation: {
+                title: "此处存在谜题",
+                hint: "不干了",
+                placeholder: "请输入日期密码，格式为YYYYMMDD",
+                pwd: "20241220",
+                errorMsg: "密码错误"
+            },
+            seen: {
+                title: "此处存在谜题",
+                hint: "他跟贾是一路货色",
+                placeholder: "请输入人名",
+                pwd: "邓仁",
+                errorMsg: "密码错误"
+            }
         };
+
         let currentTarget = "";
 
         // 1. 切换主页面（主页/文件）
@@ -1078,12 +1074,30 @@
             document.getElementById('file-' + sectionName).classList.add('active');
         }
 
-        // 3. 打开密码弹窗
+        /* 3. 打开密码弹窗：根据 currentTarget 读取各自不同的提示词 */
         function openPwdModal(target) {
             currentTarget = target;
+            const cfg = pwdConfig[target] || {};
+
+            const titleEl = document.getElementById('pwdTitle');
+            const hintEl = document.getElementById('pwdHint');
+            const inputEl = document.getElementById('pwdInput');
+
+            titleEl.textContent = cfg.title || '此处存在谜题';
+
+            if (cfg.hint) {
+                hintEl.textContent = cfg.hint;
+                hintEl.style.display = 'block';
+            } else {
+                hintEl.textContent = '';
+                hintEl.style.display = 'none';
+            }
+
+            inputEl.value = "";
+            inputEl.placeholder = cfg.placeholder || '请输入密码';
+
             document.getElementById('pwdModal').style.display = 'flex';
-            document.getElementById('pwdInput').value = "";
-            document.getElementById('pwdInput').focus();
+            inputEl.focus();
         }
 
         // 4. 关闭密码弹窗
@@ -1094,12 +1108,13 @@
         // 5. 验证密码
         function checkPassword() {
             const inputVal = document.getElementById('pwdInput').value.trim();
-            const rightPwd = pwdConfig[currentTarget];
-            if(inputVal === rightPwd){
+            const cfg = pwdConfig[currentTarget];
+
+            if (cfg && inputVal === cfg.pwd) {
                 closePwdModal();
                 switchFileSection(currentTarget);
-            }else{
-                alert("密码错误");
+            } else {
+                alert((cfg && cfg.errorMsg) ? cfg.errorMsg : "密码错误");
             }
         }
 
@@ -1117,6 +1132,19 @@
         }
         function closeAvatarModal() {
             document.getElementById('avatarModal').style.display = 'none';
+        }
+
+        /* ===== 图片放大预览（可上下拖动） ===== */
+        function openImageViewer(imageSrc) {
+            const img = document.getElementById('imageViewerImg');
+            img.src = imageSrc;
+            document.getElementById('imageViewerModal').style.display = 'flex';
+            // 每次打开都从顶部开始看
+            document.querySelector('.image-viewer-scroll').scrollTop = 0;
+        }
+
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
         }
 
         // 动态排序切换功能

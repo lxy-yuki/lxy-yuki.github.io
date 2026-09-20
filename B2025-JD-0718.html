@@ -325,10 +325,29 @@
     /* ===== 解密后的小工具条 ===== */
     .secret-bar {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
         margin-top: 26px;
         padding-top: 10px;
         border-top: 1px dotted #c3bcaf;
+    }
+    .unlock-tip {
+        font-family: "SimHei", "Heiti SC", sans-serif;
+        font-size: 11.5px;
+        letter-spacing: 1.5px;
+        color: #2f6b3a;
+        line-height: 1.7;
+    }
+    .unlock-tip .d {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #2f6b3a;
+        margin-right: 7px;
+        vertical-align: middle;
+        opacity: .85;
     }
     .btn-relock {
         font-family: "SimHei", "Heiti SC", sans-serif;
@@ -340,6 +359,7 @@
         padding: 5px 14px;
         cursor: pointer;
         transition: .18s;
+        white-space: nowrap;
     }
     .btn-relock:hover { color: #8c1616; border-color: #8c1616; }
 
@@ -549,6 +569,7 @@
         .file-tab { display: none; }
         .lock-panel { padding: 34px 18px 30px; }
         .dept-line { flex-direction: column; align-items: flex-start; gap: 4px; }
+        .secret-bar { flex-direction: column; align-items: flex-start; }
     }
 
     @media print {
@@ -586,7 +607,7 @@
 
             <div class="classify-bar">
                 <span class="classify">绝密</span>
-                <span class="serial">份号：0001 ／ 副本编号：AYD-06168110</span>
+                <span class="serial">份号：0001 ／ 案件编号：B2025-JD-0718</span>
             </div>
         </div>
 
@@ -632,7 +653,6 @@
         </table>
 
         <div class="auth-box">
-            
             <span><span class="lbl">LEVEL：</span>TOP-SECRET / READ-ONLY</span>
             <span><span class="lbl">LOG：</span>调阅行为已记录</span>
         </div>
@@ -659,7 +679,7 @@
             </div>
         </div>
 
-        <!-- ===== 加密区：解密后内容 ===== -->
+        <!-- ===== 加密区：解密后内容（二、三部分） ===== -->
         <div id="secretZone" hidden>
 
             <div class="sec-title">二、结案报告摘要</div>
@@ -719,6 +739,7 @@
             </div>
 
             <div class="secret-bar">
+                
                 <button class="btn-relock" id="btnRelock" type="button">重新锁定本部分内容</button>
             </div>
         </div>
@@ -778,7 +799,12 @@
     var locked  = document.getElementById('lockedZone');
     var secret  = document.getElementById('secretZone');
 
+    /* 记录打开弹窗前页面的滚动位置 */
+    var scrollBeforeUnlock = 0;
+
     function openModal() {
+        /* 打开密码框时先记住用户此刻的阅读进度 */
+        scrollBeforeUnlock = window.pageYOffset || document.documentElement.scrollTop || 0;
         mask.classList.add('show');
         mask.setAttribute('aria-hidden', 'false');
         errMsg.classList.remove('show');
@@ -799,13 +825,32 @@
         inputRow.classList.add('shake');
     }
 
+    /* 把页面恢复到指定滚动位置（允许一定容差，避免布局变化导致跳位） */
+    function restoreScroll(y) {
+        var maxY = Math.max(0,
+            (document.documentElement.scrollHeight || 0) - window.innerHeight);
+        var target = Math.min(y, maxY);
+        window.scrollTo(0, target);
+    }
+
     function tryUnlock() {
         var v = (input.value || '').trim().toUpperCase();
         if (v === PWD) {
+            /* 解锁：隐藏锁面板，展开完整档案（二、三部分），
+               但不跳回文档开头——停留在用户解锁时所在的页面位置 */
             locked.hidden = true;
             secret.hidden = false;
             closeModal();
-            secret.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            /* 同步恢复一次，再在下一帧与布局稳定后各校正一次，
+               抵消因内容展开引起的滚动偏移 */
+            restoreScroll(scrollBeforeUnlock);
+            requestAnimationFrame(function () {
+                restoreScroll(scrollBeforeUnlock);
+                requestAnimationFrame(function () {
+                    restoreScroll(scrollBeforeUnlock);
+                });
+            });
         } else {
             errMsg.classList.add('show');
             input.value = '';
@@ -830,10 +875,15 @@
         if (e.key === 'Escape' && mask.classList.contains('show')) closeModal();
     });
 
+    /* 重新锁定：回到锁定面板所在位置，便于再次验证 */
     document.getElementById('btnRelock').addEventListener('click', function () {
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
         secret.hidden = true;
         locked.hidden = false;
-        locked.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        restoreScroll(y);
+        requestAnimationFrame(function () {
+            restoreScroll(y);
+        });
     });
 })();
 </script>

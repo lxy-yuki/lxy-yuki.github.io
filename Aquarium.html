@@ -247,6 +247,56 @@
             color: #2277EE;
             margin-bottom: 8px;
         }
+
+        /* ===== 时间表图片容器：两张图共用，保证宽度一致 ===== */
+        .time-table-wrap {
+            width: 60%;              /* 横向宽度，两张图共用 */
+            max-width: 600px;        /* 最大宽度，两张图共用 */
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 3px solid #fff;
+        }
+
+        .time-table-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== 图片放大预览（等比例放大，可上下拖动） ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;   /* 点击遮罩可关闭 */
+        }
+
+        .image-viewer-scroll {
+            width: 90%;          /* 放大容器宽度，可调 */
+            max-width: 1000px;   /* 放大容器最大宽度，可调 */
+            height: 90vh;        /* 可视高度，超出即可上下滚动 */
+            overflow-y: auto;    /* 关键：允许上下拖动 */
+            overflow-x: hidden;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            cursor: default;     /* 在容器内点击不关闭 */
+        }
+
+        .image-viewer-scroll img {
+            display: block;
+            width: 100%;         /* 关键：铺满容器宽度，等比放大 */
+            height: auto;        /* 保持原比例，纵向自然变长 */
+            border-radius: 16px;
+        }
     </style>
 </head>
 <body>
@@ -309,15 +359,16 @@
 
             <div class="section-text">馆内营业、演出时间表如下</div>
 
-            <!-- 时间表图片 -->
-            <div style="width: 60%; max-width: 600px; margin: 20px auto; 
-                        border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
-                <img src="images/timetable.png" alt="营业时间表" style="width: 100%; height: auto; display: block;">
+            <!-- 时间表图片（第一张：营业时间表） -->
+            <div class="time-table-wrap">
+                <img src="images/timetable.png" alt="营业时间表">
             </div>
 
-            <div style="width: 60%; max-width: 600px; margin: 20px auto; 
-                        border-radius: 8px; overflow: hidden; border: 3px solid #fff;">
-                <img src="images2/timetable2.png" alt="演出时间表" style="width: 100%; height: auto; display: block;">
+            <!-- 时间表图片（第二张：演出时间表）—— 支持点击放大 -->
+            <div class="time-table-wrap">
+                <img src="images2/timetable2.png" alt="演出时间表"
+                     style="cursor: pointer;"
+                     onclick="openImageViewer('images2/timetable2.png')">
             </div>
 
             <div class="section-text">
@@ -325,11 +376,9 @@
                 我们还为参观者准备了<a href="souvenir.html" target="_blank" style="color: #bd0202; font-weight: bold;">纪念品商店</a>，欢迎大家在游览结束后进行商品选购。
             </div>
             <div class="section-text">
-                联系电话:0333-23332333&nbsp;&nbsp;&nbsp;&nbsp;紧急电话：19918891988
+                联系电话:0XXXX-2XXXXXXX&nbsp;&nbsp;&nbsp;&nbsp;紧急电话：1XX1XXX1XXX
             </div>
         </div>
-
-        
 
         <!-- 2. 馆史板块 -->
         <div class="content-panel" id="history">
@@ -455,6 +504,13 @@
         </div>
     </div>
 
+    <!-- 图片放大预览模态框（可上下拖动） -->
+    <div class="modal-overlay" id="imageViewerModal" onclick="closeImageViewer()">
+        <div class="image-viewer-scroll" onclick="event.stopPropagation()">
+            <img src="" alt="放大图片" id="imageViewerImg">
+        </div>
+    </div>
+
     <script>
         // 导航切换功能
         const navButtons = document.querySelectorAll('.nav-btn');
@@ -495,6 +551,18 @@
         }
         function nextSlide1() {
             showSlide1(currentIndex1 + 1);
+        }
+
+        /* ===== 图片放大预览 ===== */
+        function openImageViewer(imageSrc) {
+            document.getElementById('imageViewerImg').src = imageSrc;
+            document.getElementById('imageViewerModal').style.display = 'flex';
+            // 每次打开都从顶部开始看
+            document.querySelector('.image-viewer-scroll').scrollTop = 0;
+        }
+
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
         }
     </script>
 </body>

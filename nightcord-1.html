@@ -223,10 +223,19 @@
           </div>
           <div class="bg-white p-5 rounded-lg shadow-sm text-center">
             <h3 class="text-lg font-bold mb-4">关注我们</h3>
-            <div class="flex justify-center gap-4 text-xl">
+            <div class="flex justify-center items-center gap-4 text-xl">
+              <!-- ① 小红书：点击后另开新标签页跳转到指定网页 -->
+              <a href="https://www.xiaohongshu.com" target="_blank" rel="noopener" class="text-red-500 hover:opacity-80" title="小红书">
+                <svg viewBox="0 0 48 48" class="w-6 h-6 inline-block" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="46" height="46" rx="13" fill="#FF2442"/>
+                  <text x="24" y="31" text-anchor="middle" font-size="13" font-weight="bold"
+                        fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif">小红书</text>
+                </svg>
+              </a>
+              <!-- ② 微博：保持原有反应不变 -->
               <a href="#" class="text-red-500"><i class="fa fa-weibo"></i></a>
+              <!-- ③ 微信：保持原有反应不变 -->
               <a href="#" class="text-green-500"><i class="fa fa-wechat"></i></a>
-              <a href="#" class="text-blue-500"><i class="fa fa-youtube-play"></i></a>
             </div>
           </div>
         </div>

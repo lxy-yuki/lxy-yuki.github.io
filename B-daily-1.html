@@ -46,6 +46,14 @@
         margin-bottom: 1rem;
         font-size: 1rem;
       }
+      /* 让内联 SVG 图标颜色跟随父级文字颜色（用于小红书图标 hover 变色） */
+      .svg-icon {
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+        vertical-align: -2px;
+        fill: currentColor;
+      }
     }
   </style>
 </head>
@@ -55,7 +63,16 @@
     <div class="container mx-auto flex justify-between items-center">
       
       <div class="flex items-center gap-3">
+        <!-- ① 新增：小红书图标（位于最左侧），点击后新标签页跳转到指定网页 -->
+        <a href="https://www.xiaohongshu.com" target="_blank" rel="noopener"
+           class="text-gray-600 hover:text-partyRed" title="小红书">
+          <svg viewBox="0 0 48 48" class="svg-icon" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm9.09 27.27h-3.18v-1.07h-2.18v1.07h-3.14v-3.86h-2.19v3.86h-3.18v-6.86h3.18v1.07h2.19v-1.07h3.14v1.07h2.18v-1.07h3.18v6.86zm0-9.7h-9.69v-1.07h-2.18v1.07h-3.14v-3.86h14.99v3.86h-.02z"/>
+          </svg>
+        </a>
+        <!-- ② 微博：保持原有反应不变 -->
         <a href="#" class="text-gray-600 hover:text-partyRed"><i class="fa fa-weibo"></i></a>
+        <!-- ③ 微信：保持原有反应不变 -->
         <a href="#" class="text-gray-600 hover:text-partyRed"><i class="fa fa-wechat"></i></a>
         <a href="#" class="text-gray-600 hover:text-partyRed">客户端</a>
       </div>
