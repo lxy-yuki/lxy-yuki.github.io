@@ -15,13 +15,12 @@
         body {
             background-color: #FF7F84;
             display: flex;
-            padding: 40px 40px 40px 40px;/* 分别对应上下左右边距 */
+            padding: 40px 40px 40px 40px;
             gap: 32px;
-            height: 100vh;          /* 固定占满视口高度 */
-            overflow: hidden;       /* 禁止页面整体滚动 */
-            align-items: flex-start;/* 左侧栏不再随右侧拉伸 */
+            height: 100vh;
+            overflow: hidden;
+            align-items: flex-start;
         }
-        /* 左侧统一容器 */
         .left-container {
             width: 260px;
             background-color: #FFF0F0;
@@ -30,7 +29,6 @@
             display: flex;
             flex-direction: column;
             gap: 28px;
-            /* 按公式计算高度：视口高度 - 顶部80px间距 - 再减50px */
             height: calc(100vh - 40px - 20px);
         }
         .avatar-wrap {
@@ -41,11 +39,10 @@
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            /* 替换背景色为头像图片，圆形裁剪显示 */
             background-image: url('images2/chenshu-0.jpg');
             background-size: cover;
             background-position: center;
-            cursor: pointer;   /* 鼠标悬停变为手型 */
+            cursor: pointer;
             transition: 0.2s;
         }
         .avatar:hover {
@@ -87,41 +84,39 @@
             background-color: #FFB6B9;
             padding: 24px 16px;
             display: flex;
-            flex-direction: column;  /* 新增：垂直排列 */
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            gap: 8px;                /* 新增：行间距 */
+            gap: 8px;
             line-height: 1.6;
             text-align: center;
         }
         .intro-content p {
-            margin: 0;               /* 新增：去除段落外边距 */
+            margin: 0;
         }
-        /* 右侧主内容 */
         .main-page {
             flex: 1;
             background-color: #FFF0F0;
             border-radius: 24px;
             padding: 40px;
-            height: calc(100vh - 40px - 20px); /* 右侧容器占满视口剩余高度 */
+            height: calc(100vh - 40px - 20px);
         }
         .content {
             width: 100%;
-            height: 100%;          /* 占满右侧容器 */
+            height: 100%;
             border-radius: 20px;
             background-color: #FFFFFF;
             padding: 30px;
             font-size: 16px;
             color: #666;
             display: none;
-            overflow-y: auto;      /* 仅内容超出时内部滚动 */
+            overflow-y: auto;
         }
         .content.active {
             display: block;
         }
 
-        /* 动态样式 */
         .content-title {
             font-size: 22px;
             color: #FF7F84;
@@ -140,11 +135,6 @@
             border-radius: 16px;
             border: 1px solid #FFE0E2;
         }
-        .post-time {
-            font-size: 14px;
-            color: #999;
-            margin-bottom: 12px;
-        }
         .post-content {
             line-height: 1.8;
             color: #555;
@@ -162,11 +152,41 @@
             font-weight: bold;
             font-size: 14px;
         }
-        /* 新增：父容器相对定位 */
+        .post-time {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .post-header-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: #FFB6B9;
+            background-image: url('images2/chenshu-0.jpg');
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .post-header-avatar:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        .post-header-name {
+            font-size: 15px;
+            color: #FF7F84;
+            font-weight: bold;
+        }
         .content-section {
             position: relative;
         }
-        /* 新增：排序按钮样式 */
         .sort-btn {
             position: absolute;
             top: 0;
@@ -184,7 +204,63 @@
             background-color: #FF7F84;
         }
 
-        /* 文件内容样式 */
+        /* 评论区样式 */
+        .comment-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #FFE0E2;
+        }
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .comment-item {
+            display: flex;
+            gap: 10px;
+        }
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #FFB6B9;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .comment-avatar:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        .comment-avatar-img {
+            background-image: url('images2/chenshu-0.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .comment-body {
+            flex: 1;
+        }
+        .comment-name {
+            font-size: 13px;
+            color: #FF7F84;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .comment-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .comment-time {
+            font-size: 12px;
+            color: #bbb;
+            margin-top: 3px;
+        }
+        .reply-name {
+            color: #FF7F84;
+            font-weight: bold;
+        }
+
         .file-content-container {
             width: 100%;
             height: 100%;
@@ -201,10 +277,9 @@
         .file-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            /* 自动生成行，每行最小高度和前两行一致，不会缩小 */
-            grid-auto-rows: minmax(220px, auto); 
+            grid-auto-rows: 250px;
             gap: 25px;
-            min-height: 480px; /* 用最小高度替代固定高度，兼容多行 */
+            min-height: 480px;
         }
         .folder-card {
             border-radius: 20px;
@@ -219,16 +294,8 @@
         .folder-normal {
             background-color: #FFF0F0;
         }
-        .folder-secret {
-            background-color: #FFB6B9;
-        }
         .folder-card:hover {
             transform: scale(1.03);
-        }
-        .folder-key {
-            font-size: 48px;
-            color: #333;
-            margin-bottom: 10px;
         }
         .folder-name {
             font-size: 16px;
@@ -237,7 +304,6 @@
             text-align: center;
         }
 
-        /* 返回按钮 */
         .back-btn {
             background-color: #FFB6B9;
             color: white;
@@ -255,7 +321,6 @@
             background-color: #FF7F84;
         }
 
-        /* 相册样式 */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -274,44 +339,14 @@
             object-fit: cover;
             border-radius: 12px;
             border: 1px solid #FFE0E2;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .image-caption {
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-            padding: 0 5px;
-        }
-        .doc-item {
-            background-color: #fdf6f7;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #FFE0E2;
-        }
-        /* 文档详情内容样式（和整体风格统一） */
-        .doc-detail {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #888;
-            line-height: 1.6;
-            padding-left: 5px;
-        }
-        /* 文档标题样式（黑色加粗+大字号） */
-        .doc-title {
-        font-size: 16px;
-        font-weight: bold;
-        color: #000000;
-        margin-bottom: 10px; /* 标题和内容的间距 */
-        }
-        /* 文档详情内容样式（小字号+常规） */
-        .doc-detail {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.6;
+        .image-item img:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
         }
 
-        /* ========== 密码弹窗样式（优化双按钮布局） ========== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -324,61 +359,9 @@
             align-items: center;
             z-index: 9999;
         }
-        .modal-box {
-            width: 380px;
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        .modal-title {
-            font-size: 20px;
-            color: #FF7F84;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .modal-input {
-            width: 100%;
-            height: 40px;
-            border: 1px solid #FFB6B9;
-            border-radius: 10px;
-            padding: 0 15px;
-            font-size: 15px;
-            outline: none;
-            margin-bottom: 25px;
-        }
-        /* 按钮组容器 */
-        .modal-btn-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-btn {
-            width: 100px;
-            height: 38px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        /* 返回按钮（左侧） */
-        .modal-btn-back {
-            background: #FFB6B9;
-            color: #fff;
-        }
-        /* 确认按钮（右侧） */
-        .modal-btn-confirm {
-            background: #FF7F84;
-            color: #fff;
-        }
-        .modal-btn:hover {
-            opacity: 0.9;
-        }
 
-        /* ========== 头像预览模态框新增样式 ========== */
         #avatarModal {
-            cursor: pointer; /* 点击遮罩关闭 */
+            cursor: pointer;
         }
         #avatarModal img {
             max-width: 90%;
@@ -386,20 +369,41 @@
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             object-fit: contain;
-            cursor: default; /* 图片本身不触发关闭 */
+            cursor: default;
             transition: transform 0.2s;
         }
         #avatarModal img:hover {
             transform: scale(1.02);
+        }
+
+        /* ===== 图片放大预览（等比例放大，可上下拖动） ===== */
+        #imageViewerModal {
+            cursor: pointer;
+        }
+        .image-viewer-scroll {
+            width: 90%;
+            max-width: 1000px;
+            height: 90vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            cursor: default;
+        }
+        .image-viewer-scroll img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
         }
     </style>
 </head>
 <body>
     <!-- 左侧栏 -->
     <div class="left-container">
-        <!-- 头像位置：点击展示完整图片 -->
         <div class="avatar-wrap">
-            <div class="avatar" onclick="openAvatarModal()" title="点击查看完整头像"></div>
+            <div class="avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
         </div>
 
         <div class="btn-wrap">
@@ -420,50 +424,500 @@
 
     <!-- 右侧内容区域 -->
     <div class="main-page">
-        <!-- 我的主页空间：集成你的成长记录动态 -->
+        <!-- 我的主页 -->
         <div id="home" class="content active">
-            <!-- 中间内容区 -->
             <div class="content-area">
-                <!-- 1. 我的动态（成长帖子） -->
                 <div class="content-section">
                     <div class="content-title">苹果树的动态</div>
                     <button id="sortBtn" class="sort-btn">切换正序</button>
                     <div class="post-list" id="postList">
-                        <!-- 帖子1：最新的 -->
+                        <!-- 帖子-33 -->
                         <div class="post-item">
-                            <div class="post-time">2026-03-20 19:30</div>
-                            <div class="post-content">
-                                今天下班早，带萍萍去我工作的海洋馆转了转。她盯着蓝吊鱼看了好久，回家后第一次主动拿起画笔，画了一条歪歪扭扭的小鱼（附图）。虽然萍萍还是不怎么说话，但能看到她对海洋有兴趣，我就很满足了。作为单亲妈妈，每天下班再累，只要看到她的小进步，就觉得一切都值了。
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
                             </div>
-                            <img src="https://picsum.photos/id/1025/300/200" alt="陈萍画的小鱼" class="post-img">
-                            <div class="post-footer">❤️ 记录萍萍的第1次主动画画</div>
+                            <img src="./ping/xie11.jpg" alt="" class="post-img">
+                            <div class="post-time"><strong>刚刚</strong></div>
+                        </div>
+                        <!-- 帖子-32 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <img src="./ping/xie10.jpg" alt="" class="post-img">
+                            <div class="post-time">2025-11-3</div>
+                        </div>
+                        <!-- 帖子-31 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <img src="./ping/xie7.jpg" alt="" class="post-img">
+                            <div class="post-time">2025-7-18</div>
+                        </div>
+                        <!-- 帖子-30 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                RdescxafergthgreqwfadsdwefcwrgthejruijntdhbgsxvzfxndrjmyjETHUWYrgetfsdrCZX
+                            </div>
+                            <div class="post-time">2025-7-17</div>
+                        </div>
+                        <!-- 帖子-30 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                1wscfsdzaddryghndgh
+                            </div>
+                            <div class="post-time">2025-7-17</div>
+                        </div>
+                        <!-- 帖子-29 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                rdcfxsdftyhghjnbv
+                            </div>
+                            <div class="post-time">2025-7-17</div>
+                        </div>
+                        <!-- 帖子-28 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                我以为副馆长是愿意把海洋馆继续开下去的。我不停给他发消息恳求他保留这份工作，我很需要这份工作。但他没有回复。劳而得已经三个月没有发工资，很多人都走了。我打算这几天去堵一堵副馆长。
+                            </div>
+                            <div class="post-time">2025-6-29</div>
+                        </div>
+                        <!-- 帖子-28 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                调查还没有结束。有很多同事被叫去问话了。我有点不安。
+                            </div>
+                            <div class="post-time">2025-6-19</div>
+                        </div>
+                        <!-- 帖子-27 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                不知不觉，春天过去了，夏天到了。今天是苹苹的生日。第一次没有蛋糕，也没有礼物，苹苹坐在那和往常没有任何区别。我偷偷把她带出去，在海洋馆里转了一圈。她贴着玻璃看了很久。
+                                <p>她好久没说话了，也不怎么画画了。虽然不是我的生日，但是我许愿。我想回到海洋馆开业的时候。我愿意做一切努力。</p>
+                            </div>
+                            <div class="post-time">2025-6-8</div>
+                        </div>
+                        <!-- 帖子-26 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                Sertyjm,loknbvcxa
+                            </div>
+                            <div class="post-time">2025-5-17</div>
+                            <div class="comment-section">
+                                <div class="comment-list">
+                                    <div class="comment-item">
+                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                        <div class="comment-body">
+                                            <div class="comment-name">苹果树</div>
+                                            <div class="comment-text">苹苹在用键盘画画呢。</div>
+                                            <div class="comment-time">2025-05-20</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 帖子-25 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                Adsnwp....w12222222222222222
+                            </div>
+                            <div class="post-time">2025-5-17</div>
+                            <div class="comment-section">
+                                <div class="comment-list">
+                                    <div class="comment-item">
+                                        <div class="comment-avatar comment-avatar-img" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                        <div class="comment-body">
+                                            <div class="comment-name">苹果树</div>
+                                            <div class="comment-text">苹苹发的。</div>
+                                            <div class="comment-time">2025-05-17</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 帖子-24 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                这段时间一直在宿舍和苹苹待在一起。我试图找副馆长帮忙，但消息没有被回复。每天送来的饭只有一人份，我担心苹苹饿肚子，吃得很少。
+                                <p>好消息是苹苹快学会用手机发帖子了。</p>
+                            </div>
+                            <div class="post-time">2025-5-15</div>
+                        </div>
+                        <!-- 帖子-23 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                我试着出去。门口看着的不是保安，是贾馆长的人。
+                                <p>我怕被怀疑，赶快回了宿舍。</p>
+                                <p>比起钱，更要紧的是，苹苹复查的时间要到了。</p>
+                            </div>
+                            <div class="post-time">2025-4-10</div>
+                        </div>
+                        <!-- 帖子-22 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                停业了，我们劳而得所有派遣员工被禁止出门，白天要待在宿舍里。同事们和我交流，说出事之后一直有警察和相关人员来调查，四月的工资可能发不下来了。我算了一下手里还有的钱，不够苹苹明年的学费。
+                            </div>
+                            <div class="post-time">2025-4-2</div>
+                        </div>
+                        <!-- 帖子-21 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                我希望昨天是一场噩梦。出事之后，邓仁叫我们所有人都不能外出。我们在后台一直等着，我听到贾馆长发了很大的脾气。
+                                <p>也许苹苹能感觉到发生了什么，从昨天深夜我回到宿舍，她就一直贴着我，也不睡觉，好像很害怕。我只能一直摸着她的背安慰她。她可能不知道，或者我根本不想她知道，她的海葵妈妈也很害怕。</p>
+                            </div>
+                            <div class="post-time">2025-3-30</div>
+                        </div>
+                        <!-- 帖子-20 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                赵姑娘今天主动来找我。我加班已经很累，最近他们精神很紧张，我听见好像是因为账户出问题，被盯上了。但我还是给她开了门。
+                                <p>苹苹有点认不出她了，一个劲地躲。她在我怀里哭诉了两个小时，最后我打字问她要不然辞职休息一段时间吧。她摇头，很恐慌，说她不能逃走，逃走的话会被怀疑的。</p>
+                                <p>她还是以为我听不见。我告诉她，最近他们有很多事情，不会管你的。你想一想你妈妈。你妈妈会很担心你。</p>
+                                <p>她听进去了。能帮到她，我有点高兴。</p>
+                            </div>
+                            <div class="post-time">2025-3-25</div>
+                        </div>
+                        <!-- 帖子-19 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                赵姑娘太瘦了。我猜她这两个月很难熬。我也一样。本来想着远离她会比较安全，今天还是心软了。看着她我就会想起苹苹。她的妈妈一定很担心她。
+                                <p>我最后拿走了她的潜水服，打算给她改一下尺寸。如果潜水过程中衣服滑落可能会造成危险的。</p>
+                            </div>
+                            <div class="post-time">2025-3-20</div>
+                        </div>
+                        <!-- 帖子-18 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                苹苹学会拍照了。她把自己画的很多画都尝试拍了下来。但拍的不够清楚。我想帮她重拍，她不愿意。
+                            </div>
+                            <div class="post-time">2025-3-15</div>
+                        </div>
+                        <!-- 帖子-17 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                苹苹今天因为不能出门闹了脾气。她拒绝拿手机重复操作，把手机摔在地上。
+                                <p>上次带苹苹出门玩还是去年。我想我不是一个好妈妈。</p>
+                            </div>
+                            <div class="post-time">2025-3-11</div>
+                        </div>
+                        <!-- 帖子-16 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                还好苹苹对能拍摄发布绘画的功能很感兴趣。我有点不敢让她再跑出去了。
+                                <p>我想，即使没人陪她说话，她如果能学会使用手机的话，应该也能自己好好待在宿舍吧。</p>
+                            </div>
+                            <div class="post-time">2025-2-26</div>
+                        </div>
+                        <!-- 帖子-15 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                清洁工晚上要加班。后台很臭，水槽里有血。但他们处理得很干净。我想我的同事们都不会多想什么，但我已经没法当做什么都没发生了。
+                                <p>我开始教苹苹用手机了。面对这个吃人的世界，我只能想到这一个办法了。</p>
+                            </div>
+                            <div class="post-time">2025-2-25</div>
+                        </div>
+                        <!-- 帖子-14 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                赵小姐说的是真的。我去看了。不止一个人。
+                                <p>我是个卑鄙的人……我还是想保住我的工作。</p>
+                            </div>
+                            <div class="post-time">2025-2-18</div>
+                        </div>
+                        <!-- 帖子-13 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                今天赵姑娘找到我，哭个不停。她瘦了很多，苹苹看着她的样子有点吓到了。我让苹苹自己呆着，去赵姑娘的房间陪她呆了一会。
+                                <p>她以为我听不到，说了很多可怕的事。我后背上都是汗。</p>
+                            </div>
+                            <div class="post-time">2025-2-14</div>
+                        </div>
+                        <!-- 帖子-12 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                今天苹苹画的应该是副馆长和其他听讲解的孩子们。她总会把副馆长画成一只绿色的海龟。
+                            </div>
+                            <img src="./ping/xie6.jpg" alt="" class="post-img">
+                            <div class="post-time">2025-1-20</div>
+                        </div>
+                        <!-- 帖子-11 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                苹苹画了海豚和她。最近没人和她说话，她的认知混淆又有点加重了。很担心。
+                            </div>
+                            <img src="./ping/xie5.jpg" alt="" class="post-img">
+                            <div class="post-time">2025-1-15</div>
+                        </div>
+                        <!-- 帖子-10 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                最近半夜总有尖锐的机器运转的声音。苹苹对声音很敏感，睡不着，我就起来陪她画画。今天她画了表演的赵小姐。我知道她想她了。
+                                <p>认识的人说，苹苹明年九月之后就可以去公办特殊学校。我算了，今年工作到11月的话，我就能攒够去公办学校的钱了。希望我能一直在这里工作下去。</p>
+                            </div>
+                            <img src="./ping/xie8.jpg" alt="" class="post-img">
+                            <div class="post-time">2025-1-10</div>
+                        </div>
+                        <!-- 帖子-9 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                赵姑娘请了几天假。我打扫的时候听见他们说她前男友失踪了。我很担心。
+                                <p>苹苹又画了图。这几天她食欲很好，有人陪她玩，她心情好，也长了个子。虽然这么想不好，但是我很担心赵姑娘如果因为情绪不好没法陪苹苹玩怎么办。苹苹好不容易才好一点。</p>
+                            </div>
+                            <div class="post-time">2025-1-5</div>
+                        </div>
+                        <!-- 帖子-8 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                今天晚上苹苹去后台，被喂鱼的场面吓到了。幸好已经下班了，我把她带回宿舍，想打开绘本安抚她，结果她一看见鱼的照片就开始尖叫。等她稍微安静下来，我搂着她哄了一会，她很小声在我耳边说，鱼吃鱼。
+                                <p>她还不识字，我不知道怎么告诉她，鱼就是会吃鱼的。我叫赵姑娘来，她精神不好，但是还是笑着和苹苹解释了很久很久。苹苹最后安定了下来，我感觉她应该是接受了这件事。但今天她画的画让我感觉到很不安。</p>
+                            </div>
+                            <img src="./ping/xie4.jpg" alt="" class="post-img">
+                            <div class="post-time">2024-12-30</div>
+                        </div>
+                        <!-- 帖子-7 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                到了海洋馆工作，经常收获到很多善意，人生第一次感觉到很幸福。主缸那边，表演美人鱼的赵姑娘最近经常在宿舍住宿了，她看到了苹苹，休息的时候经常来帮我带她玩。苹苹画了她，她很高兴，说自己要是能生个这么可爱的女儿就好了。
+                                <p>我知道她和男朋友吵架闹分手了。她以为我听不见，打电话的时候不避着我。有时候她挂了电话就会哭泣，苹苹给她擦了眼泪。</p>
+                                <p>赵姑娘说，苹苹是她见过最善良的小孩。我想告诉她，是因为她是一个很善良的姑娘。我还想说，人生除了爱情还有很多美好的东西。但我没法开口讲话。</p>
+                            </div>
+                            <img src="./ping/xie9.jpg" alt="" class="post-img">
+                            <div class="post-time">2024-12-26</div>
+                        </div>
+                        <!-- 帖子-6 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                苹苹被一个小朋友拉到儿童乐园那边玩了。我找不到她，吓得半死。副馆长是个好人，他查监控把苹苹送了回来，跟我说孩子在海洋馆生活没关系的，还把海洋馆之前旧的绘本拿给我，又给我一件旧的小号救生衣，橙白色的。他说是以前研学小孩穿的。苹苹穿上之后，指着绘本上的小丑鱼说“苹苹”。
+                                <p>如果苹苹是小丑鱼的话，那妈妈就是海葵。妈妈永远保护苹苹。</p>
+                            </div>
+                            <div class="post-time">2024-12-24</div>
+                        </div>
+                        <!-- 帖子-5 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                绘本的事被发现了。副馆长晚上让我留下，打字问我为什么拿绘本，是有什么难处吗。我没敢说孩子的事。他叹了口气让我走了。
+                            </div>
+                            <div class="post-time">2024-12-20</div>
+                        </div>
+                        <!-- 帖子-4 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                保洁这个工作和聋哑人一样，是不太被注意的角色。我知道不好，但苹苹白天拿着绘本不松手。我怕拿走绘本她会尖叫，就把绘本拿回去了。没人发现。她很开心，画了新的画。她认知混淆的问题还是有，把今天讲解的副馆长画成了一只海龟。
+                            </div>
+                            <img src="./ping/xie3.jpg" alt="" class="post-img">
+                            <div class="post-time">2024-11-25</div>
+                        </div>
+                        <!-- 帖子-3 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                我尝试把苹苹带出宿舍，让她慢慢脱敏。海洋馆平时小孩特别多，光线昏暗，苹苹就待在科普影院的角落里画画或者看绘本，一点也不显眼。今天成功让她在外面呆了一天，晚上把她带回来，她叫了我一声“妈”。
+                                <p>什么都值得了。我无论如何都要坚持下去，让苹苹正常地生活。</p>
+                            </div>
+                            <div class="post-time">2024-10-24</div>
+                        </div>
+                        <!-- 帖子-2 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                银行说我的情况很难贷款。
+                                <p>扣除佣金和各种中介费用，一个月到手三千五百块钱，现在吃住都在海洋馆，给苹苹买的饭什么的也花不了太多钱。苹苹还太小了，去不了公办的特殊教育机构。我查了A省的私立机构，一年要十万块钱。还是供不上。</p>
+                            </div>
+                            <div class="post-time">2024-10-17</div>
+                        </div>
+                        <!-- 帖子-1 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                去医院了。医生说有很大希望，还看了苹苹的画，说有天赋可以继续培养。把病历存在文件夹里了。回来的路上我查了去特殊学校的钱，打算去银行问问能不能贷一些钱。
+                            </div>
+                            <div class="post-time">2024-10-16</div>
+                        </div>
+                        <!-- 帖子0 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                今天下班之后教苹苹画苹果树，最后她的大作如下。
+                            </div>
+                            <img src="./ping/xie2.jpg" alt="" class="post-img">
+                            <div class="post-time">2024-9-18</div>
+                        </div>
+                        <!-- 帖子1 -->
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
+                            </div>
+                            <div class="post-content">
+                                宿舍环境很好，我上班把苹苹锁在宿舍里。她是个乖孩子，会自己画画。这幅画是她前几天给我画的，能看出来是我和她一起看小鱼的动画片。县城的医生说过，她的情况如果能多接触接触人，多有人在她旁边说说话能改善很多。我不能说话，没办法，就把收音机一直打开放在房间里。等攒一笔钱，我就带她去大医院看病。
+                            </div>
+                            <img src="./ping/xie1.jpg" alt="" class="post-img">
+                            <div class="post-time">2024-7-13</div>
                         </div>
                         <!-- 帖子2 -->
                         <div class="post-item">
-                            <div class="post-time">2026-03-10 08:15</div>
-                            <div class="post-content">
-                                今天送萍萍去特教机构，她下车时小声说了句“妈妈再见”。我愣了好久，这是她确诊自闭症后，第一次主动说完整的话。在海洋馆扫了3年地，每天起早贪黑，就盼着她能慢慢好起来。萍萍，妈妈永远陪着你。
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
                             </div>
-                            <img src="https://picsum.photos/id/237/300/200" alt="萍萍的小手" class="post-img">
-                            <div class="post-footer">❤️ 萍萍第一次主动说“妈妈再见”</div>
+                            <div class="post-content">
+                                劳而得那边说有个活要聋哑保洁员，去海洋馆干活，要勤快老实的，大家知道我一个人带孩子不容易，就推荐我去。面试的时候听人事主管确认我是不是听不到，同事们都帮我圆谎。这个工作包吃住，在大城市，宿舍还是单间。回家之后给苹苹买了一块小蛋糕吃，感觉她很开心。
+                            </div>
+                            <div class="post-time">2024-1-22</div>
                         </div>
                         <!-- 帖子3 -->
                         <div class="post-item">
-                            <div class="post-time">2026-02-15 20:00</div>
-                            <div class="post-content">
-                                元宵节，给萍萍煮了她最爱吃的汤圆。她今天坐在我旁边，安安静静地画了一个圆圆的月亮，里面有我和她。虽然生活不容易，一个人打工养孩子，还要定期带她做康复，但看着她的画，心里暖暖的。海洋馆的同事们都很照顾我，偶尔会帮我带点零食给萍萍，谢谢这些好心人。
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
                             </div>
-                            <img src="https://picsum.photos/id/188/300/200" alt="萍萍画的月亮" class="post-img">
-                            <div class="post-footer">❤️ 元宵节和萍萍的小美好</div>
+                            <div class="post-content">
+                                <p>小区保洁的工作结项了，不知道还能不能分配给我单人宿舍的工作。苹苹有时候情绪不好会尖叫，真怕影响同事休息丢掉工作。但钱又不够送她去特殊学校，只能再努努力。</p>
+                            </div>
+                            <div class="post-time">2023.12.10</div>
                         </div>
                         <!-- 帖子4：最早的 -->
                         <div class="post-item">
-                            <div class="post-time">2026-01-05 17:40</div>
-                            <div class="post-content">
-                                今天拿到了萍萍的自闭症病历，心里五味杂陈。作为单亲妈妈，我没有太多本事，只能在海洋馆做清洁工，赚点辛苦钱给她做康复。但我发誓，就算砸锅卖铁，也要让萍萍好好长大。今天把病历存进私人文件夹，提醒自己要更努力，给萍萍一个未来。
+                            <div class="post-header">
+                                <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
+                                <div class="post-header-name">苹果树</div>
                             </div>
-                            <img src=".\images\nnk2.jpg" alt="萍萍画的一家人" class="post-img">
-                            <div class="post-footer">❤️ 妈妈会永远保护你，我的萍萍</div>
+                            <div class="post-content">
+                                <p>杏仁网可以把文件和照片上传，很方便，同事告诉我来注册。现在的科技真好，我能把苹苹的重要文件存起来，再不怕换工作搬家的时候弄丢。</p>
+                            </div>
+                            <div class="post-time">2020.9.10</div>
                         </div>
                     </div>
                 </div>
@@ -473,229 +927,93 @@
         <!-- 我的文件 -->
         <div id="file" class="content">
             <div class="file-content-container">
-                <!-- 文件主界面 -->
                 <div id="file-main" class="file-section active">
                     <h3 style="color: #FF7F84; margin-bottom:20px;">📁 我的文件总览</h3>
                     <div class="file-grid">
-                        <!-- 1：普通 -->
                         <div class="folder-card folder-normal" onclick="switchFileSection('album')">
-                            <div class="folder-name">萍萍成长相册</div>
-                        </div>
-                        <!-- 2：加密文件夹（病历） -->
-                        <div class="folder-card folder-secret" onclick="openPwdModal('medical')">
-                            <div class="folder-key">🗝</div>
-                            <div class="folder-name">病历档案<br>(私密)</div>
-                        </div>
-                        <!-- 3：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('daily')">
-                            <div class="folder-name">日常随笔文档</div>
-                        </div>
-                        <!-- 4：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('rehab')">
-                            <div class="folder-name">康复训练记录</div>
-                        </div>
-                        <!-- 5：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('note')">
-                            <div class="folder-name">生活心情笔记</div>
-                        </div>
-                        <!-- 6：加密文件夹（合同） -->
-                        <div class="folder-card folder-secret" onclick="openPwdModal('contract')">
-                            <div class="folder-key">🗝</div>
-                            <div class="folder-name">合同文件<br>(私密)</div>
-                        </div>
-                        <!-- 7：普通 -->
-                        <div class="folder-card folder-normal" onclick="switchFileSection('game')">
-                            <div class="folder-name">萍萍爱玩的游戏</div>
+                            <div class="folder-name">个人相册</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 子页面1：相册 -->
                 <div id="file-album" class="file-section">
                     <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🖼️ 萍萍的成长相册</h3>
-                    <p style="margin-top: 10px;">记录萍萍成长的珍贵瞬间</p>
+                    <h3 style="color: #FF7F84;">重要文件存档</h3>
                     <div class="image-grid">
                         <div class="image-item">
-                            <img src="https://picsum.photos/id/1025/300/200" alt="小鱼">
-                            <div class="image-caption">第一次主动画画，画的是海洋馆的蓝吊鱼</div>
+                            <img src="ping/zheng1.jpg" alt="文件1" onclick="openImageViewer('ping/zheng1.jpg')">
                         </div>
                         <div class="image-item">
-                            <img src="https://picsum.photos/id/237/300/200" alt="小手">
-                            <div class="image-caption">第一次说妈妈再见，小手紧紧抓着我</div>
+                            <img src="ping/zheng2.jpg" alt="文件2" onclick="openImageViewer('ping/zheng2.jpg')">
                         </div>
                         <div class="image-item">
-                            <img src="https://picsum.photos/id/188/300/200" alt="月亮">
-                            <div class="image-caption">元宵节画的月亮，里面有我和她</div>
+                            <img src="ping/zheng3.png" alt="文件3" onclick="openImageViewer('ping/zheng3.png')">
                         </div>
                     </div>
-                </div>
-
-                <!-- 子页面2：病历档案 -->
-                <div id="file-medical" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🗝 萍萍病历档案（私密）</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 2026-01-05 萍萍自闭症确诊病历</div>
-                        <div class="doc-item">📄 2026-02-10 康复训练诊断报告</div>
-                        <div class="doc-item">📄 2026-03-15 语言能力评估表</div>
-                    </div>
-                </div>
-
-                <!-- 子页面3：日常随笔 -->
-                <div id="file-daily" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">📝 日常随笔文档</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">
-                            <div class="doc-title">📄 海洋馆工作日常记录</div>
-                            <div class="doc-detail">
-                                今天也是辛勤工作的一天呢！
-                            </div>
-                        </div>
-                        <div class="doc-item">📄 给萍萍的每日小日记</div>
-                    </div>
-                </div>
-
-                <!-- 子页面4：康复记录 -->
-                <div id="file-rehab" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">💪 萍萍康复训练记录</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 每周康复训练计划表</div>
-                        <div class="doc-item">📄 语言康复进步日志</div>
-                    </div>
-                </div>
-
-                <!-- 子页面5：生活笔记 -->
-                <div id="file-note" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">❤️ 生活心情笔记</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 单亲妈妈的心里话</div>
-                        <div class="doc-item">📄 萍萍成长的暖心瞬间合集</div>
-                    </div>
-                </div>
-
-                <!-- 子页面6：合同文件 -->
-                <div id="file-contract" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">🗝 个人合同文件（私密）</h3>
-                    <div style="margin-top:20px;">
-                        <div class="doc-item">📄 海洋馆劳务合同</div>
-                        <div class="doc-item">📄 特教机构缴费协议</div>
-                    </div>
-                </div>
-                <!-- 子页面7：试验加页 -->
-                <div id="file-game" class="file-section">
-                    <button class="back-btn" onclick="switchFileSection('main')">← 返回文件总览</button>
-                    <h3 style="color: #FF7F84;">❤️ 游戏收录</h3>
-                    
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========== 密码弹窗（原有） ========== -->
-    <div class="modal-overlay" id="pwdModal">
-        <div class="modal-box">
-            <div class="modal-title">此处存在谜题</div>
-            <input type="text" class="modal-input" id="pwdInput" placeholder="请输入密码">
-            <!-- 双按钮组：左返回、右确认 -->
-            <div class="modal-btn-group">
-                <button class="modal-btn modal-btn-back" onclick="closePwdModal()">返回</button>
-                <button class="modal-btn modal-btn-confirm" onclick="checkPassword()">确认</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== 头像预览模态框（新增） ========== -->
+    <!-- 头像预览模态框 -->
     <div class="modal-overlay" id="avatarModal" onclick="closeAvatarModal()">
         <img src="images2/chenshu-0.jpg" alt="完整头像" onclick="event.stopPropagation()">
     </div>
 
-    <script>
-        // 加密文件夹密码配置
-        const pwdConfig = {
-            medical: "juyuan999",    // 病历文件夹密码
-            contract: "nnksaigao"    // 合同文件夹密码
-        };
-        let currentTarget = "";
+    <!-- 图片放大预览模态框（可上下拖动） -->
+    <div class="modal-overlay" id="imageViewerModal" onclick="closeImageViewer()">
+        <div class="image-viewer-scroll" onclick="event.stopPropagation()">
+            <img src="" alt="放大图片" id="imageViewerImg">
+        </div>
+    </div>
 
-        // 1. 切换主页面（主页/文件）
+    <script>
+        // 切换主页面
         function switchTab(tabName) {
             document.querySelectorAll('.content').forEach(item => item.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
-            
             document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // 2. 切换文件子页面
+        // 切换文件子页面
         function switchFileSection(sectionName) {
             document.querySelectorAll('.file-section').forEach(section => section.classList.remove('active'));
             document.getElementById('file-' + sectionName).classList.add('active');
         }
 
-        // 3. 打开密码弹窗
-        function openPwdModal(target) {
-            currentTarget = target;
-            document.getElementById('pwdModal').style.display = 'flex';
-            document.getElementById('pwdInput').value = "";
-            // 自动聚焦输入框
-            document.getElementById('pwdInput').focus();
-        }
-
-        // 4. 关闭密码弹窗（返回按钮）
-        function closePwdModal() {
-            document.getElementById('pwdModal').style.display = 'none';
-        }
-
-        // 5. 验证密码
-        function checkPassword() {
-            const inputVal = document.getElementById('pwdInput').value.trim();
-            const rightPwd = pwdConfig[currentTarget];
-
-            if(inputVal === rightPwd){
-                closePwdModal();
-                switchFileSection(currentTarget);
-            }else{
-                alert("密码错误");
-            }
-        }
-
-        // ========== 新增：回车键触发确认密码 ==========
-        document.getElementById('pwdInput').addEventListener('keydown', function(e) {
-            if(e.key === 'Enter') {
-                checkPassword();
-            }
-        });
-
-        // ========== 新增：头像预览模态框函数 ==========
-        function openAvatarModal() {
-            document.getElementById('avatarModal').style.display = 'flex';
+        // 头像预览：支持传入图片路径
+        function openAvatarModal(imageSrc) {
+            const modal = document.getElementById('avatarModal');
+            modal.style.display = 'flex';
+            modal.querySelector('img').src = imageSrc || 'images2/chenshu-0.jpg';
         }
         function closeAvatarModal() {
             document.getElementById('avatarModal').style.display = 'none';
         }
 
-        // ========== 动态排序切换功能（原有） ==========
+        // 动态排序
         const sortBtn = document.getElementById('sortBtn');
         const postList = document.getElementById('postList');
-        let isDescOrder = true; // 默认倒序（最新时间在前）
-
+        let isDescOrder = true;
         sortBtn.addEventListener('click', function() {
-            // 获取所有帖子元素并转为数组
             const posts = Array.from(postList.children);
-            // 反转数组顺序
             posts.reverse();
-            // 重新插入到容器中
             posts.forEach(post => postList.appendChild(post));
-            
-            // 切换状态与按钮文字
             isDescOrder = !isDescOrder;
             sortBtn.textContent = isDescOrder ? '切换正序' : '切换倒序';
         });
+
+        /* ===== 图片放大预览 ===== */
+        function openImageViewer(imageSrc) {
+            document.getElementById('imageViewerImg').src = imageSrc;
+            document.getElementById('imageViewerModal').style.display = 'flex';
+            // 每次打开都从顶部开始看
+            document.querySelector('.image-viewer-scroll').scrollTop = 0;
+        }
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
