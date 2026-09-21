@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="麦英基金会调查员搜索历史">
+    <title>搜索历史｜麦英基金会</title>
+    <style>
+        :root {
+            --orange: #ffad32;
+            --orange-deep: #ef940f;
+            --orange-soft: #ffd79d;
+            --sidebar-top: #ffe8bd;
+            --sidebar-bottom: #ffd093;
+            --panel: #fff8ed;
+            --ink: #525b62;
+            --muted: #9a9fa3;
+            --line: #efdfc7;
+            --white: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body { min-height: 100%; }
+
+        body {
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            background: var(--white);
+            color: var(--ink);
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+
+        .sidebar {
+            width: 300px;
+            min-height: 100vh;
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 76px 28px 34px;
+            background: linear-gradient(180deg, var(--sidebar-top), var(--sidebar-bottom));
+        }
+
+        .visitor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .avatar {
+            width: 82px;
+            height: 82px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #fff;
+        }
+
+        .avatar svg {
+            width: 51px;
+            height: 51px;
+            fill: #ffd79d;
+        }
+
+        .visitor-name {
+            color: #8e9599;
+            font-size: 19px;
+            letter-spacing: .05em;
+        }
+
+        .back-link {
+            width: 244px;
+            min-height: 82px;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 22px;
+            border-radius: 34px;
+            color: #979da0;
+            background: var(--orange);
+            text-decoration: none;
+            font-size: 20px;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .back-link:hover,
+        .back-link:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(231,142,13,.23);
+        }
+
+        .back-icon {
+            width: 47px;
+            height: 47px;
+            flex: 0 0 47px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: #d9d9d9;
+            background: #fff;
+            font-size: 38px;
+            font-family: Arial, sans-serif;
+            line-height: 1;
+        }
+
+        main {
+            flex: 1;
+            min-width: 0;
+            padding: 70px clamp(38px, 5vw, 76px) 54px;
+        }
+
+        h1 {
+            margin: 0 0 10px 12px;
+            color: #91979b;
+            font-size: 29px;
+            font-weight: 600;
+            letter-spacing: .08em;
+        }
+
+        .history-subtitle {
+            margin: 0 0 20px 12px;
+            color: #bbb9b4;
+            font-size: 13px;
+        }
+
+        .history-panel {
+            min-height: calc(100vh - 172px);
+            padding: 26px 34px 34px;
+            border-radius: 34px 34px 0 0;
+            background: linear-gradient(180deg, #fff6e7, #fffaf2);
+            overflow: hidden;
+        }
+
+        .history-list {
+            max-height: calc(100vh - 230px);
+            margin: 0;
+            padding: 0 8px 0 0;
+            list-style: none;
+            overflow-y: auto;
+            scrollbar-color: #e6bd80 transparent;
+            scrollbar-width: thin;
+        }
+
+        .history-list::-webkit-scrollbar { width: 8px; }
+        .history-list::-webkit-scrollbar-thumb { background: #e6bd80; border-radius: 8px; }
+
+        .history-item {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .history-link {
+            min-height: 67px;
+            display: grid;
+            grid-template-columns: minmax(105px, .8fr) 18px minmax(260px, 2.6fr) 18px auto;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 17px;
+            color: var(--ink);
+            text-decoration: none;
+            transition: background .18s ease, transform .18s ease;
+        }
+
+        .history-link:hover,
+        .history-link:focus-visible {
+            background: rgba(255,255,255,.78);
+            transform: translateX(4px);
+            outline: none;
+        }
+
+        .keyword {
+            color: var(--orange-deep);
+            font-weight: 700;
+        }
+
+        .separator { color: #cfb58e; text-align: center; }
+
+        .description {
+            color: #626b71;
+            line-height: 1.55;
+        }
+
+        .sequence {
+            min-width: 68px;
+            padding: 5px 10px;
+            border: 1px solid #efc98f;
+            border-radius: 15px;
+            color: #b6771d;
+            background: #fff;
+            font: 600 12px/1.2 Consolas, "Microsoft YaHei", sans-serif;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            min-height: 430px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: #b2afa9;
+        }
+
+        .empty-state[hidden] { display: none; }
+
+        .empty-symbol {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 13px;
+            display: grid;
+            place-items: center;
+            border: 2px solid #ead8bc;
+            border-radius: 50%;
+            color: #d1aa6e;
+            font-size: 29px;
+        }
+
+        .empty-state strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #9f9d98;
+            font-weight: 500;
+        }
+
+        .empty-state p { margin: 0; font-size: 13px; }
+
+        @media (max-width: 850px) {
+            body { display: block; }
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                height: 116px;
+                padding: 15px 18px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .visitor { flex-direction: row; gap: 10px; }
+            .avatar { width: 58px; height: 58px; }
+            .avatar svg { width: 37px; height: 37px; }
+            .back-link { width: auto; min-height: 54px; margin: 0; padding: 7px 15px; font-size: 16px; }
+            .back-icon { width: 38px; height: 38px; flex-basis: 38px; font-size: 30px; }
+            main { padding: 30px 18px 24px; }
+            h1, .history-subtitle { margin-left: 3px; }
+            .history-panel { min-height: calc(100vh - 213px); padding: 16px 13px; border-radius: 23px 23px 0 0; }
+            .history-list { max-height: calc(100vh - 258px); }
+            .history-link {
+                grid-template-columns: 1fr auto;
+                gap: 3px 10px;
+                padding: 13px 10px;
+            }
+            .keyword { grid-column: 1; }
+            .description { grid-column: 1; font-size: 14px; }
+            .sequence { grid-column: 2; grid-row: 1 / span 2; }
+            .separator { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="visitor">
+            <div class="avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.35 0 4.25-1.9 4.25-4.25S14.35 3.5 12 3.5 7.75 5.4 7.75 7.75 9.65 12 12 12zm0 2c-3.09 0-7.5 1.55-7.5 4.65V21h15v-2.35C19.5 15.55 15.09 14 12 14z"/></svg>
+            </div>
+            <div class="visitor-name">VISITOR</div>
+        </div>
+        <a class="back-link" href="maiyingfoundation.html">
+            <span class="back-icon">‹</span>
+            <span>返回主页</span>
+        </a>
+    </aside>
+
+    <main>
+        <h1>搜索历史</h1>
+        <p class="history-subtitle">已发现的线索网页会按照搜索顺序保存在这里</p>
+        <section class="history-panel" aria-label="搜索历史记录">
+            <ol class="history-list" id="historyList" aria-live="polite"></ol>
+            <div class="empty-state" id="emptyState">
+                <div>
+                    <div class="empty-symbol">⌕</div>
+                    <strong>尚无搜索记录</strong>
+                    <p>在基金会主页输入正确关键词后，线索会自动出现在这里。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const HISTORY_KEY = "maiying.foundation.researchHistory.v1";
+        const historyList = document.getElementById("historyList");
+        const emptyState = document.getElementById("emptyState");
+
+        function readHistory() {
+            try {
+                const value = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+                return Array.isArray(value) ? value : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function renderHistory() {
+            const history = readHistory()
+                .filter(item => item && item.keyword && item.description && item.href)
+                .sort((a, b) => Number(a.discoveredAt || 0) - Number(b.discoveredAt || 0));
+
+            historyList.replaceChildren();
+            emptyState.hidden = history.length > 0;
+
+            history.forEach(item => {
+                const row = document.createElement("li");
+                row.className = "history-item";
+
+                const link = document.createElement("a");
+                link.className = "history-link";
+                link.href = item.href;
+
+                const keyword = document.createElement("span");
+                keyword.className = "keyword";
+                keyword.textContent = item.keyword;
+
+                const separator1 = document.createElement("span");
+                separator1.className = "separator";
+                separator1.textContent = "－";
+
+                const description = document.createElement("span");
+                description.className = "description";
+                description.textContent = item.description;
+
+                const separator2 = document.createElement("span");
+                separator2.className = "separator";
+                separator2.textContent = "－";
+
+                const sequence = document.createElement("span");
+                sequence.className = "sequence";
+                sequence.textContent = item.sequence || "未编号";
+
+                link.append(keyword, separator1, description, separator2, sequence);
+                row.append(link);
+                historyList.append(row);
+            });
+        }
+
+        renderHistory();
+        window.addEventListener("pageshow", renderHistory);
+        window.addEventListener("focus", renderHistory);
+        window.addEventListener("storage", event => {
+            if (event.key === HISTORY_KEY) renderHistory();
+        });
+    </script>
+</body>
+</html>

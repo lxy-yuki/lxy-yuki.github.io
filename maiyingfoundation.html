@@ -189,37 +189,165 @@
                 .replace(/[\s\p{P}]/gu, '');
         }
 
-        // ========== 关键词 → 页面 映射表 ==========
-        // 键由 normalizeKeyword 生成，因此天然支持"忽略空格与标点（且忽略大小写）"
-        const keywordMap = {
-            [normalizeKeyword("泊然海洋馆")]: "mid/middle-Aquarium.html",
-            [normalizeKeyword("泊然海洋馆官方网站")]: "mid/middle-Aquarium.html",
-            [normalizeKeyword("MT集团")]: "mid/middle-MT.html",
-            [normalizeKeyword("海洋馆溺亡美人鱼案")]: "mid/middle-die.html",
-            [normalizeKeyword("溺亡美人鱼案")]: "mid/middle-die.html",
-            [normalizeKeyword("安伯然")]: "mid/middle-boran.html",
-            [normalizeKeyword("泊然集团")]: "mid/middle-brcpny.html",
-            [normalizeKeyword("安仲斌")]: "mid/middle-azb.html",
-            [normalizeKeyword("安永德")]: "mid/middle-ayd.html",
-            [normalizeKeyword("贾剑明")]: "mid/middle-jjm.html",
-            [normalizeKeyword("明通集团")]: "mid/middle-mtjt.html",
-            [normalizeKeyword("杏仁网")]: "mid/middle-xingren.html",
-            [normalizeKeyword("蔚蓝传媒")]: "mid/middle-bluemedia.html",
-            [normalizeKeyword("蔚蓝集团")]: "mid/middle-bluemedia.html",
-            [normalizeKeyword("蔚蓝文化传媒有限公司")]: "mid/middle-bluemedia.html",
-            [normalizeKeyword("钱宏达")]: "mid/middle-qhd.html",
-            [normalizeKeyword("蓝鲸贸易")]: "mid/middle-bluewhale.html",
-            [normalizeKeyword("劳而得")]: "mid/middle-labor.html",
-            [normalizeKeyword("劳务派遣公司劳而得")]: "mid/middle-labor.html",
-            [normalizeKeyword("劳而得劳务派遣公司")]: "mid/middle-labor.html",
-            [normalizeKeyword("劳务公司劳而得")]: "mid/middle-labor.html",
-            [normalizeKeyword("劳而得劳务公司")]: "mid/middle-labor.html",
-            [normalizeKeyword("海洋馆保安拾金不昧")]: "mid/middle-jinqi.html",
-            [normalizeKeyword("海洋馆保安拾金不昧的报道")]: "mid/middle-jinqi.html",
-            [normalizeKeyword("B2025-JD-0718")]: "mid/middle-juanzong1.html",
-            [normalizeKeyword("B2025-JD-0717")]: "mid/middle-warning.html",
-            [normalizeKeyword("临时工溺亡")]: "mid/middle-linshi.html"
-        };
+        const HISTORY_KEY = "maiying.foundation.researchHistory.v1";
+
+        // 每一项描述一个可被搜索发现的 middle 结果页，以及该页中可直达的线索网页。
+        // sequence 来自《海洋馆募捐调查委托 （序号版）》的“基金会搜索引擎”工作表。
+        const searchCatalog = [
+            {
+                keyword: "海洋馆溺亡美人鱼案",
+                aliases: ["海洋馆溺亡美人鱼案", "溺亡美人鱼案"],
+                middle: "mid/middle-die.html",
+                results: [
+                    { description: "【A省晚报】2025.3.29-海洋馆美人鱼演员当众溺水！抢救无效身亡！", sequence: "1/22", href: "nightcord-1.html" },
+                    { description: "【警方通报】关于美人鱼溺亡事件的调查通告", sequence: "2/22", href: "police1.html" },
+                    { description: "【B市日报】泊然海洋馆面对市民的一封道歉信", sequence: "3/22", href: "B-daily-1.html" }
+                ]
+            },
+            {
+                keyword: "泊然海洋馆",
+                aliases: ["泊然海洋馆", "泊然海洋馆官方网站"],
+                middle: "mid/middle-Aquarium.html",
+                results: [{ description: "泊然海洋馆主页", sequence: "4/22", href: "Aquarium.html" }]
+            },
+            {
+                keyword: "安伯然",
+                aliases: ["安伯然"],
+                middle: "mid/middle-boran.html",
+                results: [{ description: "【光明财经】独家专访安伯然：白手起家到慈善大亨-事业，家庭与他的理想", sequence: "5/22", href: "ikari economy-1.html" }]
+            },
+            {
+                keyword: "泊然集团",
+                aliases: ["泊然集团"],
+                middle: "mid/middle-brcpny.html",
+                results: [{ description: "【光明财经】经营不善，泊然集团的坍塌", sequence: "6/22", href: "ikari economy-2.html" }]
+            },
+            {
+                keyword: "安仲斌",
+                aliases: ["安仲斌"],
+                middle: "mid/middle-azb.html",
+                results: [{ description: "【B市日报】海洋馆新风！更先进，更环保！", sequence: "7/22", href: "B-daily-2.html" }]
+            },
+            {
+                keyword: "安永德",
+                aliases: ["安永德"],
+                middle: "mid/middle-ayd.html",
+                results: [{ description: "【B市日报】海洋馆经营遇困难？馆长直言需要市民支持！", sequence: "8/22", href: "B-daily-3.html" }]
+            },
+            {
+                keyword: "贾剑明",
+                aliases: ["贾剑明"],
+                middle: "mid/middle-jjm.html",
+                results: [
+                    { description: "【B市日报】换任报道-海洋馆重建！新品种！新表演！新体验！", sequence: "9/22", href: "B-daily-4.html" },
+                    { description: "【环球新资讯】泊然海洋馆重装开业在即！打卡攻略抢先看", sequence: "10/22", href: "earthnews-1.html" },
+                    { description: "【向日葵娱乐】X市旅行约会新地点", sequence: "11/22", href: "entertainment-1.html" },
+                    { description: "【B市日报】泊然海洋馆前馆长贾剑明被依法逮捕", sequence: "12/22", href: "B-daily-5.html" }
+                ]
+            },
+            {
+                keyword: "明通集团",
+                aliases: ["明通集团"],
+                middle: "mid/middle-mtjt.html",
+                results: [{ description: "【光明财经】善恶有报，明通集团破产清算，旗下千余产业拍卖中", sequence: "13/22", href: "ikari economy-3.html" }]
+            },
+            {
+                keyword: "杏仁网",
+                aliases: ["杏仁网"],
+                middle: "mid/middle-xingren.html",
+                results: [{ description: "杏仁网官方网站", sequence: "14/22", href: "xingrenwang.html" }]
+            },
+            {
+                keyword: "MT集团",
+                aliases: ["MT集团"],
+                middle: "mid/middle-MT.html",
+                results: [{ description: "扒一扒那个最近落马的MT集团", sequence: "15/22", href: "talk.html" }]
+            },
+            {
+                keyword: "蔚蓝传媒",
+                aliases: ["蔚蓝传媒", "蔚蓝集团", "蔚蓝文化传媒有限公司"],
+                middle: "mid/middle-bluemedia.html",
+                results: [{ description: "蔚蓝传媒官方网站", sequence: "16/22", href: "bluemedia-1.html" }]
+            },
+            {
+                keyword: "钱宏达",
+                aliases: ["钱宏达"],
+                middle: "mid/middle-qhd.html",
+                results: [{ description: "【B市日报】蔚蓝传媒确认暂停部分业务，创始人钱宏达称“家事影响经营”", sequence: "17/22", href: "B-daily-6.html" }]
+            },
+            {
+                keyword: "海洋馆保安拾金不昧",
+                aliases: ["海洋馆保安拾金不昧", "海洋馆保安拾金不昧的报道"],
+                middle: "mid/middle-jinqi.html",
+                results: [{ description: "【B市日报】海洋馆保安拾金不昧，失主送锦旗致谢", sequence: "18/22", href: "B-daily-7.html" }]
+            },
+            {
+                keyword: "劳而得",
+                aliases: ["劳而得", "劳务派遣公司劳而得", "劳而得劳务派遣公司", "劳务公司劳而得", "劳而得劳务公司"],
+                middle: "mid/middle-labor.html",
+                results: [{ description: "劳务派遣公司-劳而得官方网站", sequence: "19/22", href: "labor company-1.html" }]
+            },
+            {
+                keyword: "临时工溺亡",
+                aliases: ["临时工溺亡"],
+                middle: "mid/middle-linshi.html",
+                results: [{ description: "【B市日报】闭馆期间发生意外，一名临时工溺亡训练池", sequence: "20/22", href: "B-daily-8.html" }]
+            },
+            {
+                keyword: "B2025-JD-0718",
+                aliases: ["B2025-JD-0718"],
+                middle: "mid/middle-juanzong1.html",
+                results: [{ description: "档案-B2025-JD-0718", sequence: "21/22", href: "B2025-JD-0718.html" }]
+            },
+            {
+                keyword: "B2025-JD-0717",
+                aliases: ["B2025-JD-0717"],
+                middle: "mid/middle-warning.html",
+                results: [{ description: "档案-B2025-JD-0717", sequence: "22/22", href: "B2025-JD-0717.html" }]
+            },
+            {
+                keyword: "蓝鲸贸易",
+                aliases: ["蓝鲸贸易"],
+                middle: "mid/middle-bluewhale.html",
+                results: [{ description: "【明通集团破产资料摘录】蓝鲸贸易与泊然海洋馆：合同、付款和验收记录核对", sequence: "未编号", href: "mid/middle-bluewhale.html" }]
+            }
+        ];
+
+        const keywordMap = Object.create(null);
+        searchCatalog.forEach(entry => {
+            entry.aliases.forEach(alias => {
+                keywordMap[normalizeKeyword(alias)] = entry;
+            });
+        });
+
+        function readHistory() {
+            try {
+                const value = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+                return Array.isArray(value) ? value : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function rememberSearch(entry) {
+            const history = readHistory();
+            const knownPages = new Set(history.map(item => item.href));
+            const discoveredAt = Date.now();
+
+            entry.results.forEach((result, resultIndex) => {
+                if (knownPages.has(result.href)) return;
+                history.push({
+                    keyword: entry.keyword,
+                    description: result.description,
+                    sequence: result.sequence,
+                    href: result.href,
+                    discoveredAt: discoveredAt + resultIndex
+                });
+                knownPages.add(result.href);
+            });
+
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        }
 
         // ========== 搜索框回车触发 ==========
         const searchInput = document.getElementById('searchInput');
@@ -228,17 +356,20 @@
                 const rawKeyword = this.value.trim();                 // 原始输入（用于 URL 参数）
                 const normalizedKeyword = normalizeKeyword(rawKeyword); // 规范化后（用于匹配）
 
-                // 查表匹配，未命中则跳转 404
-                const targetPage = keywordMap[normalizedKeyword] || "mid/middle404.html";
+                const matchedEntry = keywordMap[normalizedKeyword];
+                const targetPage = matchedEntry ? matchedEntry.middle : "mid/middle404.html";
+
+                // 只有正确关键词才会写入搜索历史；同一线索网页不会重复记录。
+                if (matchedEntry) rememberSearch(matchedEntry);
 
                 // 在新标签页打开，并附带原始 keyword 参数
                 window.open(targetPage + "?keyword=" + encodeURIComponent(rawKeyword), "_blank");
             }
         });
 
-        // 搜索历史按钮：点击直接跳转页面（原逻辑不变）
+        // 搜索历史按钮
         document.getElementById('historyBtn').addEventListener('click', () => {
-            window.location.href = "搜索历史页面链接";
+            window.location.href = "research history.html";
         });
 
         // 调查结束按钮：弹窗（原逻辑不变）
