@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调查验收｜麦英基金会</title>
+    <style>
+        :root {
+            --orange: #ffad32;
+            --orange-deep: #ed9009;
+            --sidebar-top: #ffe8bd;
+            --sidebar-bottom: #ffd093;
+            --blue: #176ca5;
+            --blue-deep: #10496e;
+            --panel: #f5f8fa;
+            --line: #dfe8ed;
+            --ink: #364a56;
+            --muted: #8b9aa2;
+        }
+        * { box-sizing: border-box; }
+        html, body { min-height: 100%; }
+        body { margin: 0; min-height: 100vh; display: flex; background: #fff; color: var(--ink); font-family: "Microsoft YaHei", sans-serif; }
+        .sidebar { width: 300px; flex: 0 0 300px; min-height: 100vh; padding: 76px 28px 34px; display: flex; flex-direction: column; align-items: center; background: linear-gradient(180deg,var(--sidebar-top),var(--sidebar-bottom)); }
+        .visitor { display: flex; flex-direction: column; align-items: center; gap: 13px; }
+        .avatar { width: 82px; height: 82px; display: grid; place-items: center; border-radius: 50%; background: #fff; }
+        .avatar svg { width: 51px; height: 51px; fill: #ffd79d; }
+        .visitor-name { color: #8e9599; font-size: 19px; letter-spacing: .05em; }
+        .back-button { width: 244px; min-height: 82px; margin-top: auto; display: flex; align-items: center; gap: 15px; padding: 12px 22px; border: 0; border-radius: 34px; color: #979da0; background: var(--orange); font: 20px "Microsoft YaHei",sans-serif; cursor: pointer; }
+        .back-icon { width: 47px; height: 47px; flex: 0 0 47px; display: grid; place-items: center; border-radius: 50%; color: #d9d9d9; background: #fff; font: 38px/1 Arial,sans-serif; }
+        .chat-page { flex: 1; min-width: 0; min-height: 100vh; padding: clamp(28px,5vw,64px); display: grid; place-items: center; background: radial-gradient(circle at 80% 10%,#edf7fb,transparent 30rem),#fff; }
+        .chat-shell { width: min(890px,100%); height: min(760px,calc(100vh - 70px)); min-height: 570px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 24px; background: #fff; box-shadow: 0 24px 68px rgba(27,73,99,.17); }
+        .chat-head { padding: 20px 24px; display: flex; align-items: center; gap: 14px; color: #fff; background: linear-gradient(120deg,var(--blue),var(--blue-deep)); }
+        .checker-avatar { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.2); font-weight: 700; }
+        .chat-name { font-size: 18px; font-weight: 700; }
+        .chat-status { font-size: 12px; color: #cfeafa; }
+        .case-label { margin-left: auto; color: rgba(255,255,255,.65); font: 11px Consolas,monospace; }
+        .messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 13px; background: var(--panel); }
+        .row { display: flex; }
+        .row.me { justify-content: flex-end; }
+        .bubble { max-width: 76%; padding: 12px 16px; border-radius: 16px; font-size: 15px; line-height: 1.7; box-shadow: 0 3px 9px rgba(32,61,77,.06); }
+        .row.them .bubble { color: #3d5663; background: #fff; border-top-left-radius: 4px; }
+        .row.me .bubble { color: #fff; background: linear-gradient(135deg,#ffb445,#f39a15); border-top-right-radius: 4px; }
+        .typing { display: inline-flex; gap: 5px; align-items: center; min-width: 58px; }
+        .typing i { width: 6px; height: 6px; border-radius: 50%; background: #a6b4bb; animation: blink 1s infinite; }
+        .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+        @keyframes blink{0%,70%,100%{opacity:.25}35%{opacity:1;transform:translateY(-2px)}}
+        .chat-input { padding: 15px 18px; display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--line); background: #fff; cursor: pointer; }
+        .chat-input.disabled { cursor: default; opacity: .7; }
+        .input-pill { flex: 1; padding: 11px 17px; border-radius: 22px; color: #9aabb3; background: #f1f5f7; font-size: 13px; }
+        .send-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--orange); }
+        .update-notice { margin: 4px auto 10px; width: min(590px,94%); padding: 17px 20px; border: 1px solid #efc880; border-radius: 12px; color: #805516; background: #fff4dc; text-align: center; cursor: pointer; box-shadow: 0 9px 23px rgba(190,125,22,.13); animation: notice-pulse 2.2s infinite; }
+        .update-notice strong { display: block; color: #d27b00; }
+        @keyframes notice-pulse{50%{transform:translateY(-2px);box-shadow:0 13px 30px rgba(190,125,22,.22)}}
+        .thought { margin: 3px auto 10px; width: min(680px,96%); padding: 20px 22px; border: 1px solid #9cc9dc; border-radius: 9px; color: #245970; background: #eaf7fc; font-size: 15px; line-height: 1.8; cursor: pointer; }
+        .hidden { display: none !important; }
+        @media(max-width:850px){body{display:block}.sidebar{width:100%;min-height:auto;height:112px;padding:14px 18px;flex-direction:row;justify-content:space-between}.visitor{flex-direction:row}.avatar{width:58px;height:58px}.avatar svg{width:37px;height:37px}.back-button{width:auto;min-height:54px;margin:0;padding:7px 15px;font-size:16px}.back-icon{width:38px;height:38px;flex-basis:38px;font-size:30px}.chat-page{min-height:calc(100vh - 112px);padding:16px}.chat-shell{height:calc(100vh - 144px);min-height:540px;border-radius:16px}.case-label{display:none}.bubble{max-width:87%;font-size:14px}}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="visitor"><div class="avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.35 0 4.25-1.9 4.25-4.25S14.35 3.5 12 3.5 7.75 5.4 7.75 7.75 9.65 12 12 12zm0 2c-3.09 0-7.5 1.55-7.5 4.65V21h15v-2.35C19.5 15.55 15.09 14 12 14z"/></svg></div><div class="visitor-name">VISITOR</div></div>
+        <button class="back-button" id="blockedBack" type="button"><span class="back-icon">‹</span><span>返回主页</span></button>
+    </aside>
+    <main class="chat-page">
+        <section class="chat-shell">
+            <header class="chat-head"><div class="checker-avatar">验</div><div><div class="chat-name">调查验收员</div><div class="chat-status">● 在线 · 正在验收调查结果</div></div><div class="case-label">MYF REVIEW CHANNEL</div></header>
+            <div class="messages" id="messages"></div>
+            <div class="update-notice hidden" id="updateNotice"><strong>新动态提醒</strong>您搜索过的好友陈树的杏仁网账号更新了一条帖子</div>
+            <div class="thought hidden" id="thoughtBox"></div>
+            <div class="chat-input" id="chatInput"><span class="input-pill" id="inputText">点击此处继续对话……</span><span class="send-icon">➤</span></div>
+        </section>
+    </main>
+    <script src="ending-state.js"></script>
+    <script>
+        (function () {
+            var messages = document.getElementById("messages");
+            var input = document.getElementById("chatInput");
+            var inputText = document.getElementById("inputText");
+            var notice = document.getElementById("updateNotice");
+            var thoughtBox = document.getElementById("thoughtBox");
+            var ending = EndingState.getEnding();
+            var phase = ending.endingChatPhase || "initial";
+            var busy = false;
+
+            var initialMessages = [
+                ["me","好的。"],
+                ["them","那么，问题一，我们事先已经知道了海洋馆存在一些杀人事件。在此次调查中，得到证据支撑的他杀事件一共有几起？"],
+                ["me","正确选项3起"],
+                ["them","没问题。查看您的调查记录，我已经确认这三起他杀事件确实无误。"],
+                ["them","接下来是问题二。针对于有不少讨论的贾剑明一伙黑恶势力落网一案，你认为在这其中，自杀的安永德是否有参与到贾剑明的犯罪行为中？"],
+                ["me","从主观意图上，我主张没有。"],
+                ["them","很好。最后是问题三。我们最关心的是，你认为海洋馆还有存在的必要吗？"],
+                ["me","我认为……"],
+                ["them","请等一下。"],
+                ["them","您似乎收到了一条新消息。请您查看一下，我们再继续验收吧。"]
+            ];
+            var initialGroups = [
+                {me:"好的。",them:[initialMessages[1][1]]},
+                {me:"正确选项3起",them:[initialMessages[3][1],initialMessages[4][1]]},
+                {me:"从主观意图上，我主张没有。",them:[initialMessages[6][1]]},
+                {me:"我认为……",them:[initialMessages[8][1],initialMessages[9][1]]}
+            ];
+            var aGroups = [
+                {me:"……对。",them:["那让我们回到最后的问题。您认为泊然海洋馆还有存在的必要吗？"]},
+                {me:"我认为，已经没有了。",them:["好的。我们会将您的调查结果纳入考虑。非常感谢您接受我们的调查邀约。感谢您的付出。祝您生活愉快。"]}
+            ];
+            var cGroups = [
+                {me:"没关系，事情已经解决了。彻底……解决了。",them:["感觉您心情不错。那么我们可以继续刚才的问题了吗？"]},
+                {me:"没问题。",them:["那让我们回到最后的问题。您认为泊然海洋馆还有存在的必要吗？"]},
+                {me:"我认为……",them:[]}
+            ];
+
+            function addBubble(text, side) {
+                var row = document.createElement("div"); row.className = "row " + side;
+                var bubble = document.createElement("div"); bubble.className = "bubble"; bubble.textContent = text;
+                row.appendChild(bubble); messages.appendChild(row); messages.scrollTop = messages.scrollHeight;
+            }
+            function addTyping() {
+                var row = document.createElement("div"); row.id="typingRow"; row.className="row them";
+                row.innerHTML='<div class="bubble typing"><i></i><i></i><i></i></div>'; messages.appendChild(row); messages.scrollTop=messages.scrollHeight;
+            }
+            function removeTyping(){var row=document.getElementById("typingRow");if(row)row.remove()}
+            function renderAll(list){list.forEach(function(item){addBubble(item[1],item[0])})}
+            function progressKey(){return phase === "A" ? "aChatIndex" : phase === "Creturn" ? "cReturnChatIndex" : "initialChatIndex"}
+            function groups(){return phase === "A" ? aGroups : phase === "Creturn" ? cGroups : initialGroups}
+            function renderCompleted(gs,count){for(var i=0;i<count;i++){addBubble(gs[i].me,"me");gs[i].them.forEach(function(t){addBubble(t,"them")})}}
+
+            function completePhase() {
+                input.classList.remove("disabled");
+                if (phase === "initial" || phase === "awaitingChoice") {
+                    input.classList.add("disabled"); inputText.textContent="请先查看新动态提醒"; notice.classList.remove("hidden");
+                } else if (phase === "A") {
+                    inputText.textContent="点击这里进入结局";
+                } else if (phase === "Creturn") {
+                    input.classList.add("disabled"); inputText.textContent="请阅读你的想法"; showThought();
+                }
+            }
+
+            function initialize() {
+                var gs = groups(); var index = Number(ending[progressKey()] || 0);
+                if (phase !== "initial") renderAll(initialMessages);
+                if (phase === "A") addBubble("看来您已经准备好了。","them");
+                if (phase === "Creturn") addBubble("您离开了很久呢。我了解到您刚刚有一次报警记录，是发生什么事了吗？","them");
+                renderCompleted(gs,Math.min(index,gs.length));
+                if (index >= gs.length) completePhase();
+            }
+
+            function playGroup() {
+                if (busy) return;
+                var gs = groups(); var key = progressKey(); var index = Number(EndingState.getEnding()[key] || 0);
+                if (index >= gs.length) {
+                    if (phase === "A") location.href="ending-a.html";
+                    return;
+                }
+                busy=true; addBubble(gs[index].me,"me");
+                if (!gs[index].them.length) finishGroup(index,key,gs); else {
+                    setTimeout(addTyping,180);
+                    setTimeout(function(){removeTyping();var items=gs[index].them.slice();var pos=0;function next(){if(pos<items.length){addBubble(items[pos++],"them");setTimeout(next,380)}else finishGroup(index,key,gs)}next()},1000);
+                }
+            }
+            function finishGroup(index,key,gs){var patch={};patch[key]=index+1;ending=EndingState.updateEnding(patch);busy=false;if(index+1>=gs.length)completePhase()}
+
+            function showThought(){
+                var e=EndingState.getEnding();var idx=Number(e.thoughtIndex||0);thoughtBox.classList.remove("hidden");
+                thoughtBox.textContent=idx===0?"我知道海洋馆里发生了很多惨剧。我知道大人的贪念将它变成了一间人间炼狱。但我同样也知道，有很多人在这里实现了梦想，有很多人在这里得到了安慰。海洋馆只是一个载体。它的形象由这里的人决定。安伯然，安永德，赵雨虹，李挚圆，刘真，张智，周伟，陈树，还有那些孩子……海洋馆被很多人赋予了意义，也对很多人产生了意义。即使是如今，还有很多人正在为它做出努力。如果能够更好地建设和利用这里，也许能帮助这里还留存的动物们，也能让海洋馆本身回归它本来的位置。":"我知道让泊然海洋馆摆脱旧日的阴影是件很不容易的事。但在此刻，请让我做一个理想主义者……";
+            }
+            function startFinalDialogue(){thoughtBox.classList.add("hidden");addBubble("我认为，泊然海洋馆还有必须要存在的理由。","me");setTimeout(addTyping,180);setTimeout(function(){removeTyping();addBubble("好的。我们会将您的调查结果纳入考虑。非常感谢您接受我们的调查邀约。","them");setTimeout(function(){addBubble("后续如果拍卖与收购有进展，我们会通知您。感谢您的付出。祝您生活愉快。","them");input.classList.remove("disabled");inputText.textContent="点击这里进入结局";EndingState.updateEnding({finalDialogueComplete:true})},500)},1000)}
+
+            input.addEventListener("click",function(){
+                var e=EndingState.getEnding();
+                if(phase==="Creturn"&&e.finalDialogueComplete){location.href="ending-d.html";return}
+                if(!input.classList.contains("disabled"))playGroup();
+            });
+            notice.addEventListener("click",function(){EndingState.updateEnding({chenLatestUnlocked:true,endingChatPhase:"awaitingChoice"});location.href="socialaccount1.html?ending=1"});
+            thoughtBox.addEventListener("click",function(){var e=EndingState.getEnding();var idx=Number(e.thoughtIndex||0);if(idx===0){EndingState.updateEnding({thoughtIndex:1});thoughtBox.textContent="我知道让泊然海洋馆摆脱旧日的阴影是件很不容易的事。但在此刻，请让我做一个理想主义者……"}else{EndingState.updateEnding({thoughtIndex:2});startFinalDialogue()}});
+            document.getElementById("blockedBack").addEventListener("click",function(){this.animate([{transform:"translateX(0)"},{transform:"translateX(-5px)"},{transform:"translateX(5px)"},{transform:"translateX(0)"}],{duration:260})});
+            initialize();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基金会搜索引擎关键词逻辑链</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #68738a;
+      --line: #b9c4d7;
+      --paper: #f7f9fc;
+      --card: #ffffff;
+      --blue: #3459e6;
+      --blue-soft: #eaf0ff;
+      --red: #cf5369;
+      --red-soft: #fff0f3;
+      --gold: #b47a16;
+      --gold-soft: #fff7df;
+      --green: #25836d;
+      --green-soft: #e8f7f1;
+      --purple: #7650a9;
+      --purple-soft: #f2edff;
+      --shadow: 0 10px 28px rgba(30, 45, 80, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      padding: 34px 42px 28px;
+      color: #fff;
+      background: linear-gradient(135deg, #1e2a52 0%, #334da5 58%, #6e76c9 100%);
+    }
+    header h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: .04em; }
+    header p { margin: 0; opacity: .9; font-size: 14px; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 14px 42px;
+      background: #fff;
+      border-bottom: 1px solid #e3e8f1;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .toolbar span { color: var(--muted); font-size: 13px; margin-right: 8px; }
+    .legend { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot.search { background: var(--blue); }
+    .dot.page { background: var(--green); }
+    .dot.clue { background: var(--gold); }
+    .dot.end { background: var(--red); }
+    .toolbar button {
+      margin-left: auto;
+      border: 1px solid #ccd5e4;
+      border-radius: 8px;
+      background: #fff;
+      color: #45516a;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    main { padding: 24px 42px 54px; }
+    .notice {
+      max-width: 1300px;
+      margin: 0 0 24px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--blue);
+      border-radius: 10px;
+      background: #eef3ff;
+      color: #34415f;
+      font-size: 14px;
+    }
+    .notice strong { color: #233a9b; }
+    section { margin-top: 28px; }
+    section h2 { margin: 0 0 12px; font-size: 20px; }
+    section h2 small { color: var(--muted); font-size: 12px; font-weight: 400; }
+    .board-wrap {
+      overflow-x: auto;
+      padding: 6px 4px 22px;
+      border: 1px solid #e1e7f0;
+      border-radius: 14px;
+      background: #f0f3f8;
+    }
+    .lane {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      min-width: max-content;
+      margin: 16px 12px;
+    }
+    .lane-label {
+      flex: 0 0 118px;
+      padding: 12px 8px;
+      color: #506078;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid #d4dce9;
+      border-radius: 10px;
+      background: #e7ecf4;
+    }
+    .track { display: flex; align-items: center; gap: 12px; }
+    .arrow { color: #7b879d; font-size: 22px; font-weight: 700; }
+    .stack { display: flex; flex-direction: column; gap: 10px; }
+    .node {
+      width: 252px;
+      min-height: 108px;
+      padding: 13px 14px 12px;
+      border: 1px solid #d6deea;
+      border-radius: 12px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+    .node.compact { min-height: 78px; width: 230px; }
+    .node h3 { margin: 0 0 4px; font-size: 16px; line-height: 1.35; }
+    .node p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .node a { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; }
+    .node a:hover { border-bottom-style: solid; }
+    .badge {
+      display: inline-block;
+      margin-bottom: 7px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .05em;
+    }
+    .node.search { border-top: 4px solid var(--blue); }
+    .node.search .badge { color: var(--blue); background: var(--blue-soft); }
+    .node.page { border-top: 4px solid var(--green); }
+    .node.page .badge { color: var(--green); background: var(--green-soft); }
+    .node.clue { border-top: 4px solid var(--gold); }
+    .node.clue .badge { color: var(--gold); background: var(--gold-soft); }
+    .node.end { border-top: 4px solid var(--red); }
+    .node.end .badge { color: var(--red); background: var(--red-soft); }
+    .node.account { border-top: 4px solid var(--purple); }
+    .node.account .badge { color: var(--purple); background: var(--purple-soft); }
+    .subnote {
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #f7f8fb;
+      color: #69748a;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .table-wrap { overflow-x: auto; border: 1px solid #e1e7f0; border-radius: 12px; background: #fff; }
+    table { width: 100%; min-width: 1080px; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; vertical-align: top; border-bottom: 1px solid #edf0f5; text-align: left; }
+    th { color: #44516a; background: #f3f6fb; font-size: 12px; white-space: nowrap; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { font-weight: 700; color: #263762; white-space: nowrap; }
+    code { padding: 2px 5px; border-radius: 4px; background: #f0f2f6; color: #4d5870; font-size: 11px; }
+    .route-notes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .note-card { padding: 14px 16px; border: 1px solid #e0e6ef; border-radius: 10px; background: #fff; }
+    .note-card h3 { margin: 0 0 6px; font-size: 15px; }
+    .note-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    footer { padding: 18px 42px 30px; color: #778196; font-size: 12px; }
+    @media print {
+      .toolbar { position: static; }
+      .toolbar button { display: none; }
+      .board-wrap { overflow: visible; border: 0; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>麦英基金会搜索引擎：关键词逻辑链</h1>
+    <p>从玩家获得“麦英基金会官网”开始，按“搜索关键词 → 打开网页 → 读出下一批关键词”的顺序整理。</p>
+  </header>
+
+  <div class="toolbar">
+    <span>阅读方式：</span>
+    <span class="legend"><i class="dot search"></i>可搜索关键词</span>
+    <span class="legend"><i class="dot page"></i>网页/结果页</span>
+    <span class="legend"><i class="dot clue"></i>网页中获得的新线索</span>
+    <span class="legend"><i class="dot account"></i>社交账号分支</span>
+    <span class="legend"><i class="dot end"></i>当前终点</span>
+    <button onclick="window.print()">打印 / 导出 PDF</button>
+  </div>
+
+  <main>
+    <div class="notice">
+      <strong>图例：</strong>每一行从左向右表示玩家的检索推进；同一列中上下排列表示从同一个网页中独立获得的关键词。实线是直接读到的线索，括号中的“回接”表示该关键词会回到另一条已经展开的调查线。<br />
+      <strong>起始关键词：</strong>文案中的开荒新手包明确给出“海洋馆溺亡美人鱼案”；代码还保留了“陈树1999”这一条基金会入口，因此将其作为后续档案分支单独列出。
+    </div>
+
+    <section>
+      <h2>一、主线总览 <small>案件 → 场馆 → 人物 → 社交/论坛 → 劳务与档案</small></h2>
+      <div class="board-wrap">
+        <div class="lane">
+          <div class="lane-label">起点 / 案件</div>
+          <div class="track">
+            <div class="node page"><span class="badge">START PAGE</span><h3>麦英基金会官网</h3><p>玩家从基金会搜索框开始。</p><p><a href="maiyingfoundation.html">打开页面</a></p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>海洋馆溺亡美人鱼案</h3><p>开荒新手包给出的第一个搜索词。</p><p>命中 3 篇案件报道。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">RESULTS</span><h3>案件报道组</h3><p>晚报：美人鱼演员溺亡；警方通报：意外结论；B市日报：场馆道歉。</p><p><a href="mid/middle-die.html">打开结果页</a></p></div>
+            <div class="arrow">→</div>
+            <div class="node clue"><span class="badge">NEW CLUE</span><h3>泊然海洋馆</h3><p>三篇报道共同指向的场馆名称。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">RESULT PAGE</span><h3>泊然海洋馆官方网站</h3><p>官网给出馆史、员工荣誉墙、馆内新闻和多个员工姓名。</p><p><a href="Aquarium.html">打开官网</a></p></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">官网读出的词</div>
+          <div class="track">
+            <div class="subnote">同一个“泊然海洋馆官方网站”内并列读出以下人物关键词；它们不是先后关系，而是并行调查入口。</div>
+            <div class="stack">
+              <div class="node compact clue"><span class="badge">CLUE</span><h3>安伯然</h3><p>2003 年投资建馆的创始人。</p></div>
+              <div class="node compact clue"><span class="badge">CLUE</span><h3>安仲斌</h3><p>初代馆长 / 安伯然弟弟。</p></div>
+              <div class="node compact clue"><span class="badge">CLUE</span><h3>安永德</h3><p>馆长继任者，后任副馆长。</p></div>
+            </div>
+            <div class="stack">
+              <div class="node compact clue"><span class="badge">CLUE</span><h3>贾剑明</h3><p>注资重组后接任馆长。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>李挚圆</h3><p>驯养员，杏仁网账号“一枚圆子”。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>刘真</h3><p>海豚驯养员，杏仁网账号“泊然海洋馆刘真”。</p></div>
+            </div>
+            <div class="stack">
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>赵雨虹</h3><p>美人鱼演员，杏仁网账号“雨后彩虹rainbow”。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>张智</h3><p>海洋知识讲解员，杏仁网账号“海洋知识智慧哥哥”。</p></div>
+              <div class="node compact clue"><span class="badge">CLUE</span><h3>邓仁</h3><p>人事经理，负责劳务与员工管理。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">经营 / 家族线</div>
+          <div class="track">
+            <div class="node search"><span class="badge">SEARCH</span><h3>安伯然</h3><p><a href="mid/middle-boran.html">对应结果页</a>：光明财经专访。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">ARTICLE</span><h3>安伯然专访</h3><p>文章补出“泊然集团”和“安仲斌”。</p><p><a href="ikari economy-1.html">打开文章</a></p></div>
+            <div class="arrow">→</div>
+            <div class="stack">
+              <div class="node compact search"><span class="badge">SEARCH</span><h3>泊然集团</h3><p>经营危机、海洋馆长期亏损。</p></div>
+              <div class="node compact search"><span class="badge">SEARCH</span><h3>安仲斌</h3><p>海洋馆第一代管理线。</p></div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">ARTICLES</span><h3>集团坍塌 / 馆史交接报道</h3><p>共同把玩家推向“安永德”；泊然集团文章还补充集团衰败背景。</p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>安永德</h3><p><a href="mid/middle-ayd.html">对应结果页</a>：经营困难与注资提案。</p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>贾剑明</h3><p>从“注资救馆”进入重组、媒体宣传与逮捕线。</p></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">贾剑明分叉</div>
+          <div class="track">
+            <div class="node search"><span class="badge">SEARCH</span><h3>贾剑明</h3><p><a href="mid/middle-jjm.html">对应 4 个结果</a>：接任报道、重装攻略、约会攻略、逮捕报道。</p></div>
+            <div class="arrow">→</div>
+            <div class="stack">
+              <div class="node compact clue"><span class="badge">NEW CLUE</span><h3>杏仁网</h3><p>娱乐文章提示：先在杏仁网上搜“泊然海洋馆”。</p></div>
+              <div class="node compact clue"><span class="badge">NEW CLUE</span><h3>明通集团</h3><p>逮捕报道中出现的贾剑明关联集团。</p></div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stack">
+              <div class="node compact page"><span class="badge">PAGE</span><h3>杏仁网官方网站</h3><p>进入人物社交账号搜索。</p><p><a href="xingrenwang.html">打开网站</a></p></div>
+              <div class="node compact end"><span class="badge">END / LOOP</span><h3>明通集团破产清算</h3><p>当前基金会搜索链的终点；回指贾剑明。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">杏仁网人物线</div>
+          <div class="track">
+            <div class="node search"><span class="badge">SEARCH</span><h3>杏仁网</h3><p>官网内的搜索词是人物姓名，不再回到基金会搜索框。</p></div>
+            <div class="arrow">→</div>
+            <div class="stack">
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>陈树</h3><p>网名“苹果树”。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>李挚圆</h3><p>网名“一枚圆子”。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>刘真</h3><p>网名“泊然海洋馆刘真”。</p></div>
+            </div>
+            <div class="stack">
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>赵雨虹</h3><p>网名“雨后彩虹rainbow”。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>张智</h3><p>网名“海洋知识智慧哥哥”。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>钱蔚东</h3><p>网名“IM a changed man.”。</p></div>
+            </div>
+            <div class="stack">
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>有需要，找小周</h3><p>实际姓名：周伟。</p></div>
+              <div class="node compact clue"><span class="badge">CROSS-REFERENCE</span><h3>邓仁</h3><p>从张智的动态与劳务线索继续。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">论坛 / 劳务线</div>
+          <div class="track">
+            <div class="node account"><span class="badge">ACCOUNT</span><h3>张智社交账号</h3><p>动态明确提示：“搜 MT 集团”。</p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>MT集团</h3><p><a href="mid/middle-MT.html">对应论坛结果</a>。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">FORUM</span><h3>MT集团讨论帖</h3><p>帖子与追帖补出劳务公司、保安报道、临时工溺亡和钱蔚东。</p><p><a href="talk.html">打开主帖</a> · <a href="talk-2.html">打开追帖</a></p></div>
+            <div class="arrow">→</div>
+            <div class="stack">
+              <div class="node compact search"><span class="badge">SEARCH</span><h3>劳而得</h3><p>“聋哑保洁员”与海洋馆合作线。</p></div>
+              <div class="node compact search"><span class="badge">SEARCH</span><h3>海洋馆保安拾金不昧</h3><p>用于锁定保安周伟。</p></div>
+              <div class="node compact search"><span class="badge">SEARCH</span><h3>临时工溺亡</h3><p>闭馆后的新增死亡事件。</p></div>
+              <div class="node compact account"><span class="badge">ACCOUNT</span><h3>钱蔚东</h3><p>回接杏仁网账号与蔚蓝传媒线。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">劳而得展开</div>
+          <div class="track">
+            <div class="node search"><span class="badge">SEARCH</span><h3>劳而得</h3><p><a href="mid/middle-labor.html">对应劳务派遣官网</a>。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">PAGE</span><h3>劳而得员工查询</h3><p>网页按姓名进入员工工作台；代码中登记了陈树、邓仁、周伟。</p><p><a href="labor company-1.html">打开官网</a></p></div>
+            <div class="arrow">→</div>
+            <div class="stack">
+              <div class="node compact clue"><span class="badge">EMPLOYEE</span><h3>陈树</h3><p>保洁员，工号 LD2025012；联系人为邓仁。</p></div>
+              <div class="node compact clue"><span class="badge">EMPLOYEE</span><h3>邓仁</h3><p>人事经理，掌握后勤员工名册。</p></div>
+              <div class="node compact clue"><span class="badge">EMPLOYEE</span><h3>周伟</h3><p>夜班安保员，工号 LD2024001。</p></div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH ENTRY</span><h3>陈树1999</h3><p>基金会搜索框中的个人账号入口；与“陈树”杏仁网账号回接。</p><p><a href="mid/middle-chenshu.html">打开结果页</a></p></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">蔚蓝传媒线</div>
+          <div class="track">
+            <div class="node account"><span class="badge">ACCOUNT</span><h3>赵雨虹 / 钱蔚东动态</h3><p>照片、恋人关系和公司背景共同指向蔚蓝传媒。</p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>蔚蓝传媒</h3><p><a href="mid/middle-bluemedia.html">对应官方网站</a>。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">PAGE</span><h3>蔚蓝传媒官方网站</h3><p>公司创始人是钱宏达，合作客户包含明通集团、泊然海洋馆。</p><p><a href="bluemedia-1.html">打开官网</a></p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>钱宏达</h3><p><a href="mid/middle-qhd.html">对应新闻</a>：其子钱蔚东失联。</p></div>
+            <div class="arrow">→</div>
+            <div class="node account"><span class="badge">ACCOUNT LOOP</span><h3>钱蔚东</h3><p>回到杏仁网账号与 MT 集团论坛线。</p></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">档案线</div>
+          <div class="track">
+            <div class="node account"><span class="badge">ACCOUNT / SECRET FILE</span><h3>张智动态里的案件资料</h3><p>社交账号提示：案件资料阅读权限秘钥放在加密文件夹。</p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>B2025-JD-0718</h3><p><a href="mid/middle-juanzong1.html">对应绝密调查报告</a>：安永德死亡与遗书。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">REPORT</span><h3>安永德遗书 / 调查报告</h3><p>补出 B2025-JD-0717、邓仁、贾剑明、泊然集团等回接线索。</p><p><a href="B2025-JD-0718.html">打开档案</a></p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">SEARCH</span><h3>B2025-JD-0717</h3><p><a href="mid/middle-warning.html">对应警告页</a>：未知 IP 重复访问。</p></div>
+            <div class="arrow">→</div>
+            <div class="node end"><span class="badge">END</span><h3>线索封口 / 需回到主线</h3><p>该页本身不再提供新的公开关键词，保留为档案分支终点。</p></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">钱蔚东终点线</div>
+          <div class="track">
+            <div class="node account"><span class="badge">ACCOUNT / SECRET FILE</span><h3>钱蔚东调查记录</h3><p>流水、合同和后场记录被整理到一起。</p></div>
+            <div class="arrow">→</div>
+            <div class="node search"><span class="badge">NEW SEARCH</span><h3>蓝鲸贸易</h3><p>调查记录明确要求在基金会搜索引擎继续检索。</p></div>
+            <div class="arrow">→</div>
+            <div class="node page"><span class="badge">EVIDENCE PAGE</span><h3>蓝鲸贸易账户与泊然海洋馆资金往来</h3><p>提供转账流水、合同编号、关联账户和异常资金路径。</p><p><a href="mid/middle-bluewhale.html">打开搜索结果</a> · <a href="bluewhale-evidence.html">打开证据页</a></p></div>
+            <div class="arrow">→</div>
+            <div class="node end"><span class="badge">END</span><h3>钱蔚东线终点</h3><p>完成“付款方—收款方—金额—合同”四项核对后，线索不再向外扩展。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>二、基金会搜索框中的全部关键词 <small>按当前 maiyingfoundation.html 的实际映射核对</small></h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>搜索关键词</th><th>打开的结果页 / 内容页</th><th>该页继续得到的关键词或作用</th></tr></thead>
+          <tbody>
+            <tr><td>海洋馆溺亡美人鱼案</td><td><code>mid/middle-die.html</code> → 3 篇报道</td><td>泊然海洋馆</td></tr>
+            <tr><td>泊然海洋馆</td><td><code>mid/middle-Aquarium.html</code> → <code>Aquarium.html</code></td><td>安伯然、安仲斌、安永德、贾剑明、李挚圆、刘真、赵雨虹、张智、邓仁</td></tr>
+            <tr><td>安伯然</td><td><code>ikari economy-1.html</code></td><td>泊然集团、安仲斌</td></tr>
+            <tr><td>泊然集团</td><td><code>ikari economy-2.html</code></td><td>安永德、泊然海洋馆</td></tr>
+            <tr><td>安仲斌</td><td><code>B-daily-2.html</code></td><td>安永德</td></tr>
+            <tr><td>安永德</td><td><code>B-daily-3.html</code></td><td>贾剑明、泊然集团</td></tr>
+            <tr><td>贾剑明</td><td><code>B-daily-4.html</code>、<code>earthnews-1.html</code>、<code>entertainment-1.html</code>、<code>B-daily-5.html</code></td><td>杏仁网、明通集团；同时补充重装、宣传、逮捕信息</td></tr>
+            <tr><td>明通集团</td><td><code>ikari economy-3.html</code></td><td>贾剑明；破产清算终点</td></tr>
+            <tr><td>杏仁网</td><td><code>xingrenwang.html</code></td><td>陈树、李挚圆、刘真、赵雨虹、张智、钱蔚东、有需要，找小周</td></tr>
+            <tr><td>MT集团</td><td><code>talk.html</code> → <code>talk-2.html</code></td><td>劳而得、海洋馆保安拾金不昧、临时工溺亡、钱蔚东</td></tr>
+            <tr><td>劳而得</td><td><code>labor company-1.html</code></td><td>员工查询：陈树、邓仁、周伟</td></tr>
+            <tr><td>海洋馆保安拾金不昧</td><td><code>B-daily-7.html</code></td><td>周伟、邓仁、劳而得</td></tr>
+            <tr><td>临时工溺亡</td><td><code>B-daily-8.html</code></td><td>闭馆后的新增死亡事件；与论坛线回接</td></tr>
+            <tr><td>陈树1999</td><td><code>mid/middle-chenshu.html</code> → <code>socialaccount1.html</code></td><td>陈树个人账号、病历/合同等个人文件分支</td></tr>
+            <tr><td>蔚蓝传媒</td><td><code>bluemedia-1.html</code></td><td>钱宏达、明通集团、泊然海洋馆</td></tr>
+            <tr><td>钱宏达</td><td><code>B-daily-6.html</code></td><td>钱蔚东失联；回接杏仁网账号</td></tr>
+            <tr><td>蓝鲸贸易</td><td><code>mid/middle-bluewhale.html</code> → <code>bluewhale-evidence.html</code></td><td>转账流水、合同编号、关联账户；钱蔚东线终点</td></tr>
+            <tr><td>B2025-JD-0718</td><td><code>B2025-JD-0718.html</code></td><td>B2025-JD-0717、邓仁、贾剑明、泊然集团、安永德</td></tr>
+            <tr><td>B2025-JD-0717</td><td><code>B2025-JD-0717.html</code></td><td>未知 IP 重复访问；当前档案终点</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>三、阅读时最容易漏掉的回接关系</h2>
+      <div class="route-notes">
+        <div class="note-card"><h3>“泊然海洋馆”是第一汇合点</h3><p>案件报道、馆史、经营危机、论坛讨论、劳务与后续死亡事件都回到同一场馆。</p></div>
+        <div class="note-card"><h3>“贾剑明”是从经营线进入社交线的门</h3><p>他的结果页同时打开杏仁网线和明通集团线；明通集团继续到破产清算，杏仁网继续到人物账号。</p></div>
+        <div class="note-card"><h3>“张智”是 MT 集团线的明确提示人</h3><p>张智账号动态直接写出“搜 MT 集团”，这是从社交账号转入论坛调查的关键跳转。</p></div>
+        <div class="note-card"><h3>“劳而得”不是终点，而是员工名册入口</h3><p>官网的员工查询把陈树、邓仁、周伟三条人物关系并列展开，随后可回接陈树个人账号、保安报道和档案线。</p></div>
+        <div class="note-card"><h3>“陈树1999”与“陈树”是两个入口名</h3><p>基金会搜索框使用“陈树1999”；杏仁网自己的搜索框使用“陈树”。它们都指向陈树个人账号，但触发位置不同。</p></div>
+        <div class="note-card"><h3>档案编号是结案材料，不是新网站</h3><p>B2025-JD-0718 打开调查报告，B2025-JD-0717 打开警告页；读完后应回到已知人物和场馆主线，而不是继续寻找不存在的下一级网页。</p></div>
+        <div class="note-card"><h3>“蓝鲸贸易”是钱蔚东线的最后检索词</h3><p>钱蔚东调查记录把这个公司名作为最后入口；新页面负责呈现更具体的流水与合同证据，核对完四项信息后即可结束该分支。</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    整理依据：<code>海洋馆募捐调查委托.xlsx</code> 中的“基金会搜索引擎”“剧情线索对应-时间顺序”“杏仁网社交账号”等工作表，以及 F 盘网页代码中 maiyingfoundation.html、mid 结果页、Aquarium.html、社交账号、论坛和劳而得页面的实际内容与跳转映射。
+  </footer>
+</body>
+</html>

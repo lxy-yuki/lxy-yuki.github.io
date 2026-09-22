@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调查记录 - XXX基金会</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        /* 页面整体布局 */
+        body {
+            min-height: 100vh;
+            background-color: #f9f7f5; /* 浅米色，和主页面风格统一 */
+            padding: 20px 40px;
+            position: relative; /* 为左上角Logo定位 */
+        }
+
+        /* 左上角Logo+基金会名称 */
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* 纯CSS绘制Logo（无外部图片） */
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #3e2723; /* 深棕色，和主页面一致 */
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 基金会名称样式 */
+        .foundation-name {
+            font-size: 24px;
+            color: #3e2723;
+            font-weight: 600;
+        }
+
+        /* 中间提示文字区域（垂直+水平居中） */
+        .record-tip {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 0 20px; /* 适配移动端 */
+        }
+
+        /* 核心提示文字 */
+        .tip-main {
+            font-size: 28px;
+            color: #3e2723;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* 辅助装饰线（提升视觉层次） */
+        .tip-line {
+            width: 200px;
+            height: 2px;
+            background-color: #795548;
+            margin: 0 auto 15px;
+        }
+
+        /* 可选：返回按钮 */
+        .back-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background-color: #3e2723;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        .back-btn:hover {
+            background-color: #5d4037;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角Logo+基金会名称 -->
+    <div class="header-logo">
+        <div class="logo-icon">XXX</div>
+        <div class="foundation-name">XXX基金会</div>
+    </div>
+
+    <!-- 中间提示文字 -->
+    <div class="record-tip">
+        <div class="tip-main">已经查询过海洋馆溺亡美人鱼案，请继续加油，基金会期待你的高光表现</div>
+        <div class="tip-line"></div>
+        <!-- 可选：返回主页面按钮 -->
+        <a href="index.html" class="back-btn">返回主页面</a>
+    </div>
+</body>
+</html>

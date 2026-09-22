@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>训练水池｜诱饵</title><link rel="stylesheet" href="ending-ocean.css">
+</head>
+<body class="ending-ocean">
+    <main class="ending-scene">
+        <div class="ending-kicker">TRAINING POOL · RESTRICTED AREA</div>
+        <div class="story-lines" id="story"></div><div class="continue-hint" id="hint">点击页面继续</div><div class="ending-actions" id="actions" hidden></div>
+    </main>
+    <script src="ending-state.js"></script>
+    <script>
+        (function(){
+            var before=[
+                '你在水边站立。面前是刚刚淹死人的水池，那个可怜人看着像一个流浪汉，正漂浮在水面上。你看到有电线浸在水里，猜想那些人可能并不都是淹死的。她只是一个小孩，而很多人可能还会游泳。于是你庆幸自己穿的鞋子是橡胶底。',
+                '水池对面，有个橙色的影子一闪而过。你屏住呼吸，等待着。','踩进水坑的声音。靠近些。','投到身上的影子。再靠近些。','衣物摩擦的声音。还差一点。','推到背后的，温热的细小指尖！就是现在！','你猛地闪躲了一下，随即使劲抓住了那双手。','你叫出了她的名字。'
+            ];
+            var after=['手电筒摔在地上，灯光向上，她无所遁形。你抓住了她。你看到了她。','她的救生衣脏了旧了。她比起同龄人过于瘦小。她的苹果头散了，花朵头绳太过松散地在一缕头发上挂着。','除此之外……','她只是一个普通的女孩。一个惊恐的，无知的，无所适从的，被成人的世界教导又被成人的世界遗弃了的女孩。'];
+            var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),index=0,postIndex=0,stage='before';
+            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);p.scrollIntoView({behavior:'smooth',block:'center'})}
+            function showShout(){stage='shout';hint.hidden=true;actions.hidden=false;var b=document.createElement('button');b.className='shout-button';b.textContent='陈苹！';b.addEventListener('click',function(e){e.stopPropagation();actions.hidden=true;actions.replaceChildren();hint.hidden=false;stage='after';add(after[postIndex++])});actions.appendChild(b)}
+            setTimeout(function(){add(before[index++])},350);
+            document.body.addEventListener('click',function(e){if(e.target.closest('button'))return;if(stage==='before'){if(index<before.length)add(before[index++]);else showShout()}else if(stage==='after'){if(postIndex<after.length)add(after[postIndex++]);else{EndingState.updateEnding({endingChatPhase:'Creturn',cReturnChatIndex:0,thoughtIndex:0,finalDialogueComplete:false});location.href='ending-chat.html'}}});
+        })();
+    </script>
+</body>
+</html>

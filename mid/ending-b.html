@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>深夜抵达｜泊然海洋馆</title><link rel="stylesheet" href="ending-ocean.css">
+</head>
+<body class="ending-ocean">
+    <main class="ending-scene">
+        <div class="ending-kicker">B CITY · BINHAI ROAD 88 · 00:47</div>
+        <div class="story-lines" id="story"></div><div class="continue-hint" id="hint">点击页面继续</div><div class="ending-actions" id="actions" hidden></div>
+    </main>
+    <script src="ending-state.js"></script>
+    <script>
+        (function(){
+            var lines=[
+                '深夜的车不算难打。司机等你下车之后，就一脚油门开走了。你理解他。这里实在是太过偏僻，又有那么多奇怪的传闻，害怕再正常不过。但你没有时间拖延。',
+                '你见到了周伟。他打开了门，为你提供了手电筒和场馆地图。你进入了调查已久的这间海洋馆。微弱的嗡鸣声在空旷的场馆里回响，场馆中满溢着潮湿温热的腐臭水汽，你捂着鼻子钻进员工通道，躲避杂乱的电线和积水的地面，向前前进。',
+                '通过那幅画，你已经清楚，她刚刚作案的位置就在训练水池那里。她已经认同了鱼吃人的逻辑，把人推下水多半是为了投喂那些鱼。',
+                '你有了一个大胆的想法'
+            ];
+            var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),index=0,choicesShown=false;
+            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);p.scrollIntoView({behavior:'smooth',block:'center'})}
+            function showChoices(){if(choicesShown)return;choicesShown=true;hint.hidden=true;actions.hidden=false;var c=document.createElement('button'),d=document.createElement('button');c.className=d.className='choice-button';c.textContent='我会成为诱饵。';d.textContent='我真的要好奇心这么重吗……要不然还是报警吧！';c.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({optionCSeen:true});location.href='ending-c.html'});d.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({optionDSeen:true});location.href='ending-e.html'});actions.append(c,d)}
+            if(new URLSearchParams(location.search).get('choice')==='1'){index=lines.length;showChoices()}else setTimeout(function(){add(lines[index++])},350);
+            document.body.addEventListener('click',function(e){if(e.target.closest('button'))return;if(index<lines.length)add(lines[index++]);else showChoices()});
+        })();
+    </script>
+</body>
+</html>

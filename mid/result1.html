@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果 - XX基金会</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        /* 顶部棕色导航栏 */
+        .top-header {
+            background-color: #8B4513; /* 棕色背景 */
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* 基金会Logo样式 */
+        .logo {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+        /* 基金会文字样式 */
+        .foundation-name {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        /* 页面主体内容 */
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        /* 搜索结果文字 */
+        .search-result {
+            font-size: 20px;
+            color: #333;
+            line-height: 2;
+        }
+        /* 超链接样式 */
+        .link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部棕色区域：Logo + 基金会名称 -->
+    <div class="top-header">
+        <!-- 基金会Logo（替换src为你的图片路径） -->
+        <img src="./images/logo.png" class="logo" alt="基金会Logo">
+        <span class="foundation-name">XX基金会</span>
+    </div>
+
+    <!-- 页面中间：搜索结果 -->
+    <div class="container">
+        <div class="search-result">
+            共找到X个搜索结果：
+            <br> <!-- 换行分段 -->
+            <a href="mainpage.html" class="link">海洋馆主页</a>
+        </div>
+    </div>
+</body>
+</html>
