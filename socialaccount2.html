@@ -146,6 +146,12 @@
             border-radius: 12px;
             margin-bottom: 15px;
             object-fit: cover;
+            cursor: pointer;          /* 新增：提示可点击 */
+            transition: 0.2s;         /* 新增：悬停过渡 */
+        }
+        .post-img:hover {
+            opacity: 0.92;            /* 新增：悬停反馈 */
+            transform: scale(1.01);
         }
         .post-footer {
             color: #FF7F84;
@@ -947,7 +953,7 @@
                             <div class="post-content">
                                 今天拍了一条广告！第一次拍商业片，好紧张！导演说我很上镜嘻嘻嘻🎬
                             </div>
-                            <img src="images2/huaxu.jpg" alt="萍萍画的月亮" class="post-img">
+                            <img src="images2/huaxu.jpg" alt="萍萍画的月亮" class="post-img" onclick="openImageViewer('images2/huaxu.jpg')">
                             
                             <div class="post-time">2024.9.15</div>
                         </div>
