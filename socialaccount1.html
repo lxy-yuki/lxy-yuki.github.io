@@ -386,25 +386,33 @@
         @keyframes endingPostIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
         .ending-thought-overlay {
             position: fixed; inset: 0; z-index: 12000; display: none; align-items: center; justify-content: center;
-            padding: 22px; background: rgba(19,25,30,.68); backdrop-filter: blur(4px);
+            padding: 22px; background: linear-gradient(rgba(0,27,96,.28),rgba(0,18,74,.52)),url('image/os1.jpg') center/cover no-repeat;
         }
-        .ending-thought-overlay.active { display: flex; }
+        .ending-thought-overlay.active { display: flex; animation:endingOverlayIn 1.15s ease both; }
+        .ending-thought-overlay.leaving { animation:endingOverlayOut 1.15s ease forwards; pointer-events:none; }
+        @keyframes endingOverlayIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes endingOverlayOut { from { opacity:1; } to { opacity:0; } }
         .ending-thought-box {
-            width: min(680px,92vw); min-height: 245px; padding: 40px 42px 34px; display: flex; flex-direction: column;
-            justify-content: center; border: 1px solid rgba(255,255,255,.62); border-radius: 16px;
-            color: #37444c; background: linear-gradient(145deg,#fffdf9,#f6eee2); box-shadow: 0 26px 75px rgba(0,0,0,.3);
+            width: min(900px,92vw); min-height: 245px; padding: 40px 42px 34px; display: flex; flex-direction: column;
+            justify-content: center; border: 1px solid transparent; border-radius: 16px;
+            color: #fff; background: transparent; text-shadow:0 3px 18px rgba(0,0,0,.55);
             cursor: pointer;
         }
-        .ending-thought-label { margin-bottom: 16px; color: #c87b12; font-size: 11px; font-weight: 700; letter-spacing: .18em; }
-        .ending-thought-text { font-size: clamp(18px,2.7vw,25px); line-height: 1.85; }
-        .ending-thought-hint { margin-top: 22px; color: #9b9b97; font-size: 12px; text-align: right; }
+        .ending-thought-box.choice-mode { background:rgba(0,0,0,.72);border-color:rgba(255,255,255,.35);box-shadow:0 26px 75px rgba(0,0,0,.42); }
+        .ending-thought-label { margin-bottom: 16px; color: #ffe2a8; font-size: 11px; font-weight: 700; letter-spacing: .18em; }
+        .ending-thought-text { display:flex;flex-direction:column;gap:11px;font-size: clamp(16px,2.05vw,23px); line-height: 1.75; }
+        .ending-monologue-line { margin:0;opacity:0;transform:translateY(10px);animation:endingLineIn .65s ease forwards; }
+        @keyframes endingLineIn { to { opacity:1;transform:translateY(0); } }
+        .ending-thought-hint { margin-top: 22px; color: rgba(255,255,255,.72); font-size: 12px; text-align: right; }
         .ending-choice-list { margin-top: 22px; display: grid; gap: 13px; }
         .ending-choice {
-            padding: 17px 19px; border: 1px solid #e4c596; border-radius: 10px; color: #554839; background: #fff;
+            padding: 17px 19px; border: 1px solid rgba(255,255,255,.38); border-radius: 10px; color: #fff; background: rgba(255,255,255,.08);
             font: 15px/1.7 "Microsoft YaHei",sans-serif; text-align: left; cursor: pointer; transition: transform .2s, background .2s;
         }
-        .ending-choice:hover { transform: translateX(4px); background: #fff6e8; }
+        .ending-choice:hover { transform: translateX(4px); background: rgba(255,255,255,.17); }
         .ending-message-close { align-self: flex-end; margin-top: 24px; padding: 10px 24px; border: 0; border-radius: 22px; color: #fff; background: #ee9214; cursor: pointer; }
+        .ending-now { margin-left:auto;color:#ef3232;font-size:14px;font-weight:700;text-shadow:0 0 10px rgba(239,50,50,.24); }
+        .ending-latest-post .post-time { display:none; }
         .hidden { display: none !important; }
         .image-viewer-scroll {
             width: 90%;
@@ -462,6 +470,7 @@
                             <div class="post-header">
                                 <div class="post-header-avatar" onclick="openAvatarModal('images2/chenshu-0.jpg')" title="点击查看完整头像"></div>
                                 <div class="post-header-name">苹果树</div>
+                                <div class="ending-now">刚刚</div>
                             </div>
                             <img src="./ping/xie11.jpg" alt="" class="post-img">
                             <div class="post-time"><strong>刚刚</strong></div>
@@ -995,7 +1004,6 @@
 
     <div class="ending-thought-overlay" id="endingThoughtOverlay">
         <div class="ending-thought-box" id="endingThoughtBox">
-            <div class="ending-thought-label">INNER THOUGHT</div>
             <div class="ending-thought-text" id="endingThoughtText"></div>
             <div class="ending-thought-hint" id="endingThoughtHint">点击继续</div>
             <div class="ending-choice-list" id="endingChoiceList"></div>
@@ -1074,7 +1082,8 @@
         if (ending.chenLatestUnlocked) latest.classList.add('unlocked');
 
         function showChoices() {
-            text.textContent = '我得做出选择。';
+            box.classList.add('choice-mode');
+            text.classList.add('hidden');
             hint.classList.add('hidden');
             choices.replaceChildren();
             var optionA = document.createElement('button');
@@ -1087,48 +1096,76 @@
             optionA.addEventListener('click', function (event) {
                 event.stopPropagation();
                 EndingState.updateEnding({ choiceABSelected: 'A', endingChatPhase: 'A', aChatIndex: 0 });
-                location.href = 'ending-chat.html';
+                fadeOutThen(function () { location.href = 'ending-chat.html'; });
             });
             optionB.addEventListener('click', function (event) {
                 event.stopPropagation();
                 EndingState.updateEnding({ choiceABSelected: 'B', zhouChatUnlocked: true });
                 choices.replaceChildren();
+                text.classList.remove('hidden');
                 text.textContent = '我知道有一个人可以帮助我。';
                 var close = document.createElement('button');
                 close.className = 'ending-message-close'; close.textContent = '知道了';
-                close.addEventListener('click', function (e) { e.stopPropagation(); overlay.classList.remove('active'); });
+                close.addEventListener('click', function (e) { e.stopPropagation(); fadeOutThen(); });
                 choices.append(close);
             });
         }
 
         function showMonologue(resetToChoice) {
             overlay.classList.add('active');
+            overlay.classList.remove('leaving');
+            box.classList.remove('choice-mode');
+            text.classList.remove('hidden');
+            text.replaceChildren();
             if (resetToChoice) {
                 EndingState.updateEnding({ choiceABSelected: '', abMonologueIndex: lines.length - 1 });
+                lines.forEach(appendMonologueLine);
                 showChoices(); return;
             }
             var state = EndingState.getEnding();
             var index = Math.min(Number(state.abMonologueIndex || 0), lines.length - 1);
-            text.textContent = lines[index];
+            for (var i = 0; i <= index; i += 1) appendMonologueLine(lines[i]);
             hint.classList.remove('hidden');
             choices.replaceChildren();
         }
 
-        box.addEventListener('click', function () {
+        function appendMonologueLine(value) {
+            var line = document.createElement('p');
+            line.className = 'ending-monologue-line';
+            line.textContent = value;
+            text.appendChild(line);
+        }
+
+        function fadeOutThen(callback) {
+            overlay.classList.add('leaving');
+            setTimeout(function () {
+                overlay.classList.remove('active', 'leaving');
+                if (callback) callback();
+            }, 1150);
+        }
+
+        function advanceMonologue() {
             if (choices.children.length) return;
             var state = EndingState.getEnding();
             var index = Math.min(Number(state.abMonologueIndex || 0), lines.length - 1);
             if (index < lines.length - 1) {
-                index += 1; EndingState.updateEnding({ abMonologueIndex: index }); text.textContent = lines[index];
+                index += 1; EndingState.updateEnding({ abMonologueIndex: index }); appendMonologueLine(lines[index]);
             } else {
                 showChoices();
+            }
+        }
+        box.addEventListener('click', advanceMonologue);
+        document.addEventListener('keydown', function (event) {
+            if (event.code === 'Space' && overlay.classList.contains('active') && !choices.children.length) {
+                event.preventDefault();
+                advanceMonologue();
             }
         });
 
         if (params.get('ending') === 'choice' && ending.chenLatestUnlocked) {
             showMonologue(true);
         } else if (params.get('ending') === '1' && ending.chenLatestUnlocked && !ending.choiceABSelected) {
-            setTimeout(function () { showMonologue(false); }, 5000);
+            setTimeout(function () { showMonologue(false); }, 10000);
         }
     })();
 </script>

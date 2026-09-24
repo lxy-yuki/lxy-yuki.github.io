@@ -146,6 +146,20 @@
             font-size: 19px;
             cursor: pointer;
         }
+        .settlement-overlay {
+            position: fixed; inset: 0; z-index: 9999; display: none; align-items: center; justify-content: center;
+            padding: 22px; background: rgba(37,48,56,.48); backdrop-filter: blur(3px);
+        }
+        .settlement-overlay.active { display: flex; }
+        .settlement-modal {
+            width: min(560px,90vw); padding: 38px 40px 30px; border: 3px solid #ff9900; border-radius: 25px;
+            color: #815416; background: linear-gradient(180deg,#fff0d3,#ffd69a); box-shadow: 0 24px 70px rgba(108,66,9,.3);
+            text-align: center; animation: settlementIn .32s ease;
+        }
+        .settlement-modal::before { content:"麦英基金会 · 调查结算"; display:block; margin-bottom:17px; color:#dd8307; font-size:13px; font-weight:700; letter-spacing:.12em; }
+        .settlement-modal p { margin:0; font-size:18px; line-height:1.9; }
+        .settlement-confirm { margin-top:25px; padding:11px 37px; border:0; border-radius:24px; color:#fff; background:#ff9900; font:16px "Microsoft YaHei",sans-serif; cursor:pointer; }
+        @keyframes settlementIn { from { opacity:0;transform:translateY(15px) scale(.95); } to { opacity:1;transform:none; } }
     </style>
 </head>
 <body>
@@ -176,6 +190,13 @@
         <div class="btn-zone">
             <button class="search-history-btn" id="historyBtn">搜索历史</button>
             <button class="end-survey-btn" id="endBtn">调查结束</button>
+        </div>
+    </div>
+
+    <div class="settlement-overlay" id="settlementOverlay">
+        <div class="settlement-modal">
+            <p>接下来进入调查结算环节，为了您的游玩体验，请尽量一次性体现余下全部流程。</p>
+            <button class="settlement-confirm" id="settlementConfirm" type="button">我已知晓</button>
         </div>
     </div>
 
@@ -371,11 +392,14 @@
         // 调查结束按钮：弹窗（原逻辑不变）
         document.getElementById('endBtn').addEventListener('click', () => {
             if (window.EndingState && EndingState.hasEndingAccess()) {
-                EndingState.updateEnding({ endingStarted: true, endingChatPhase: "initial" });
-                window.location.href = "ending-chat.html";
+                EndingState.resetEnding();
+                document.getElementById('settlementOverlay').classList.add('active');
                 return;
             }
             alert("亲爱的调查员，你还有很多工作要做，还不能休息哦");
+        });
+        document.getElementById('settlementConfirm').addEventListener('click', () => {
+            window.location.href = "ending-chat.html";
         });
     </script>
 </body>

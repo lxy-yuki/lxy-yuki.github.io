@@ -161,7 +161,20 @@
             color: #8B6B3D;
             font-weight: 500;
             margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
+        .update-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ef3434;
+            box-shadow: 0 0 0 4px rgba(239,52,52,.13), 0 0 12px rgba(239,52,52,.65);
+            animation: updatePulse 1.15s ease-in-out infinite alternate;
+        }
+        @keyframes updatePulse { to { transform: scale(1.22); } }
 
         .follow-item-desc {
             font-size: 12px;
@@ -282,7 +295,9 @@
         </div>
     </div>
 
+    <script src="ending-state.js"></script>
     <script>
+        EndingState.markClue("14");
         // ========== 0. 关键词规范化 ==========
         // 去除所有空白字符（空格、Tab、换行等）及所有标点符号，并统一转为小写
         // 若还想忽略数学符号等，可将 \p{P} 改为 [\p{P}\p{S}]
@@ -371,8 +386,20 @@
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
 
-        // ========== 2. 使用内存变量存储搜索历史（页面关闭自动清空） ==========
-        let historyList = [];
+        // ========== 2. 使用 localStorage 持久保存关注列表 ==========
+        const FOLLOW_HISTORY_KEY = 'maiying.xingren.followHistory.v1';
+        function loadHistoryList() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(FOLLOW_HISTORY_KEY) || '[]');
+                return Array.isArray(saved) ? saved : [];
+            } catch (e) {
+                return [];
+            }
+        }
+        function saveHistoryList() {
+            try { localStorage.setItem(FOLLOW_HISTORY_KEY, JSON.stringify(historyList)); } catch (e) { /* 忽略 */ }
+        }
+        let historyList = loadHistoryList();
 
         // ========== 3. 渲染右侧列表 ==========
         function renderHistoryList() {
@@ -383,15 +410,22 @@
                 return;
             }
 
+            const endingState = window.EndingState ? EndingState.getEnding() : {};
             historyList.forEach(item => {
                 const itemEl = document.createElement('a');
                 itemEl.className = 'follow-item';
-                itemEl.href = item.url;
-                itemEl.target = '_blank';
+                const isChenUpdate = item.name === '陈树' && endingState.chenUpdateUnread;
+                itemEl.href = isChenUpdate ? 'socialaccount1.html?ending=1' : item.url;
+                itemEl.target = isChenUpdate ? '_self' : '_blank';
                 itemEl.innerHTML = `
-                    <div class="follow-item-name">${item.name}</div>
+                    <div class="follow-item-name">${item.name}${isChenUpdate ? '<span class="update-dot" title="有新动态"></span>' : ''}</div>
                     <div class="follow-item-desc">${item.desc}</div>
                 `;
+                if (isChenUpdate) {
+                    itemEl.addEventListener('click', function () {
+                        EndingState.updateEnding({ chenUpdateUnread: false });
+                    });
+                }
                 listContainer.appendChild(itemEl);
             });
         }
@@ -417,6 +451,7 @@
             // 去重后插入到最前面
             historyList = historyList.filter(item => item.url !== matchedItem.url);
             historyList.unshift(matchedItem);
+            saveHistoryList();
             renderHistoryList();
 
             window.open(matchedItem.url, '_blank');
@@ -437,11 +472,19 @@
             }
             if (confirm('确定要清空所有搜索历史记录吗？此操作不可恢复。')) {
                 historyList = [];
+                saveHistoryList();
                 renderHistoryList();
             }
         });
 
         // ========== 6. 页面初始化 ==========
+        if (new URLSearchParams(window.location.search).get('endingUpdate') === '1') {
+            const chen = keywordMap[normalizeKeyword('陈树')];
+            if (chen && !historyList.some(item => item.url === chen.url)) {
+                historyList.unshift({ ...chen });
+                saveHistoryList();
+            }
+        }
         renderHistoryList();
 
         // ========== 7. 首次打开提示弹窗 ==========
@@ -475,6 +518,5 @@
             markNoticeShown();
         });
     </script>
-<script src="ending-state.js"></script><script>EndingState.markClue("14");</script>
 </body>
 </html>

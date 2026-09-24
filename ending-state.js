@@ -58,18 +58,30 @@
         }
     }
 
-    function getEnding() {
-        var data = parse(ENDING_KEY, {});
-        return Object.assign({
+    function defaultEnding() {
+        return {
             endingStarted: false,
             chenLatestUnlocked: false,
+            chenUpdateUnread: false,
             choiceABSelected: "",
             zhouChatUnlocked: false,
             zhouChatComplete: false,
             optionCSeen: false,
             optionDSeen: false,
-            endingChatPhase: "initial"
-        }, data);
+            endingChatPhase: "initial",
+            initialChatIndex: 0,
+            initialQuizPassed: false,
+            aChatIndex: 0,
+            cReturnChatIndex: 0,
+            abMonologueIndex: 0,
+            thoughtIndex: 0,
+            finalDialogueComplete: false
+        };
+    }
+
+    function getEnding() {
+        var data = parse(ENDING_KEY, {});
+        return Object.assign(defaultEnding(), data);
     }
 
     function saveEnding(data) {
@@ -79,6 +91,10 @@
 
     function updateEnding(patch) {
         return saveEnding(Object.assign(getEnding(), patch || {}));
+    }
+
+    function resetEnding() {
+        return saveEnding(Object.assign(defaultEnding(), { endingStarted: true }));
     }
 
     function hasEndingAccess() {
@@ -98,6 +114,7 @@
         getEnding: getEnding,
         saveEnding: saveEnding,
         updateEnding: updateEnding,
+        resetEnding: resetEnding,
         hasEndingAccess: hasEndingAccess
     };
 

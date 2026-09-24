@@ -4,7 +4,7 @@
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>深夜抵达｜泊然海洋馆</title><link rel="stylesheet" href="ending-ocean.css">
 </head>
-<body class="ending-ocean">
+<body class="ending-ocean ending-aquarium">
     <main class="ending-scene">
         <div class="ending-kicker">B CITY · BINHAI ROAD 88 · 00:47</div>
         <div class="story-lines" id="story"></div><div class="continue-hint" id="hint">点击页面继续</div><div class="ending-actions" id="actions" hidden></div>
@@ -19,10 +19,11 @@
                 '你有了一个大胆的想法'
             ];
             var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),index=0,choicesShown=false;
-            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);p.scrollIntoView({behavior:'smooth',block:'center'})}
-            function showChoices(){if(choicesShown)return;choicesShown=true;hint.hidden=true;actions.hidden=false;var c=document.createElement('button'),d=document.createElement('button');c.className=d.className='choice-button';c.textContent='我会成为诱饵。';d.textContent='我真的要好奇心这么重吗……要不然还是报警吧！';c.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({optionCSeen:true});location.href='ending-c.html'});d.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({optionDSeen:true});location.href='ending-e.html'});actions.append(c,d)}
+            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);story.scrollTo({top:story.scrollHeight,behavior:'smooth'})}
+            function showChoices(){if(choicesShown)return;choicesShown=true;hint.hidden=true;actions.hidden=false;actions.classList.add('choice-modal');var c=document.createElement('button'),d=document.createElement('button');c.className=d.className='choice-button';c.textContent='我会成为诱饵。';d.textContent='我真的要好奇心这么重吗……要不然还是报警吧！';c.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({optionCSeen:true});location.href='ending-c.html'});d.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({optionDSeen:true});location.href='ending-e.html'});actions.append(c,d)}
             if(new URLSearchParams(location.search).get('choice')==='1'){index=lines.length;showChoices()}else setTimeout(function(){add(lines[index++])},350);
-            document.body.addEventListener('click',function(e){if(e.target.closest('button'))return;if(index<lines.length)add(lines[index++]);else showChoices()});
+            function advance(e){if(e&&e.target&&e.target.closest('button'))return;if(index<lines.length)add(lines[index++]);else showChoices()}
+            document.body.addEventListener('click',advance);document.addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();advance()}});
         })();
     </script>
 </body>

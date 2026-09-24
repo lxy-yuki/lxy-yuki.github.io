@@ -2,11 +2,12 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>结局｜退缩</title><link rel="stylesheet" href="ending-ocean.css">
+    <title>结局-现实主义者</title><link rel="stylesheet" href="ending-ocean.css">
 </head>
-<body class="ending-ocean">
-    <main class="ending-scene"><div class="ending-kicker">ENDING D · THE ROAD NOT TAKEN</div><div class="story-lines" id="story"></div><div class="continue-hint" id="hint">点击页面继续</div><div class="ending-actions" id="actions" hidden></div></main>
+<body class="ending-ocean ending-result-d" data-ending-fish="D">
+    <main class="ending-scene"><div class="ending-kicker">现实主义者</div><div class="story-lines" id="story"></div><div class="continue-hint" id="hint">点击页面继续</div><div class="ending-actions" id="actions" hidden></div></main>
     <script src="ending-state.js"></script>
+    <script src="ending-fish.js"></script>
     <script>
         (function(){
             var lines=[
@@ -15,9 +16,10 @@
                 '再次关注到泊然海洋馆是一年以后。在一些员工的努力众筹下，一些海洋生物被移交给有关部门及海洋生物救助机构。最终，一家全国连锁动物园以很低的价格获得了泊然海洋馆的所有权利。重新开业后，海洋馆仍然保留有动物表演，有些人反对，但仍有参观者前来观看。你明白，生活不是只由理想主义支撑，但有些时候，你也会感到惋惜。如果当时你更勇敢点，是不是结局会有所不同。'
             ];
             var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),i=0,done=false;
-            function add(v){var p=document.createElement('p');p.className='story-line';p.textContent=v;story.appendChild(p);p.scrollIntoView({behavior:'smooth',block:'center'})}
-            function button(){if(done)return;done=true;hint.hidden=true;actions.hidden=false;var state=EndingState.getEnding(),b=document.createElement('button');b.className='ending-button';b.textContent=state.optionCSeen?'好像还存在另一条时间线':'我也许可以再勇敢一点';b.addEventListener('click',function(e){e.stopPropagation();if(state.optionCSeen){EndingState.updateEnding({choiceABSelected:'',endingChatPhase:'awaitingChoice'});location.href='socialaccount1.html?ending=choice'}else location.href='ending-b.html?choice=1'});actions.appendChild(b)}
-            setTimeout(function(){add(lines[i++])},350);document.body.addEventListener('click',function(e){if(e.target.closest('button'))return;if(i<lines.length)add(lines[i++]);else button()});
+            function add(v){var p=document.createElement('p');p.className='story-line';p.textContent=v;story.appendChild(p);story.scrollTo({top:story.scrollHeight,behavior:'smooth'})}
+            function button(){if(done)return;done=true;hint.hidden=true;var state=EndingState.getEnding();if(state.optionCSeen){actions.hidden=true;return}actions.hidden=false;var b=document.createElement('button');b.className='ending-button';b.textContent='我也许可以再勇敢一点';b.addEventListener('click',function(e){e.stopPropagation();location.href='ending-b.html?choice=1'});actions.appendChild(b)}
+            function advance(e){if((e&&e.target&&e.target.closest('button'))||document.body.classList.contains('fish-intro-active'))return;if(i<lines.length)add(lines[i++]);else button()}
+            function begin(){setTimeout(function(){add(lines[i++])},250)}if(document.body.classList.contains('fish-intro-active'))window.addEventListener('fishIntroComplete',begin,{once:true});else begin();document.body.addEventListener('click',advance);document.addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();advance()}});
         })();
     </script>
 </body>

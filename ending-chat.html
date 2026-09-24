@@ -29,14 +29,15 @@
         .back-icon { width: 47px; height: 47px; flex: 0 0 47px; display: grid; place-items: center; border-radius: 50%; color: #d9d9d9; background: #fff; font: 38px/1 Arial,sans-serif; }
         .chat-page { flex: 1; min-width: 0; min-height: 100vh; padding: clamp(28px,5vw,64px); display: grid; place-items: center; background: radial-gradient(circle at 80% 10%,#edf7fb,transparent 30rem),#fff; }
         .chat-shell { width: min(890px,100%); height: min(760px,calc(100vh - 70px)); min-height: 570px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 24px; background: #fff; box-shadow: 0 24px 68px rgba(27,73,99,.17); }
-        .chat-head { padding: 20px 24px; display: flex; align-items: center; gap: 14px; color: #fff; background: linear-gradient(120deg,var(--blue),var(--blue-deep)); }
+        .chat-head { padding: 20px 24px; display: flex; align-items: center; gap: 14px; color: #fff; background: linear-gradient(120deg,#ffb541,#ed8f0d); }
         .checker-avatar { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.2); font-weight: 700; }
         .chat-name { font-size: 18px; font-weight: 700; }
-        .chat-status { font-size: 12px; color: #cfeafa; }
-        .case-label { margin-left: auto; color: rgba(255,255,255,.65); font: 11px Consolas,monospace; }
+        .chat-status { font-size: 12px; color: #fff2d7; }
         .messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 13px; background: var(--panel); }
         .row { display: flex; }
         .row.me { justify-content: flex-end; }
+        .chat-divider { display:flex;align-items:center;gap:12px;margin:18px 0;color:#9eabb1;font-size:11px;letter-spacing:.12em; }
+        .chat-divider::before,.chat-divider::after{content:"";height:1px;flex:1;background:#d7e0e4;}
         .bubble { max-width: 76%; padding: 12px 16px; border-radius: 16px; font-size: 15px; line-height: 1.7; box-shadow: 0 3px 9px rgba(32,61,77,.06); }
         .row.them .bubble { color: #3d5663; background: #fff; border-top-left-radius: 4px; }
         .row.me .bubble { color: #fff; background: linear-gradient(135deg,#ffb445,#f39a15); border-top-right-radius: 4px; }
@@ -51,9 +52,21 @@
         .update-notice { margin: 4px auto 10px; width: min(590px,94%); padding: 17px 20px; border: 1px solid #efc880; border-radius: 12px; color: #805516; background: #fff4dc; text-align: center; cursor: pointer; box-shadow: 0 9px 23px rgba(190,125,22,.13); animation: notice-pulse 2.2s infinite; }
         .update-notice strong { display: block; color: #d27b00; }
         @keyframes notice-pulse{50%{transform:translateY(-2px);box-shadow:0 13px 30px rgba(190,125,22,.22)}}
-        .thought { margin: 3px auto 10px; width: min(680px,96%); padding: 20px 22px; border: 1px solid #9cc9dc; border-radius: 9px; color: #245970; background: #eaf7fc; font-size: 15px; line-height: 1.8; cursor: pointer; }
+        .thought {
+            position:fixed;inset:0;z-index:1500;width:100%;margin:0;padding:clamp(36px,9vw,130px);
+            display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;color:#fff;
+            background:linear-gradient(rgba(0,30,95,.34),rgba(0,16,60,.72)),url('image/os1.jpg') center/cover no-repeat;
+            font-size:clamp(16px,2vw,23px);line-height:1.8;letter-spacing:.035em;text-shadow:0 3px 18px rgba(0,0,0,.55);cursor:pointer;
+            opacity:0;transition:opacity 1.15s ease;
+        }
+        .thought.visible{opacity:1}.thought.fading{opacity:0;pointer-events:none}
+        .thought p{width:min(940px,94vw);margin:0;opacity:0;transform:translateY(10px);animation:thoughtIn .7s ease forwards;}
+        @keyframes thoughtIn{to{opacity:1;transform:translateY(0)}}
+        .quiz-row { align-self:center; width:min(520px,96%); display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:7px 0; }
+        .quiz-option { padding:12px 8px; border:1px solid #efb652; border-radius:18px; color:#9b5d08; background:#fff8e9; font:600 14px "Microsoft YaHei",sans-serif; cursor:pointer; }
+        .quiz-option:hover { color:#fff; background:#f2a11f; }
         .hidden { display: none !important; }
-        @media(max-width:850px){body{display:block}.sidebar{width:100%;min-height:auto;height:112px;padding:14px 18px;flex-direction:row;justify-content:space-between}.visitor{flex-direction:row}.avatar{width:58px;height:58px}.avatar svg{width:37px;height:37px}.back-button{width:auto;min-height:54px;margin:0;padding:7px 15px;font-size:16px}.back-icon{width:38px;height:38px;flex-basis:38px;font-size:30px}.chat-page{min-height:calc(100vh - 112px);padding:16px}.chat-shell{height:calc(100vh - 144px);min-height:540px;border-radius:16px}.case-label{display:none}.bubble{max-width:87%;font-size:14px}}
+        @media(max-width:850px){body{display:block}.sidebar{width:100%;min-height:auto;height:112px;padding:14px 18px;flex-direction:row;justify-content:space-between}.visitor{flex-direction:row}.avatar{width:58px;height:58px}.avatar svg{width:37px;height:37px}.back-button{width:auto;min-height:54px;margin:0;padding:7px 15px;font-size:16px}.back-icon{width:38px;height:38px;flex-basis:38px;font-size:30px}.chat-page{min-height:calc(100vh - 112px);padding:16px}.chat-shell{height:calc(100vh - 144px);min-height:540px;border-radius:16px}.bubble{max-width:87%;font-size:14px}}
     </style>
 </head>
 <body>
@@ -63,9 +76,9 @@
     </aside>
     <main class="chat-page">
         <section class="chat-shell">
-            <header class="chat-head"><div class="checker-avatar">验</div><div><div class="chat-name">调查验收员</div><div class="chat-status">● 在线 · 正在验收调查结果</div></div><div class="case-label">MYF REVIEW CHANNEL</div></header>
+            <header class="chat-head"><div class="checker-avatar">验</div><div><div class="chat-name">调查验收员</div><div class="chat-status">● 在线 · 正在验收调查结果</div></div></header>
             <div class="messages" id="messages"></div>
-            <div class="update-notice hidden" id="updateNotice"><strong>新动态提醒</strong>您搜索过的好友陈树的杏仁网账号更新了一条帖子</div>
+            <div class="update-notice hidden" id="updateNotice"><strong>新动态提醒</strong>您关注过的杏仁网好友更新了一条帖子</div>
             <div class="thought hidden" id="thoughtBox"></div>
             <div class="chat-input" id="chatInput"><span class="input-pill" id="inputText">点击此处继续对话……</span><span class="send-icon">➤</span></div>
         </section>
@@ -83,9 +96,10 @@
             var busy = false;
 
             var initialMessages = [
+                ["them","您好，已收到您的调查结束申请，在得到您针对泊然海洋馆的收购建议之前，我想先验收您的调查结果。"],
                 ["me","好的。"],
                 ["them","那么，问题一，我们事先已经知道了海洋馆存在一些杀人事件。在此次调查中，得到证据支撑的他杀事件一共有几起？"],
-                ["me","正确选项3起"],
+                ["me","三起"],
                 ["them","没问题。查看您的调查记录，我已经确认这三起他杀事件确实无误。"],
                 ["them","接下来是问题二。针对于有不少讨论的贾剑明一伙黑恶势力落网一案，你认为在这其中，自杀的安永德是否有参与到贾剑明的犯罪行为中？"],
                 ["me","从主观意图上，我主张没有。"],
@@ -95,10 +109,9 @@
                 ["them","您似乎收到了一条新消息。请您查看一下，我们再继续验收吧。"]
             ];
             var initialGroups = [
-                {me:"好的。",them:[initialMessages[1][1]]},
-                {me:"正确选项3起",them:[initialMessages[3][1],initialMessages[4][1]]},
-                {me:"从主观意图上，我主张没有。",them:[initialMessages[6][1]]},
-                {me:"我认为……",them:[initialMessages[8][1],initialMessages[9][1]]}
+                {me:"好的。",them:[initialMessages[2][1]]},
+                {me:"从主观意图上，我主张没有。",them:[initialMessages[7][1]]},
+                {me:"我认为……",them:[initialMessages[9][1],initialMessages[10][1]]}
             ];
             var aGroups = [
                 {me:"……对。",them:["那让我们回到最后的问题。您认为泊然海洋馆还有存在的必要吗？"]},
@@ -109,12 +122,24 @@
                 {me:"没问题。",them:["那让我们回到最后的问题。您认为泊然海洋馆还有存在的必要吗？"]},
                 {me:"我认为……",them:[]}
             ];
+            var thoughtParts = [
+                "我知道海洋馆里发生了很多惨剧。",
+                "我知道大人的贪念将它变成了一间人间炼狱。",
+                "但我同样也知道，有很多人在这里实现了梦想，有很多人在这里得到了安慰。",
+                "海洋馆只是一个载体。",
+                "它的形象由这里的人决定。",
+                "安伯然，安永德，赵雨虹，李挚圆，刘真，张智，周伟，陈树，还有那些孩子……海洋馆被很多人赋予了意义，也对很多人产生了意义。",
+                "即使是如今，还有很多人正在为它做出努力。",
+                "如果能够更好地建设和利用这里，也许能帮助这里还留存的动物们，也能让海洋馆本身回归它本来的位置。",
+                "我知道让泊然海洋馆摆脱旧日的阴影是件很不容易的事。但在此刻，请让我做一个理想主义者……"
+            ];
 
             function addBubble(text, side) {
                 var row = document.createElement("div"); row.className = "row " + side;
                 var bubble = document.createElement("div"); bubble.className = "bubble"; bubble.textContent = text;
                 row.appendChild(bubble); messages.appendChild(row); messages.scrollTop = messages.scrollHeight;
             }
+            function addDivider(label){var divider=document.createElement('div');divider.className='chat-divider';divider.textContent=label;messages.appendChild(divider);messages.scrollTop=messages.scrollHeight}
             function addTyping() {
                 var row = document.createElement("div"); row.id="typingRow"; row.className="row them";
                 row.innerHTML='<div class="bubble typing"><i></i><i></i><i></i></div>'; messages.appendChild(row); messages.scrollTop=messages.scrollHeight;
@@ -124,6 +149,31 @@
             function progressKey(){return phase === "A" ? "aChatIndex" : phase === "Creturn" ? "cReturnChatIndex" : "initialChatIndex"}
             function groups(){return phase === "A" ? aGroups : phase === "Creturn" ? cGroups : initialGroups}
             function renderCompleted(gs,count){for(var i=0;i<count;i++){addBubble(gs[i].me,"me");gs[i].them.forEach(function(t){addBubble(t,"them")})}}
+
+            function showQuiz() {
+                if (document.getElementById('murderQuiz')) return;
+                input.classList.add('disabled'); inputText.textContent='请先选择答案';
+                var quiz=document.createElement('div');quiz.id='murderQuiz';quiz.className='quiz-row';
+                ['三起','四起','五起'].forEach(function(answer){var button=document.createElement('button');button.className='quiz-option';button.textContent=answer;button.addEventListener('click',function(){answerQuiz(answer,quiz)});quiz.appendChild(button)});
+                messages.appendChild(quiz);messages.scrollTop=messages.scrollHeight;
+            }
+
+            function answerQuiz(answer, quiz) {
+                if (busy) return;
+                busy=true;quiz.remove();addBubble(answer,'me');setTimeout(addTyping,180);
+                setTimeout(function(){
+                    removeTyping();
+                    if(answer!=='三起'){
+                        addBubble('看来你调查的不仔细呢，再好好想想吧','them');busy=false;showQuiz();return;
+                    }
+                    addBubble(initialMessages[4][1],'them');
+                    setTimeout(function(){
+                        addBubble(initialMessages[5][1],'them');
+                        ending=EndingState.updateEnding({initialQuizPassed:true});
+                        input.classList.remove('disabled');inputText.textContent='点击此处继续对话……';busy=false;
+                    },380);
+                },1000);
+            }
 
             function completePhase() {
                 input.classList.remove("disabled");
@@ -139,10 +189,20 @@
             function initialize() {
                 var gs = groups(); var index = Number(ending[progressKey()] || 0);
                 if (phase !== "initial") renderAll(initialMessages);
-                if (phase === "A") addBubble("看来您已经准备好了。","them");
-                if (phase === "Creturn") addBubble("您离开了很久呢。我了解到您刚刚有一次报警记录，是发生什么事了吗？","them");
-                renderCompleted(gs,Math.min(index,gs.length));
-                if (index >= gs.length) completePhase();
+                if (phase === "A") { addDivider("调查员上线了"); addBubble("看来您已经准备好了。","them"); }
+                if (phase === "Creturn") { addDivider("调查员上线了"); addBubble("您离开了很久呢。我了解到您刚刚有一次报警记录，是发生什么事了吗？","them"); }
+                if(phase==="initial"){
+                    addBubble(initialMessages[0][1],'them');
+                    if(index>=1){addBubble(initialGroups[0].me,'me');initialGroups[0].them.forEach(function(t){addBubble(t,'them')})}
+                    if(ending.initialQuizPassed){
+                        addBubble(initialMessages[3][1],'me');addBubble(initialMessages[4][1],'them');addBubble(initialMessages[5][1],'them');
+                        if(index>=2){addBubble(initialGroups[1].me,'me');initialGroups[1].them.forEach(function(t){addBubble(t,'them')})}
+                        if(index>=3){addBubble(initialGroups[2].me,'me');initialGroups[2].them.forEach(function(t){addBubble(t,'them')})}
+                    }else if(index>=1){showQuiz()}
+                }else{
+                    renderCompleted(gs,Math.min(index,gs.length));
+                }
+                if (phase==='initial' ? (ending.initialQuizPassed && index>=gs.length) : index >= gs.length) completePhase();
             }
 
             function playGroup() {
@@ -158,21 +218,25 @@
                     setTimeout(function(){removeTyping();var items=gs[index].them.slice();var pos=0;function next(){if(pos<items.length){addBubble(items[pos++],"them");setTimeout(next,380)}else finishGroup(index,key,gs)}next()},1000);
                 }
             }
-            function finishGroup(index,key,gs){var patch={};patch[key]=index+1;ending=EndingState.updateEnding(patch);busy=false;if(index+1>=gs.length)completePhase()}
+            function finishGroup(index,key,gs){var patch={};patch[key]=index+1;ending=EndingState.updateEnding(patch);busy=false;if(phase==='initial'&&index===0&&!ending.initialQuizPassed){showQuiz();return}if(index+1>=gs.length)completePhase()}
 
             function showThought(){
-                var e=EndingState.getEnding();var idx=Number(e.thoughtIndex||0);thoughtBox.classList.remove("hidden");
-                thoughtBox.textContent=idx===0?"我知道海洋馆里发生了很多惨剧。我知道大人的贪念将它变成了一间人间炼狱。但我同样也知道，有很多人在这里实现了梦想，有很多人在这里得到了安慰。海洋馆只是一个载体。它的形象由这里的人决定。安伯然，安永德，赵雨虹，李挚圆，刘真，张智，周伟，陈树，还有那些孩子……海洋馆被很多人赋予了意义，也对很多人产生了意义。即使是如今，还有很多人正在为它做出努力。如果能够更好地建设和利用这里，也许能帮助这里还留存的动物们，也能让海洋馆本身回归它本来的位置。":"我知道让泊然海洋馆摆脱旧日的阴影是件很不容易的事。但在此刻，请让我做一个理想主义者……";
+                var e=EndingState.getEnding();var idx=Math.min(Number(e.thoughtIndex||0),thoughtParts.length-1);thoughtBox.classList.remove("hidden");
+                thoughtBox.replaceChildren();for(var i=0;i<=idx;i+=1)appendThought(thoughtParts[i]);
+                requestAnimationFrame(function(){thoughtBox.classList.add('visible')});
             }
-            function startFinalDialogue(){thoughtBox.classList.add("hidden");addBubble("我认为，泊然海洋馆还有必须要存在的理由。","me");setTimeout(addTyping,180);setTimeout(function(){removeTyping();addBubble("好的。我们会将您的调查结果纳入考虑。非常感谢您接受我们的调查邀约。","them");setTimeout(function(){addBubble("后续如果拍卖与收购有进展，我们会通知您。感谢您的付出。祝您生活愉快。","them");input.classList.remove("disabled");inputText.textContent="点击这里进入结局";EndingState.updateEnding({finalDialogueComplete:true})},500)},1000)}
+            function appendThought(value){var p=document.createElement('p');p.textContent=value;thoughtBox.appendChild(p)}
+            function startFinalDialogue(){thoughtBox.classList.remove('visible');thoughtBox.classList.add('fading');setTimeout(function(){thoughtBox.classList.add("hidden");thoughtBox.classList.remove('fading');addDivider('片刻后');addBubble("我认为，泊然海洋馆还有必须要存在的理由。","me");setTimeout(addTyping,180);setTimeout(function(){removeTyping();addBubble("好的。我们会将您的调查结果纳入考虑。非常感谢您接受我们的调查邀约。","them");setTimeout(function(){addBubble("后续如果拍卖与收购有进展，我们会通知您。感谢您的付出。祝您生活愉快。","them");input.classList.remove("disabled");inputText.textContent="点击这里进入结局";EndingState.updateEnding({finalDialogueComplete:true})},500)},1000)},1150)}
 
             input.addEventListener("click",function(){
                 var e=EndingState.getEnding();
                 if(phase==="Creturn"&&e.finalDialogueComplete){location.href="ending-d.html";return}
                 if(!input.classList.contains("disabled"))playGroup();
             });
-            notice.addEventListener("click",function(){EndingState.updateEnding({chenLatestUnlocked:true,endingChatPhase:"awaitingChoice"});location.href="socialaccount1.html?ending=1"});
-            thoughtBox.addEventListener("click",function(){var e=EndingState.getEnding();var idx=Number(e.thoughtIndex||0);if(idx===0){EndingState.updateEnding({thoughtIndex:1});thoughtBox.textContent="我知道让泊然海洋馆摆脱旧日的阴影是件很不容易的事。但在此刻，请让我做一个理想主义者……"}else{EndingState.updateEnding({thoughtIndex:2});startFinalDialogue()}});
+            notice.addEventListener("click",function(){EndingState.updateEnding({chenLatestUnlocked:true,chenUpdateUnread:true,endingChatPhase:"awaitingChoice"});location.href="xingrenwang.html?endingUpdate=1"});
+            function advanceThought(){var e=EndingState.getEnding();var idx=Math.min(Number(e.thoughtIndex||0),thoughtParts.length-1);if(idx<thoughtParts.length-1){idx+=1;EndingState.updateEnding({thoughtIndex:idx});appendThought(thoughtParts[idx])}else{EndingState.updateEnding({thoughtIndex:thoughtParts.length});startFinalDialogue()}}
+            thoughtBox.addEventListener("click",advanceThought);
+            document.addEventListener('keydown',function(e){if(e.code==='Space'&&!thoughtBox.classList.contains('hidden')){e.preventDefault();advanceThought()}});
             document.getElementById("blockedBack").addEventListener("click",function(){this.animate([{transform:"translateX(0)"},{transform:"translateX(-5px)"},{transform:"translateX(5px)"},{transform:"translateX(0)"}],{duration:260})});
             initialize();
         })();

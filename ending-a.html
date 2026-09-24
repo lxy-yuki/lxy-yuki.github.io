@@ -2,23 +2,26 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>结局｜无人接收的不良资产</title><link rel="stylesheet" href="ending-ocean.css">
+    <title>结局-无人接收</title><link rel="stylesheet" href="ending-ocean.css">
 </head>
-<body class="ending-ocean">
+<body class="ending-ocean ending-result-a" data-ending-fish="A">
     <main class="ending-scene" id="scene">
-        <div class="ending-kicker">ENDING A · CLOSED FILE</div>
+        <div class="ending-kicker">无人接收</div>
         <div class="story-lines" id="story"></div>
         <div class="continue-hint" id="hint">点击页面继续</div>
         <div class="ending-actions" id="actions" hidden></div>
     </main>
     <script src="ending-state.js"></script>
+    <script src="ending-fish.js"></script>
     <script>
         (function(){
             var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),shown=false;
             var text='在那之后，你回归了平凡的日常生活。你再也无法登录那个橙色的基金会网站。那一切好像一场梦一样。你刻意不去查看海洋馆相关的新闻，你认为你做了对的事，但这种正确仍然让人无法面对。再次关注到泊然海洋馆是一年以后。在一些员工的努力众筹下，一些海洋生物被移交给有关部门及海洋生物救助机构。由于没有人接收这一不良资产，海洋馆彻底荒废。你有时会想起那个小女孩。也许她已经走出那凝聚着大人们善与恶的世界，也许，她还在那里。';
-            function line(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p)}
-            setTimeout(function(){line(text)},350);
-            document.body.addEventListener('click',function(){if(shown)return;shown=true;hint.hidden=true;actions.hidden=false;var b=document.createElement('button');b.className='ending-button';b.textContent='我想重新做出选择';b.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({choiceABSelected:'',endingChatPhase:'awaitingChoice'});location.href='socialaccount1.html?ending=choice'});actions.appendChild(b)});
+            function line(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);story.scrollTop=story.scrollHeight}
+            function begin(){setTimeout(function(){line(text)},250)}
+            if(document.body.classList.contains('fish-intro-active'))window.addEventListener('fishIntroComplete',begin,{once:true});else begin();
+            function advance(){if(shown||document.body.classList.contains('fish-intro-active'))return;shown=true;hint.hidden=true;actions.hidden=false;var b=document.createElement('button');b.className='ending-button';b.textContent='我想重新做出选择';b.addEventListener('click',function(e){e.stopPropagation();EndingState.updateEnding({choiceABSelected:'',endingChatPhase:'awaitingChoice'});location.href='socialaccount1.html?ending=choice'});actions.appendChild(b)}
+            document.body.addEventListener('click',advance);document.addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();advance()}});
         })();
     </script>
 </body>

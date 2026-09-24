@@ -37,10 +37,10 @@ for filename in pages:
 clues = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","19","20","21","22"]
 combined="\n".join(p.read_text(encoding="utf-8",errors="replace") for p in ROOT.glob("*.html"))
 for clue in clues:
-    assert f'data-clue="{clue}"' in combined, clue
+    assert f'markClue("{clue}")' in combined, clue
 for account in ["chenshu","liyuan","liuzhen","zhaoyuhong","zhangzhi","qianweidong","zhouwei"]:
-    assert f'data-account="{account}"' in combined, account
-assert 'data-clue="18"' not in combined
+    assert f'markAccount("{account}")' in combined, account
+assert 'markClue("18")' not in combined
 
 state=(ROOT/"ending-state.js").read_text(encoding="utf-8")
 assert all(f'"{x}"' in state for x in clues)

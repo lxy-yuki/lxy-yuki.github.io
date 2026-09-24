@@ -4,7 +4,7 @@
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>训练水池｜诱饵</title><link rel="stylesheet" href="ending-ocean.css">
 </head>
-<body class="ending-ocean">
+<body class="ending-ocean ending-aquarium">
     <main class="ending-scene">
         <div class="ending-kicker">TRAINING POOL · RESTRICTED AREA</div>
         <div class="story-lines" id="story"></div><div class="continue-hint" id="hint">点击页面继续</div><div class="ending-actions" id="actions" hidden></div>
@@ -17,11 +17,12 @@
                 '水池对面，有个橙色的影子一闪而过。你屏住呼吸，等待着。','踩进水坑的声音。靠近些。','投到身上的影子。再靠近些。','衣物摩擦的声音。还差一点。','推到背后的，温热的细小指尖！就是现在！','你猛地闪躲了一下，随即使劲抓住了那双手。','你叫出了她的名字。'
             ];
             var after=['手电筒摔在地上，灯光向上，她无所遁形。你抓住了她。你看到了她。','她的救生衣脏了旧了。她比起同龄人过于瘦小。她的苹果头散了，花朵头绳太过松散地在一缕头发上挂着。','除此之外……','她只是一个普通的女孩。一个惊恐的，无知的，无所适从的，被成人的世界教导又被成人的世界遗弃了的女孩。'];
-            var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),index=0,postIndex=0,stage='before';
-            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);p.scrollIntoView({behavior:'smooth',block:'center'})}
-            function showShout(){stage='shout';hint.hidden=true;actions.hidden=false;var b=document.createElement('button');b.className='shout-button';b.textContent='陈苹！';b.addEventListener('click',function(e){e.stopPropagation();actions.hidden=true;actions.replaceChildren();hint.hidden=false;stage='after';add(after[postIndex++])});actions.appendChild(b)}
+            var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),index=0,postIndex=0,stage='before',transitioning=false;
+            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);story.scrollTo({top:story.scrollHeight,behavior:'smooth'})}
+            function showShout(){stage='shout';hint.hidden=true;actions.hidden=false;actions.classList.add('shout-overlay');var b=document.createElement('button');b.className='shout-button';b.textContent='陈苹！';b.addEventListener('click',function(e){e.stopPropagation();actions.classList.remove('shout-overlay');actions.hidden=true;actions.replaceChildren();hint.hidden=false;stage='after';add(after[postIndex++])});actions.appendChild(b)}
             setTimeout(function(){add(before[index++])},350);
-            document.body.addEventListener('click',function(e){if(e.target.closest('button'))return;if(stage==='before'){if(index<before.length)add(before[index++]);else showShout()}else if(stage==='after'){if(postIndex<after.length)add(after[postIndex++]);else{EndingState.updateEnding({endingChatPhase:'Creturn',cReturnChatIndex:0,thoughtIndex:0,finalDialogueComplete:false});location.href='ending-chat.html'}}});
+            function advance(e){if((e&&e.target&&e.target.closest('button'))||transitioning)return;if(stage==='before'){if(index<before.length)add(before[index++]);else showShout()}else if(stage==='after'){if(postIndex<after.length)add(after[postIndex++]);else{transitioning=true;story.classList.add('fading-out');hint.classList.add('fading-out');setTimeout(function(){EndingState.updateEnding({endingChatPhase:'Creturn',cReturnChatIndex:0,thoughtIndex:0,finalDialogueComplete:false});location.href='ending-chat.html'},1650)}}}
+            document.body.addEventListener('click',advance);document.addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();advance()}});
         })();
     </script>
 </body>
