@@ -74,9 +74,11 @@
             return;
         }
         overlay.classList.add("leaving");
-        document.body.classList.remove("fish-intro-active");
-        window.dispatchEvent(new CustomEvent("fishIntroComplete"));
-        window.setTimeout(function () { overlay.remove(); }, 1000);
+        window.setTimeout(function () {
+            overlay.remove();
+            document.body.classList.remove("fish-intro-active");
+            window.dispatchEvent(new CustomEvent("fishIntroComplete"));
+        }, 950);
     }
     window.requestAnimationFrame(animate);
 })();
