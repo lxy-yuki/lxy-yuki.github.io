@@ -335,6 +335,7 @@
     </div>
 </div>
 
+<script src="password-unlock-state.js"></script>
 <script>
 /* =========================================================
    员工数据
@@ -455,8 +456,19 @@ var STAFF = {
     var overlay = $('lockOverlay');
     var panelBody = $('panelBody');
     var modal = $('unlockModal');
+    var WORK_PANEL_ACCESS = 'work-panel';
+
+    function showUnlockedPanel() {
+        modal.classList.remove('active');
+        overlay.classList.add('hide');
+        panelBody.classList.remove('locked');
+    }
 
     overlay.addEventListener('click', function () {
+        if (PasswordUnlockState.isUnlocked(WORK_PANEL_ACCESS)) {
+            showUnlockedPanel();
+            return;
+        }
         $('unlockInput').value = '';
         $('unlockErr').textContent = '';
         modal.classList.add('active');
@@ -486,15 +498,18 @@ var STAFF = {
             return;
         }
 
-        modal.classList.remove('active');
-        overlay.classList.add('hide');
-        panelBody.classList.remove('locked');
+        PasswordUnlockState.unlock(WORK_PANEL_ACCESS);
+        showUnlockedPanel();
     }
 
     $('unlockBtn').addEventListener('click', doUnlock);
     $('unlockInput').addEventListener('keydown', function (e) {
         if (e.key === 'Enter') doUnlock();
     });
+
+    if (PasswordUnlockState.isUnlocked(WORK_PANEL_ACCESS)) {
+        showUnlockedPanel();
+    }
 
     /* ---------- 关闭页面 ---------- */
     $('closePageBtn').addEventListener('click', function () {

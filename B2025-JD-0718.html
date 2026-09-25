@@ -786,6 +786,7 @@
     </div>
 </div>
 
+<script src="password-unlock-state.js"></script>
 <script>
 (function () {
     'use strict';
@@ -798,11 +799,17 @@
     var errMsg  = document.getElementById('errMsg');
     var locked  = document.getElementById('lockedZone');
     var secret  = document.getElementById('secretZone');
+    var ACCESS_KEY = 'case-report';
 
     /* 记录打开弹窗前页面的滚动位置 */
     var scrollBeforeUnlock = 0;
 
     function openModal() {
+        if (PasswordUnlockState.isUnlocked(ACCESS_KEY)) {
+            locked.hidden = true;
+            secret.hidden = false;
+            return;
+        }
         /* 打开密码框时先记住用户此刻的阅读进度 */
         scrollBeforeUnlock = window.pageYOffset || document.documentElement.scrollTop || 0;
         mask.classList.add('show');
@@ -836,6 +843,7 @@
     function tryUnlock() {
         var v = (input.value || '').trim().toUpperCase();
         if (v === PWD) {
+            PasswordUnlockState.unlock(ACCESS_KEY);
             /* 解锁：隐藏锁面板，展开完整档案（二、三部分），
                但不跳回文档开头——停留在用户解锁时所在的页面位置 */
             locked.hidden = true;
@@ -874,6 +882,11 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && mask.classList.contains('show')) closeModal();
     });
+
+    if (PasswordUnlockState.isUnlocked(ACCESS_KEY)) {
+        locked.hidden = true;
+        secret.hidden = false;
+    }
 
     /* 重新锁定：回到锁定面板所在位置，便于再次验证 */
     document.getElementById('btnRelock').addEventListener('click', function () {

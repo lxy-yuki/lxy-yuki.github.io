@@ -20,7 +20,9 @@ class Scripts(HTMLParser):
 pages = [
     "maiyingfoundation.html", "ending-chat.html", "socialaccount1.html", "labor zhou.html",
     "ending-a.html", "ending-b.html", "ending-c.html", "ending-d.html", "ending-e.html",
-    "foundation-thanks.html",
+    "foundation-thanks.html", "B2025-JD-0718.html", "labor deng.html", "labor chen.html",
+    "socialaccount-lz.html", "socialaccount-yuan2.0.html", "socialaccount-zhangz.html",
+    "socialaccount1-2.html", "socialaccount2.html", "socialaccount3.html",
 ]
 
 for filename in pages:

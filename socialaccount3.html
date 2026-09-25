@@ -1028,6 +1028,7 @@
         </div>
     </div>
 
+    <script src="password-unlock-state.js"></script>
     <script>
         /* ============================================================
            加密文件夹配置（可自由增删 / 修改）
@@ -1077,6 +1078,10 @@
         /* 3. 打开密码弹窗：根据 currentTarget 读取各自不同的提示词 */
         function openPwdModal(target) {
             currentTarget = target;
+            if (PasswordUnlockState.isUnlocked(target)) {
+                switchFileSection(target);
+                return;
+            }
             const cfg = pwdConfig[target] || {};
 
             const titleEl = document.getElementById('pwdTitle');
@@ -1111,6 +1116,7 @@
             const cfg = pwdConfig[currentTarget];
 
             if (cfg && inputVal === cfg.pwd) {
+                PasswordUnlockState.unlock(currentTarget);
                 closePwdModal();
                 switchFileSection(currentTarget);
             } else {

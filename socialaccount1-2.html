@@ -608,6 +608,7 @@
         <img src="images2/chenshu-0.jpg" alt="完整头像" onclick="event.stopPropagation()">
     </div>
 
+    <script src="password-unlock-state.js"></script>
     <script>
         // 加密文件夹密码配置
         const pwdConfig = {
@@ -634,6 +635,10 @@
         // 3. 打开密码弹窗
         function openPwdModal(target) {
             currentTarget = target;
+            if (PasswordUnlockState.isUnlocked(target)) {
+                switchFileSection(target);
+                return;
+            }
             document.getElementById('pwdModal').style.display = 'flex';
             document.getElementById('pwdInput').value = "";
             // 自动聚焦输入框
@@ -651,6 +656,7 @@
             const rightPwd = pwdConfig[currentTarget];
 
             if(inputVal === rightPwd){
+                PasswordUnlockState.unlock(currentTarget);
                 closePwdModal();
                 switchFileSection(currentTarget);
             }else{
