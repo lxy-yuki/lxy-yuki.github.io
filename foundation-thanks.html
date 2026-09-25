@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="麦英基金会调查感谢信">
+  <title>基金会感谢信｜麦英基金会</title>
+  <style>
+    :root {
+      --orange: #ffad32;
+      --orange-deep: #ea8b0c;
+      --orange-pale: #fff1d5;
+      --blue: #737d83;
+      --blue-deep: #424b50;
+      --blue-pale: #f1f3f4;
+      --ink: #303639;
+      --muted: #7c8589;
+      --paper: #fffdf8;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: #fffbf4;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      line-height: 1.85;
+      overflow-x: hidden;
+    }
+    .site-header {
+      min-height: 112px;
+      height: 112px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      overflow: hidden;
+      background: #fffbf4;
+      border-bottom: 1px solid #eceeef;
+      position: relative;
+      z-index: 10;
+    }
+    .brand-area {
+      width: 100%;
+      display: block;
+      padding: 0;
+    }
+    .foundation-logo {
+      display: block;
+      width: min(328px, 72vw);
+      height: auto;
+      object-fit: contain;
+      margin: -35px 0 0 -5px;
+      mix-blend-mode: multiply;
+    }
+    main {
+      width: min(1120px, calc(100% - 32px));
+      min-height: calc(100vh - 145px);
+      margin: 0 auto;
+      padding: 17px 0 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .intro {
+      text-align: center;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .intro small {
+      display: block;
+      color: #767f84;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .22em;
+    }
+    .intro h1 {
+      margin: 6px 0 3px;
+      color: #3e464a;
+      font-size: clamp(25px, 3.6vw, 39px);
+      font-weight: 500;
+      letter-spacing: .06em;
+    }
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .mail-stage {
+      width: 100%;
+      margin-top: 13px;
+      display: grid;
+      place-items: start center;
+      position: relative;
+    }
+    .envelope-button {
+      grid-area: 1 / 1;
+      width: min(590px, 90vw);
+      height: min(365px, 55vw);
+      min-height: 265px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      perspective: 1200px;
+      position: relative;
+      filter: drop-shadow(0 28px 27px rgba(45,50,53,.22));
+      transform-origin: 50% 70%;
+      z-index: 4;
+    }
+    .envelope-button:focus-visible {
+      outline: 4px solid rgba(255,173,50,.55);
+      outline-offset: 12px;
+      border-radius: 18px;
+    }
+    .envelope-back {
+      position: absolute;
+      inset: 7% 0 0;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 84% 16%, rgba(255,173,50,.17), transparent 40%),
+        linear-gradient(145deg, #fff4e7 0%, #f8e6cf 52%, #ead4b9 100%);
+      border: 2px solid rgba(151,116,75,.18);
+      overflow: hidden;
+    }
+    .envelope-back::before {
+      content: "APPRECIATION · MYF";
+      position: absolute;
+      left: 25px;
+      bottom: 18px;
+      color: rgba(101,80,57,.5);
+      font: 11px/1 Consolas, monospace;
+      letter-spacing: .16em;
+    }
+    .envelope-flap {
+      position: absolute;
+      inset: 7% 0 auto;
+      height: 58%;
+      z-index: 6;
+      transform-origin: 50% 0;
+      transform-style: preserve-3d;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background:
+        radial-gradient(circle at 78% 8%, rgba(255,173,50,.2), transparent 36%),
+        linear-gradient(150deg, #fff3e5 0%, #f8e6cf 55%, #eacfab 100%);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      backface-visibility: visible;
+      transition: transform 1s cubic-bezier(.2,.72,.18,1);
+    }
+    .envelope-front-left,
+    .envelope-front-right,
+    .envelope-front-bottom {
+      position: absolute;
+      inset: 7% 0 0;
+      z-index: 7;
+      pointer-events: none;
+    }
+    .envelope-front-left {
+      clip-path: polygon(0 0, 53% 58%, 53% 100%, 0 100%);
+      background:
+        linear-gradient(122deg, #f5dfc4 0%, #f8e6cf 63%, #f0d3ae 100%);
+    }
+    .envelope-front-right {
+      clip-path: polygon(100% 0, 47% 58%, 47% 100%, 100% 100%);
+      background:
+        linear-gradient(238deg, #ecd2b4 0%, #f8e6cf 60%, #f3d8b5 100%);
+    }
+    .envelope-front-bottom {
+      clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+      background:
+        radial-gradient(circle at 50% 122%, rgba(255,173,50,.25), transparent 56%),
+        linear-gradient(150deg, #f2d9bb 0%, #f8e6cf 56%, #edcfaa 100%);
+      border-radius: 0 0 12px 12px;
+    }
+    .envelope-logo {
+      position: absolute;
+      z-index: 9;
+      left: 50%;
+      top: 58%;
+      width: min(164px, 31%);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      padding: 0;
+      overflow: hidden;
+      border: 2px solid rgba(255,173,50,.56);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(94,73,50,.18), 0 0 0 7px rgba(255,255,255,.34);
+      transition: transform .25s ease, box-shadow .25s ease, opacity .45s ease;
+    }
+    .envelope-logo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.04);
+    }
+    .envelope-button:hover .envelope-logo {
+      transform: translate(-50%, -53%) scale(1.025);
+      box-shadow: 0 15px 34px rgba(10,57,87,.3);
+    }
+    .open-hint {
+      margin-top: 14px;
+      max-height: 28px;
+      overflow: hidden;
+      color: #697277;
+      font-size: 13px;
+      letter-spacing: .1em;
+      transition: opacity .3s ease;
+    }
+    .open-hint::before,
+    .open-hint::after {
+      content: "";
+      display: inline-block;
+      width: 34px;
+      height: 1px;
+      margin: 0 12px 4px;
+      background: var(--orange);
+    }
+    .letter-panel {
+      display: none;
+      grid-area: 1 / 1;
+      width: min(850px, 94vw);
+      padding: clamp(30px, 5.5vw, 63px);
+      background: var(--paper);
+      border: 1px solid rgba(81,88,92,.17);
+      box-shadow: 0 28px 72px rgba(48,53,56,.18);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(50px) scale(.97);
+    }
+    .letter-panel::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(255,173,50,.35);
+      pointer-events: none;
+    }
+    .letter-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--orange);
+    }
+    .letter-topline strong {
+      color: #3e464a;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 500;
+      letter-spacing: .08em;
+    }
+    .letter-topline span {
+      color: var(--muted);
+      font: 11px/1.4 Consolas, monospace;
+      letter-spacing: .12em;
+      text-align: right;
+    }
+    .letter-copy { margin-top: 30px; }
+    .letter-copy p { margin: 0 0 19px; font-size: 16px; text-align: justify; }
+    .letter-copy .salutation { font-weight: 700; }
+    .letter-copy b { color: var(--orange-deep); }
+
+    /* === 新增：将“您可能需要知道的其他事项”部分改为小号灰色楷体，并置于同款框中 === */
+    .letter-copy .notice {
+      margin: 29px 0;
+      padding: 19px 21px;
+      border-left: 5px solid var(--orange);
+      background: linear-gradient(90deg, var(--orange-pale), #fff8ec);
+      font-family: "KaiTi", "楷体", "STKaiti", "Microsoft YaHei", sans-serif;
+      color: #888;
+      font-size: 0.875em;
+    }
+    .letter-copy .notice p {
+      margin: 0 0 8px;
+      font-family: inherit;
+      color: inherit;
+      font-size: inherit;
+    }
+    .letter-copy .notice p:last-child {
+      margin-bottom: 0;
+    }
+    .letter-copy .notice strong {
+      color: #888;
+    }
+
+    .access-box {
+      margin: 29px 0;
+      padding: 19px 21px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-left: 5px solid var(--orange);
+      background: linear-gradient(90deg, var(--orange-pale), #fff8ec);
+    }
+    .access-box small { display: block; color: var(--muted); }
+    .access-box code { color: #424b50; font: 14px/1.5 Consolas, monospace; }
+    /* === 已修改：与“收起信件”按钮同款橙色样式 === */
+    .access-link {
+      flex: 0 0 auto;
+      padding: 11px 21px;
+      border: 0;
+      border-radius: 25px;
+      color: #fff;
+      background: linear-gradient(100deg, var(--orange), var(--orange-deep));
+      box-shadow: 0 9px 22px rgba(234,139,12,.26);
+      text-decoration: none;
+      font: 600 14px "Microsoft YaHei", sans-serif;
+      letter-spacing: .08em;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .access-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 27px rgba(234,139,12,.34);
+    }
+    .access-link:focus-visible {
+      outline: 3px solid rgba(23,108,165,.4);
+      outline-offset: 3px;
+    }
+    .keyword {
+      margin: 27px 0;
+      padding: 15px 20px;
+      border: 1px solid #d6dadd;
+      border-radius: 5px;
+      background: var(--blue-pale);
+      color: #424b50;
+      text-align: center;
+    }
+    .keyword strong { color: var(--orange-deep); }
+    .signature {
+      margin-top: 32px;
+      text-align: right;
+      color: #424b50;
+    }
+    .signature strong { font-size: 18px; }
+    .signature small { display: block; color: var(--muted); }
+    .letter-actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .collapse-button {
+      min-width: 132px;
+      padding: 11px 21px;
+      border: 0;
+      border-radius: 25px;
+      color: #fff;
+      background: linear-gradient(100deg, var(--orange), var(--orange-deep));
+      box-shadow: 0 9px 22px rgba(234,139,12,.26);
+      font: 600 14px "Microsoft YaHei", sans-serif;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .collapse-button:hover { transform: translateY(-2px); box-shadow: 0 12px 27px rgba(234,139,12,.34); }
+    .collapse-button:focus-visible { outline: 3px solid rgba(23,108,165,.4); outline-offset: 3px; }
+    .mail-stage.is-open .envelope-flap { transform: rotateX(180deg); }
+    .mail-stage.is-open .envelope-logo { opacity: 0; transform: translate(-50%, -75%) scale(.9); }
+    .mail-stage.is-open .envelope-button { animation: envelope-away .72s ease 1s forwards; pointer-events: none; }
+    .mail-stage.is-open .letter-panel {
+      display: block;
+      visibility: visible;
+      pointer-events: auto;
+      animation: letter-appear .8s cubic-bezier(.18,.8,.24,1) 1.08s forwards;
+    }
+    .mail-stage.is-open ~ .open-hint {
+      max-height: 0;
+      margin-top: 0;
+      opacity: 0 !important;
+    }
+    .mail-stage.is-closing .letter-panel {
+      display: block;
+      visibility: visible;
+      animation: letter-close .42s ease forwards;
+      pointer-events: none;
+    }
+    @keyframes envelope-away {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      55% { opacity: .78; transform: translateY(16px) scale(.97); }
+      100% { opacity: 0; transform: translateY(42px) scale(.91); visibility: hidden; }
+    }
+    @keyframes letter-appear {
+      from { opacity: 0; transform: translateY(50px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes letter-close {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(30px) scale(.98); }
+    }
+    footer {
+      padding: 8px 20px 18px;
+      color: #7c929e;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+    @media (max-width: 720px) {
+      .site-header { min-height: 98px; height: 98px; }
+      .brand-area { padding: 0; }
+      .foundation-logo { width: min(300px, 78vw); margin-top: -32px; }
+      main { padding-top: 13px; }
+      .envelope-button { width: min(520px, 94vw); min-height: 230px; }
+      .envelope-logo { width: 30%; }
+      .letter-panel { padding: 35px 25px; }
+      .letter-panel::before { inset: 9px; }
+      .letter-topline { align-items: flex-start; }
+      .letter-topline span { display: none; }
+      .letter-copy p { font-size: 14.5px; text-align: left; }
+      .access-box { display: block; }
+      .access-link { display: inline-block; margin-top: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-area">
+      <img class="foundation-logo" src="images/logo4.png" alt="麦英基金会 Primegrain Foundation 完整标志">
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" id="introCopy">
+      <small>FOUNDATION APPRECIATION LETTER</small>
+      <h1>您收到一封基金会感谢信</h1>
+      <p>请点击信封中央的基金会标志查看感谢信</p>
+    </section>
+
+    <section class="mail-stage" id="mailStage" aria-live="polite">
+      <button class="envelope-button" id="openEnvelope" type="button" aria-expanded="false" aria-controls="letterPanel" aria-label="打开麦英基金会感谢信">
+        <span class="envelope-back"></span>
+        <span class="envelope-flap"></span>
+        <span class="envelope-front-left"></span>
+        <span class="envelope-front-right"></span>
+        <span class="envelope-front-bottom"></span>
+        <span class="envelope-logo"><img src="images/logo3.jpg" alt=""></span>
+      </button>
+
+      <article class="letter-panel" id="letterPanel" aria-hidden="true">
+        <div class="letter-topline">
+          <strong>调查致谢函</strong>
+          <span>APPRECIATION</span>
+        </div>
+        <div class="letter-copy">
+          <p class="salutation">致调查员：</p>
+          <p>感谢您为泊然海洋馆调查工作付出的时间与努力，正式感谢信内容将在此补充。</p>
+          <div class="signature">
+            <strong>麦英基金会资产调查组</strong>
+            <small>项目资金与伦理风险审查办公室</small>
+          </div>
+        </div>
+        <div class="letter-actions">
+          <button class="collapse-button" id="closeLetter" type="button">收起信件</button>
+        </div>
+      </article>
+    </section>
+
+    <div class="open-hint" id="openHint" aria-hidden="true">点击信封查看感谢信</div>
+  </main>
+  <footer>麦英基金会 · 调查感谢信</footer>
+
+  <script>
+    const stage = document.getElementById('mailStage');
+    const openButton = document.getElementById('openEnvelope');
+    const closeButton = document.getElementById('closeLetter');
+    const letter = document.getElementById('letterPanel');
+    const intro = document.getElementById('introCopy');
+    const hint = document.getElementById('openHint');
+    let busy = false;
+
+    function openLetter() {
+      if (busy || stage.classList.contains('is-open')) return;
+      busy = true;
+      stage.classList.add('is-open');
+      openButton.setAttribute('aria-expanded', 'true');
+      letter.setAttribute('aria-hidden', 'false');
+      intro.style.opacity = '.35';
+      intro.style.transform = 'translateY(-8px)';
+      hint.style.opacity = '0';
+      window.setTimeout(() => {
+        closeButton.focus();
+        busy = false;
+      }, 1850);
+    }
+
+    function closeLetter() {
+      if (busy || !stage.classList.contains('is-open')) return;
+      busy = true;
+      stage.classList.add('is-closing');
+      letter.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        stage.classList.remove('is-open', 'is-closing');
+        openButton.setAttribute('aria-expanded', 'false');
+        intro.style.opacity = '';
+        intro.style.transform = '';
+        hint.style.opacity = '';
+        openButton.focus();
+        busy = false;
+      }, 470);
+    }
+
+    openButton.addEventListener('click', openLetter);
+    closeButton.addEventListener('click', closeLetter);
+  </script>
+</body>
+</html>

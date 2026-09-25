@@ -18,7 +18,15 @@
             ];
             var after=['手电筒摔在地上，灯光向上，她无所遁形。你抓住了她。你看到了她。','她的救生衣脏了旧了。她比起同龄人过于瘦小。她的苹果头散了，花朵头绳太过松散地在一缕头发上挂着。','除此之外……','她只是一个普通的女孩。一个惊恐的，无知的，无所适从的，被成人的世界教导又被成人的世界遗弃了的女孩。'];
             var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),index=0,postIndex=0,stage='before',transitioning=false;
-            function add(value){var p=document.createElement('p');p.className='story-line';p.textContent=value;story.appendChild(p);story.scrollTo({top:story.scrollHeight,behavior:'smooth'})}
+            function add(value){
+                var p=document.createElement('p');
+                p.className='story-line';
+                p.textContent=value;
+                story.appendChild(p);
+                requestAnimationFrame(function(){
+                    p.scrollIntoView({behavior:'smooth',block:'end'});
+                });
+            }
             function showShout(){stage='shout';hint.hidden=true;actions.hidden=false;actions.classList.add('shout-overlay');var b=document.createElement('button');b.className='shout-button';b.textContent='陈苹！';b.addEventListener('click',function(e){e.stopPropagation();actions.classList.remove('shout-overlay');actions.hidden=true;actions.replaceChildren();hint.hidden=false;stage='after';add(after[postIndex++])});actions.appendChild(b)}
             setTimeout(function(){add(before[index++])},350);
             function advance(e){if((e&&e.target&&e.target.closest('button'))||transitioning)return;if(stage==='before'){if(index<before.length)add(before[index++]);else showShout()}else if(stage==='after'){if(postIndex<after.length)add(after[postIndex++]);else{transitioning=true;story.classList.add('fading-out');hint.classList.add('fading-out');setTimeout(function(){EndingState.updateEnding({endingChatPhase:'Creturn',cReturnChatIndex:0,thoughtIndex:0,finalDialogueComplete:false});location.href='ending-chat.html'},1650)}}}

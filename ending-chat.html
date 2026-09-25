@@ -57,7 +57,7 @@
             display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;color:#fff;
             background:linear-gradient(rgba(0,30,95,.34),rgba(0,16,60,.72)),url('image/os1.jpg') center/cover no-repeat;
             font-size:clamp(16px,2vw,23px);line-height:1.8;letter-spacing:.035em;text-shadow:0 3px 18px rgba(0,0,0,.55);cursor:pointer;
-            opacity:0;transition:opacity 1.15s ease;
+            opacity:0;overflow-y:auto;transition:opacity 1.15s ease;
         }
         .thought.visible{opacity:1}.thought.fading{opacity:0;pointer-events:none}
         .thought p{width:min(940px,94vw);margin:0;opacity:0;transform:translateY(10px);animation:thoughtIn .7s ease forwards;}
@@ -225,7 +225,7 @@
                 thoughtBox.replaceChildren();for(var i=0;i<=idx;i+=1)appendThought(thoughtParts[i]);
                 requestAnimationFrame(function(){thoughtBox.classList.add('visible')});
             }
-            function appendThought(value){var p=document.createElement('p');p.textContent=value;thoughtBox.appendChild(p)}
+            function appendThought(value){var p=document.createElement('p');p.textContent=value;thoughtBox.appendChild(p);requestAnimationFrame(function(){thoughtBox.scrollTop=thoughtBox.scrollHeight})}
             function startFinalDialogue(){thoughtBox.classList.remove('visible');thoughtBox.classList.add('fading');setTimeout(function(){thoughtBox.classList.add("hidden");thoughtBox.classList.remove('fading');addDivider('片刻后');addBubble("我认为，泊然海洋馆还有必须要存在的理由。","me");setTimeout(addTyping,180);setTimeout(function(){removeTyping();addBubble("好的。我们会将您的调查结果纳入考虑。非常感谢您接受我们的调查邀约。","them");setTimeout(function(){addBubble("后续如果拍卖与收购有进展，我们会通知您。感谢您的付出。祝您生活愉快。","them");input.classList.remove("disabled");inputText.textContent="点击这里进入结局";EndingState.updateEnding({finalDialogueComplete:true})},500)},1000)},1150)}
 
             input.addEventListener("click",function(){

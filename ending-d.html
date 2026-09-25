@@ -16,7 +16,7 @@
             ];
             var story=document.getElementById('story'),actions=document.getElementById('actions'),hint=document.getElementById('hint'),i=0,done=false;
             function add(v){var p=document.createElement('p');p.className='story-line';p.textContent=v;story.appendChild(p);story.scrollTo({top:story.scrollHeight,behavior:'smooth'})}
-            function finish(){if(done)return;done=true;hint.hidden=true;actions.hidden=true}
+            function finish(){if(done)return;done=true;hint.hidden=true;actions.hidden=false;var button=document.createElement('button');button.className='ending-button';button.textContent='最后，您收到了麦英基金会的一封感谢信';button.addEventListener('click',function(e){e.stopPropagation();location.href='foundation-thanks.html'});actions.appendChild(button)}
             function advance(e){if((e&&e.target&&e.target.closest('button'))||document.body.classList.contains('fish-intro-active'))return;if(i<lines.length)add(lines[i++]);else finish()}
             function begin(){setTimeout(function(){add(lines[i++])},250)}if(document.body.classList.contains('fish-intro-active'))window.addEventListener('fishIntroComplete',begin,{once:true});else begin();document.body.addEventListener('click',advance);document.addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();advance()}});
         })();

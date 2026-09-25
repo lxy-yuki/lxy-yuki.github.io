@@ -400,7 +400,7 @@
         }
         .ending-thought-box.choice-mode { background:rgba(0,0,0,.72);border-color:rgba(255,255,255,.35);box-shadow:0 26px 75px rgba(0,0,0,.42); }
         .ending-thought-label { margin-bottom: 16px; color: #ffe2a8; font-size: 11px; font-weight: 700; letter-spacing: .18em; }
-        .ending-thought-text { display:flex;flex-direction:column;gap:11px;font-size: clamp(16px,2.05vw,23px); line-height: 1.75; }
+        .ending-thought-text { max-height:64vh;overflow-y:auto;padding-right:10px;display:flex;flex-direction:column;gap:11px;font-size: clamp(16px,2.05vw,23px); line-height: 1.75;scrollbar-width:thin; }
         .ending-monologue-line { margin:0;opacity:0;transform:translateY(10px);animation:endingLineIn .65s ease forwards; }
         @keyframes endingLineIn { to { opacity:1;transform:translateY(0); } }
         .ending-thought-hint { margin-top: 22px; color: rgba(255,255,255,.72); font-size: 12px; text-align: right; }
@@ -1134,6 +1134,7 @@
             line.className = 'ending-monologue-line';
             line.textContent = value;
             text.appendChild(line);
+            requestAnimationFrame(function () { text.scrollTop = text.scrollHeight; });
         }
 
         function fadeOutThen(callback) {
