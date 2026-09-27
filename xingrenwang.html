@@ -83,7 +83,8 @@
             transform: translateY(-50%);
             width: 120px;
             height: auto;
-            pointer-events: none;
+            pointer-events: auto;   /* 由 none 改为 auto，使其可被点击 */
+            cursor: pointer;        /* 鼠标移上去显示手型，外观本身不变 */
         }
 
         /* ========== 右侧边栏 ========== */
@@ -464,6 +465,9 @@
                 handleSearch();
             }
         });
+
+        // 点击搜索栏右侧放大镜图片，等同于按下回车搜索
+        document.querySelector('.search-side-img').addEventListener('click', handleSearch);
 
         clearBtn.addEventListener('click', function() {
             if (historyList.length === 0) {

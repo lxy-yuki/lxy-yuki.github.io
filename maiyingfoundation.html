@@ -59,6 +59,7 @@
             vertical-align: middle;
             position: relative;
             top: 0px;
+            cursor: pointer;   /* 新增：鼠标移上去显示手型，外观不变 */
         }
 
         .search-input {
@@ -170,7 +171,7 @@
         <!-- 搜索栏 -->
         <div class="search-box">
             <div class="search-bar">
-                <img class="search-icon-img" src=".\images\mirror1.png" alt="搜索图标">
+                <img class="search-icon-img" src=".\images\mirror1.png" alt="搜索图标" id="searchIcon">
                 <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索...">
             </div>
         </div>
@@ -366,22 +367,33 @@
             localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
         }
 
-        // ========== 搜索框回车触发 ==========
         const searchInput = document.getElementById('searchInput');
+
+        // ========== 核心搜索逻辑（回车与点击放大镜共用） ==========
+        function performSearch() {
+            const rawKeyword = searchInput.value.trim();                 // 原始输入（用于 URL 参数）
+            const normalizedKeyword = normalizeKeyword(rawKeyword);      // 规范化后（用于匹配）
+
+            const matchedEntry = keywordMap[normalizedKeyword];
+            const targetPage = matchedEntry ? matchedEntry.middle : "mid/middle404.html";
+
+            // 只有正确关键词才会写入搜索历史；同一线索网页不会重复记录。
+            if (matchedEntry) rememberSearch(matchedEntry);
+
+            // 在新标签页打开，并附带原始 keyword 参数
+            window.open(targetPage + "?keyword=" + encodeURIComponent(rawKeyword), "_blank");
+        }
+
+        // 搜索框回车触发
         searchInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                const rawKeyword = this.value.trim();                 // 原始输入（用于 URL 参数）
-                const normalizedKeyword = normalizeKeyword(rawKeyword); // 规范化后（用于匹配）
-
-                const matchedEntry = keywordMap[normalizedKeyword];
-                const targetPage = matchedEntry ? matchedEntry.middle : "mid/middle404.html";
-
-                // 只有正确关键词才会写入搜索历史；同一线索网页不会重复记录。
-                if (matchedEntry) rememberSearch(matchedEntry);
-
-                // 在新标签页打开，并附带原始 keyword 参数
-                window.open(targetPage + "?keyword=" + encodeURIComponent(rawKeyword), "_blank");
+                performSearch();
             }
+        });
+
+        // 点击搜索栏左侧放大镜图标，等同于按下回车搜索
+        document.getElementById('searchIcon').addEventListener('click', function () {
+            performSearch();
         });
 
         // 搜索历史按钮
