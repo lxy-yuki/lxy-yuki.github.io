@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive">
+    <title>游戏统计｜麦英基金会</title>
+    <style>
+        *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{display:grid;place-items:center;padding:24px;font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:#35505f;background:radial-gradient(circle at 15% 5%,#fff0d1,transparent 35rem),linear-gradient(145deg,#f1f9fc,#fffaf2)}
+        .card{width:min(670px,100%);padding:42px;border:1px solid #e3eaed;border-radius:24px;background:#fffffff0;box-shadow:0 25px 70px #355e7620}.eyebrow{color:#ed9417;font-size:12px;font-weight:700;letter-spacing:.14em}.card h1{margin:12px 0 30px;color:#175d84;font-size:25px}.metric{padding:28px;border-radius:18px;background:linear-gradient(130deg,#fff1d8,#fff9ee)}.metric span{display:block;color:#7d8d95;font-size:13px}.metric strong{display:block;margin-top:12px;color:#175d84;font-size:54px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:16px}.meta div{padding:16px;border:1px solid #e7edef;border-radius:13px}.meta small{display:block;color:#8b9aa1}.meta b{display:block;margin-top:7px;font-size:14px}.note{margin:22px 0 0;color:#829097;font-size:12px;line-height:1.7}.error{color:#a55545}.hidden{display:none}@media(max-width:520px){.card{padding:29px}.meta{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <main class="card"><div class="eyebrow">MAIYING FOUNDATION · READ ONLY</div><h1>海洋馆调查游戏统计</h1><section id="content" class="hidden"><div class="metric"><span>累计有效玩家</span><strong id="total">0</strong></div><div class="meta"><div><small>首次记录</small><b id="first">—</b></div><div><small>最近记录</small><b id="last">—</b></div></div><p class="note" id="expiry"></p></section><p id="message">正在验证分享链接…</p></main>
+    <script>
+        (function(){var token=new URLSearchParams(location.search).get("token")||"",message=document.getElementById("message"),content=document.getElementById("content"),fmt=new Intl.DateTimeFormat("zh-CN",{dateStyle:"medium",timeStyle:"short"});fetch("/api/shared/stats?token="+encodeURIComponent(token),{credentials:"omit"}).then(async function(r){var d=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(d.error||"链接验证失败");return d}).then(function(data){document.getElementById("total").textContent=data.stats.totalPlayers;document.getElementById("first").textContent=data.stats.firstQualifiedAt?fmt.format(new Date(data.stats.firstQualifiedAt)):"—";document.getElementById("last").textContent=data.stats.lastQualifiedAt?fmt.format(new Date(data.stats.lastQualifiedAt)):"—";document.getElementById("expiry").textContent="此链接为只读统计，由创作者分享，有效期至 "+fmt.format(new Date(data.share.expiresAt))+"。";message.classList.add("hidden");content.classList.remove("hidden")}).catch(function(error){message.className="error";message.textContent=error.message})})();
+    </script>
+</body>
+</html>

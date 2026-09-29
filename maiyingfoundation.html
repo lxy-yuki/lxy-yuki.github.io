@@ -202,6 +202,7 @@
     </div>
 
     <script src="ending-state.js"></script>
+    <script src="analytics-client.js"></script>
     <script>
         // ========== 关键词规范化 ==========
         // 去除所有空白字符（空格、Tab、换行等）及所有标点符号，并统一转为小写
@@ -378,7 +379,10 @@
             const targetPage = matchedEntry ? matchedEntry.middle : "mid/middle404.html";
 
             // 只有正确关键词才会写入搜索历史；同一线索网页不会重复记录。
-            if (matchedEntry) rememberSearch(matchedEntry);
+            if (matchedEntry) {
+                rememberSearch(matchedEntry);
+                if (window.CreatorPlayCounter) CreatorPlayCounter.markQualified(matchedEntry.keyword);
+            }
 
             // 在新标签页打开，并附带原始 keyword 参数
             window.open(targetPage + "?keyword=" + encodeURIComponent(rawKeyword), "_blank");

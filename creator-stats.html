@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <title>创作者后台｜麦英基金会</title>
+    <style>
+        :root{--orange:#f39a18;--orange-soft:#fff1d8;--blue:#185e86;--ink:#334b59;--muted:#83929a;--line:#e5ebee;--paper:#fffdf9}
+        *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 4%,#fff2d8,transparent 34rem),linear-gradient(145deg,#f7fbfd,#fffaf1)}
+        button,input,select{font:inherit}.hidden{display:none!important}.shell{width:min(1080px,calc(100% - 34px));margin:0 auto;padding:32px 0 56px}
+        .masthead{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding:0 4px}.brand{display:flex;align-items:center;gap:14px}.mark{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(140deg,var(--orange),#ffbc55);font:700 21px Georgia,serif;box-shadow:0 10px 26px #dc8c2438}.brand h1{margin:0;color:var(--blue);font-size:22px}.brand p{margin:5px 0 0;color:var(--muted);font-size:12px;letter-spacing:.1em}
+        .card{border:1px solid rgba(226,233,237,.95);border-radius:22px;background:rgba(255,255,255,.91);box-shadow:0 24px 70px rgba(45,75,91,.11);backdrop-filter:blur(14px)}
+        .login{width:min(460px,100%);margin:12vh auto 0;padding:42px}.login h2{margin:0 0 8px;color:var(--blue)}.login p{margin:0 0 28px;color:var(--muted);line-height:1.7}.field{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}.field label{font-size:13px;color:#667983}.field input,.field select{width:100%;height:47px;padding:0 14px;border:1px solid #dbe4e8;border-radius:11px;outline:0;background:#fff}.field input:focus,.field select:focus{border-color:#f1a43a;box-shadow:0 0 0 3px #ffb64d24}
+        .primary,.secondary,.danger{border:0;border-radius:24px;padding:11px 24px;cursor:pointer}.primary{color:#fff;background:linear-gradient(120deg,#f29a18,#ffb64d)}.secondary{color:var(--blue);background:#eef7fb}.danger{color:#a45345;background:#fff0ec}.status{min-height:24px;margin-top:13px;color:#b75d45;font-size:13px}
+        .toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.toolbar h2{margin:0;color:var(--blue)}.stats-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;margin-bottom:18px}.metric{padding:25px}.metric .label{color:var(--muted);font-size:13px}.metric strong{display:block;margin-top:12px;color:var(--blue);font-size:clamp(22px,4vw,40px)}.metric small{display:block;margin-top:9px;color:#9aa6ac}
+        .two-col{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}.panel{padding:27px}.panel h3{margin:0 0 20px;color:var(--blue);font-size:17px}.daily{display:flex;flex-direction:column;gap:10px;max-height:350px;overflow:auto}.day{display:grid;grid-template-columns:1fr auto;align-items:center;padding:11px 13px;border-radius:10px;background:#f5f9fa}.day b{color:var(--orange)}
+        .share-form{display:grid;grid-template-columns:1fr 118px;gap:10px}.share-form .primary{grid-column:1/-1;justify-self:start}.new-link{margin:17px 0;padding:14px;border:1px solid #efc179;border-radius:11px;background:#fff8ea;word-break:break-all}.new-link button{margin-top:10px}.share-list{display:flex;flex-direction:column;gap:10px;margin-top:17px}.share-item{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:12px}.share-item b{display:block}.share-item small{display:block;margin-top:5px;color:var(--muted)}.badge{display:inline-block;margin-left:8px;padding:2px 7px;border-radius:9px;color:#31765b;background:#e8f8f0;font-size:10px}.badge.off{color:#955f55;background:#f7ece9}
+        .privacy{margin-top:18px;padding:18px 22px;color:#6e7d84;font-size:13px;line-height:1.8}.empty{padding:20px;text-align:center;color:var(--muted)}
+        @media(max-width:760px){.stats-grid,.two-col{grid-template-columns:1fr}.masthead{align-items:flex-start}.shell{width:min(100% - 22px,1080px)}.login{padding:30px}.share-form{grid-template-columns:1fr}.share-form .primary{grid-column:auto}}
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <header class="masthead">
+            <div class="brand"><div class="mark">MY</div><div><h1>麦英基金会 · 创作者后台</h1><p>PRIVATE CREATOR CONSOLE</p></div></div>
+            <button class="secondary hidden" id="logout" type="button">退出登录</button>
+        </header>
+
+        <section class="card login" id="loginPanel">
+            <h2>身份验证</h2>
+            <p>这里的统计数据仅向创作者开放。请输入服务器设置的创作者密码。</p>
+            <form id="loginForm">
+                <div class="field"><label for="password">创作者密码</label><input id="password" type="password" autocomplete="current-password" required></div>
+                <button class="primary" type="submit">进入后台</button>
+                <div class="status" id="loginStatus" role="status"></div>
+            </form>
+        </section>
+
+        <section class="hidden" id="dashboard">
+            <div class="toolbar"><h2>有效玩家统计</h2><button class="secondary" id="refresh" type="button">刷新数据</button></div>
+            <div class="stats-grid">
+                <article class="card metric"><div class="label">累计有效玩家</div><strong id="total">0</strong><small>至少搜索过一个有效关键词的浏览器设备</small></article>
+                <article class="card metric"><div class="label">首次记录</div><strong id="first">—</strong><small>第一名有效玩家出现时间</small></article>
+                <article class="card metric"><div class="label">最近记录</div><strong id="last">—</strong><small>最近一名有效玩家出现时间</small></article>
+            </div>
+            <div class="two-col">
+                <article class="card panel"><h3>近 30 个有记录日期</h3><div class="daily" id="daily"></div></article>
+                <article class="card panel">
+                    <h3>分享只读统计</h3>
+                    <form class="share-form" id="shareForm">
+                        <div class="field"><label for="shareLabel">分享对象备注</label><input id="shareLabel" maxlength="60" placeholder="例如：发行合作方小林" required></div>
+                        <div class="field"><label for="shareDays">有效期</label><select id="shareDays"><option value="1">1 天</option><option value="7" selected>7 天</option><option value="30">30 天</option><option value="90">90 天</option></select></div>
+                        <button class="primary" type="submit">创建只读链接</button>
+                    </form>
+                    <div class="new-link hidden" id="newLink"></div>
+                    <div class="share-list" id="shareList"></div>
+                </article>
+            </div>
+            <aside class="card privacy">系统只保存随机设备编号的不可逆哈希及首次有效搜索时间，不保存玩家搜索内容、IP 地址或浏览记录。同一浏览器资料最多计数一次；清除站点数据或更换浏览器后会被视为新设备。</aside>
+        </section>
+    </main>
+    <script>
+        (function(){
+            "use strict";
+            var loginPanel=document.getElementById("loginPanel"),dashboard=document.getElementById("dashboard"),logout=document.getElementById("logout");
+            var fmt=new Intl.DateTimeFormat("zh-CN",{dateStyle:"medium",timeStyle:"short"});
+            function request(url,options){return fetch(url,Object.assign({credentials:"same-origin"},options||{})).then(async function(r){var d=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(d.error||"请求失败");return d})}
+            function showDashboard(show){loginPanel.classList.toggle("hidden",show);dashboard.classList.toggle("hidden",!show);logout.classList.toggle("hidden",!show)}
+            function time(value,compact){if(!value)return "—";return compact?new Intl.DateTimeFormat("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}).format(new Date(value)):fmt.format(new Date(value))}
+            function renderStats(stats){document.getElementById("total").textContent=stats.totalPlayers;document.getElementById("first").textContent=time(stats.firstQualifiedAt,true);document.getElementById("last").textContent=time(stats.lastQualifiedAt,true);var daily=document.getElementById("daily");daily.replaceChildren();if(!stats.daily.length){daily.innerHTML='<div class="empty">还没有有效玩家记录</div>';return}stats.daily.slice().reverse().forEach(function(item){var row=document.createElement("div");row.className="day";row.innerHTML="<span>"+item.date+"</span><b>+"+item.count+"</b>";daily.appendChild(row)})}
+            function renderShares(shares){var list=document.getElementById("shareList");list.replaceChildren();if(!shares.length){list.innerHTML='<div class="empty">尚未创建分享链接</div>';return}shares.forEach(function(share){var row=document.createElement("div"),info=document.createElement("div"),button=document.createElement("button");row.className="share-item";info.innerHTML="<b></b><small></small>";info.querySelector("b").textContent=share.label;var badge=document.createElement("span");badge.className="badge"+(share.active?"":" off");badge.textContent=share.active?"有效":"已失效";info.querySelector("b").appendChild(badge);info.querySelector("small").textContent="到期："+time(share.expiresAt,false);button.type="button";button.className="danger";button.textContent="撤销";button.disabled=!share.active;button.addEventListener("click",function(){revoke(share.id)});row.append(info,button);list.appendChild(row)})}
+            function load(){return Promise.all([request("/api/creator/stats"),request("/api/creator/shares")]).then(function(values){renderStats(values[0].stats);renderShares(values[1].shares)})}
+            function revoke(id){request("/api/creator/shares/"+encodeURIComponent(id),{method:"DELETE"}).then(load).catch(function(error){alert(error.message)})}
+            document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault();var status=document.getElementById("loginStatus");status.textContent="正在验证…";request("/api/creator/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.getElementById("password").value})}).then(function(){document.getElementById("password").value="";status.textContent="";showDashboard(true);return load()}).catch(function(error){status.textContent=error.message})});
+            document.getElementById("refresh").addEventListener("click",load);
+            logout.addEventListener("click",function(){request("/api/creator/logout",{method:"POST"}).finally(function(){showDashboard(false)})});
+            document.getElementById("shareForm").addEventListener("submit",function(e){e.preventDefault();request("/api/creator/shares",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({label:document.getElementById("shareLabel").value,expiresInDays:Number(document.getElementById("shareDays").value)})}).then(function(data){var box=document.getElementById("newLink"),absolute=new URL(data.share.url,location.href).href;box.classList.remove("hidden");box.replaceChildren();var text=document.createElement("div"),copy=document.createElement("button");text.textContent=absolute;copy.className="secondary";copy.type="button";copy.textContent="复制链接";copy.addEventListener("click",function(){navigator.clipboard.writeText(absolute).then(function(){copy.textContent="已复制"})});box.append(text,copy);document.getElementById("shareLabel").value="";return load()}).catch(function(error){alert(error.message)})});
+            request("/api/creator/session").then(function(data){showDashboard(data.authenticated);if(data.authenticated)load();else if(!data.configured)document.getElementById("loginStatus").textContent="服务器尚未配置创作者密码。"}).catch(function(){showDashboard(false)});
+        })();
+    </script>
+</body>
+</html>

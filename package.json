@@ -1,0 +1,13 @@
+{
+  "name": "maiying-aquarium-mystery",
+  "version": "1.0.0",
+  "private": true,
+  "description": "麦英基金会海洋馆调查游戏与匿名游玩人数统计",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check analytics-client.js && node --check ending-fish.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
