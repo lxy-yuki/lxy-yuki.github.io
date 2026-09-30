@@ -172,21 +172,20 @@ async function handleQualify(request, env) {
     const deviceHash = await hmacHex(env.DEVICE_HASH_SALT, deviceId);
     const now = new Date().toISOString();
     const day = now.slice(0, 10);
-    const insertion = await env.DB.prepare(
-      "INSERT OR IGNORE INTO players(device_hash, qualified_at, qualified_day) VALUES (?1, ?2, ?3)"
-    ).bind(deviceHash, now, day).run();
-    const counted = Number(insertion.meta?.changes || 0) > 0;
-
-    if (counted) {
-      await env.DB.batch([
-        env.DB.prepare(
-          "UPDATE stats SET total_players = total_players + 1, first_qualified_at = COALESCE(first_qualified_at, ?1), last_qualified_at = ?1, updated_at = ?1 WHERE id = 1"
-        ).bind(now),
-        env.DB.prepare(
-          "INSERT INTO daily_counts(day, count) VALUES (?1, 1) ON CONFLICT(day) DO UPDATE SET count = count + 1"
-        ).bind(day)
-      ]);
-    }
+    // D1 batch is a transaction. changes() links each update to the immediately
+    // preceding statement, so duplicates update neither summary nor daily count.
+    const results = await env.DB.batch([
+      env.DB.prepare(
+        "INSERT OR IGNORE INTO players(device_hash, qualified_at, qualified_day) VALUES (?1, ?2, ?3)"
+      ).bind(deviceHash, now, day),
+      env.DB.prepare(
+        "UPDATE stats SET total_players = total_players + 1, first_qualified_at = COALESCE(first_qualified_at, ?1), last_qualified_at = ?1, updated_at = ?1 WHERE id = 1 AND changes() > 0"
+      ).bind(now),
+      env.DB.prepare(
+        "INSERT INTO daily_counts(day, count) SELECT ?1, 1 WHERE changes() > 0 ON CONFLICT(day) DO UPDATE SET count = count + 1"
+      ).bind(day)
+    ]);
+    const counted = Number(results[0].meta?.changes || 0) > 0;
     return json({ ok: true, counted }, 200, cors);
   } catch (error) {
     return json({ ok: false, error: error.message || "invalid request" }, 400, cors);
@@ -194,6 +193,9 @@ async function handleQualify(request, env) {
 }
 
 async function handleApi(request, env, url) {
+  if (request.method === "GET" && url.pathname === "/api/health") {
+    return json({ ok: true, version: "d1-atomic-v2" });
+  }
   if (url.pathname === "/api/plays/qualify") return handleQualify(request, env);
 
   if (request.method === "GET" && url.pathname === "/api/creator/session") {
