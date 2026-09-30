@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "maiying-game-counter",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-30",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "GAME_ORIGIN": "https://lxy-yuki.github.io"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "maiying-game-stats",
+      "database_id": "84837646-a5d7-498b-a301-03188896cd64",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

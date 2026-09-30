@@ -4,6 +4,11 @@
     var DEVICE_KEY = "maiying.creatorStats.deviceId.v1";
     var QUALIFIED_KEY = "maiying.creatorStats.qualified.v1";
 
+    function apiUrl(path) {
+        var base = String(global.MAIYING_STATS_API_BASE || "").replace(/\/+$/, "");
+        return base + path;
+    }
+
     function randomId() {
         if (global.crypto && typeof global.crypto.randomUUID === "function") {
             return global.crypto.randomUUID();
@@ -49,7 +54,7 @@
     function markQualified(keyword) {
         if (alreadyRecorded() || location.protocol === "file:") return Promise.resolve(false);
 
-        return fetch("/api/plays/qualify", {
+        return fetch(apiUrl("/api/plays/qualify"), {
             method: "POST",
             credentials: "same-origin",
             headers: { "Content-Type": "application/json" },
